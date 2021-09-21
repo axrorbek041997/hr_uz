@@ -1,0 +1,106 @@
+{% extends 'backoffice/base.html' %}
+{% load static %}
+{% load app_tags %}
+{% block title %}Kelish ketish nazorati{% endblock %}
+
+{% block content %}
+    <!-- Main Content -->
+<section class="content home">
+    <div class="container-fluid">
+        <div class="block-header">
+            <div class="row clearfix">
+                <div class="col-lg-5 col-md-5 col-sm-12">
+                    <h2>Bosh sahifa</h2>
+                    <ul class="breadcrumb padding-0">
+                        <li class="breadcrumb-item"><a href="{% url 'backoffice-main' %}"><i class="zmdi zmdi-home"></i></a></li>
+                        <li class="breadcrumb-item active">Kelish ketish nazorati</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="row clearfix">
+            <div class="col-lg-6 col-md-12 col-sm-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>Kelish ketish nazorati</h2>
+                        <ul class="header-dropdown">
+                            <li class="dropdown"> <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="zmdi zmdi-watch"></i> {% now "jS F Y H:i" %} </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="body table-responsive">
+                        <table class="table table-bordered" id="flow-list">
+                            <thead>
+                                <tr>
+                                    <th>Xodim</th>
+                                    <th>Kirish vaqti</th>
+                                    <th>Chiqish vaqti</th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <th>Xodim</th>
+                                    <th>Kirish vaqti</th>
+                                    <th>Chiqish vaqti</th>
+                                </tr>
+                            </tfoot>
+                            <tbody>
+                            {% for staff in staff_flows %}
+                                <div>
+                                    <tr>
+                                        <td rowspan="{{ staff.get_today_flow_count }}">{{ staff.first_name }} {{ staff.last_name }}</td>
+                                    </tr>
+                                    {% for flow in staff.get_today_flow %}
+                                        <tr>
+                                            <td>{{ flow.came|date:'H:i' }}
+                                                {% if forloop.first %}
+                                                    <i class="text-{% if flow.came|date:'H:i'|late_delta_bool:user %}danger{% else %}success{% endif %}">
+                                                        ({% if flow.came|date:'H:i'|late_delta_bool:user %}-{% else %}+{% endif %}{{ flow.came|date:'H:i'|late_delta:user }})
+                                                    </i>
+                                                {% endif %}
+                                            </td>
+                                            <td>{{ flow.went|date:'H:i' }}
+                                                {% if forloop.last %}
+                                                    <i class="text-{% if flow.went|date:'H:i'|earlier_delta_bool:user %}danger{% else %}success{% endif %}">
+                                                            ({% if flow.went|date:'H:i'|earlier_delta_bool:user %}-{% else %}+{% endif %}{{ flow.went|date:'H:i'|earlier_delta:user }})
+                                                    </i>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </div>
+                          {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Jquery Core Js -->
+{% endblock %}
+
+{% block js %}
+    <script>
+         $(function () {
+
+            $('#flow-list').DataTable({
+                 dom: 'Bfrtip',
+                 paging: true,
+                 autoWidth: false,
+                 buttons: [
+                    'copy', 'excel', 'pdf', 'print'
+                ],
+                "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+                "columnDefs": [
+                    { type: "num", targets: 0 },
+                    { type: "phoneNumber", targets: 1 },
+                    { type: "phoneNumber", targets: 2 },
+                    { type: "phoneNumber", targets: 3 },
+                ],
+            });
+        })
+    </script>
+{% endblock %}

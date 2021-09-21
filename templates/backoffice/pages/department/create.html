@@ -1,0 +1,40 @@
+{% extends 'backoffice/base.html' %}
+
+{% block title %}
+    Lavozim - Yaratish
+{% endblock %}
+
+{% block content %}
+    <section class="content home">
+        <div class="container-fluid">
+        <div class="block-header">
+            <div class="row clearfix">
+                <div class="col-lg-5 col-md-5 col-sm-12">
+                    <h2>Lavozim - Yaratish</h2>
+                    <ul class="breadcrumb padding-0">
+                        <li class="breadcrumb-item"><a href="create.html"><i class="zmdi zmdi-home"></i></a></li>
+                        <li class="breadcrumb-item active"><a href="{% url 'position' %}">Lavozim</a></li>
+                        <li class="breadcrumb-item active">Lavozim yaratish</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="row clearfix">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="header">
+                    </div>
+                    <div class="body">
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <button type="submit" class="btn btn-success waves-effect">Saqlash</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </section>
+{% endblock %}
