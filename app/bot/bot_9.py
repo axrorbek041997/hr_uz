@@ -6,7 +6,7 @@ from django.core.files import File
 from telebot import TeleBot
 from telebot.types import ReplyKeyboardMarkup, KeyboardButton, ReplyKeyboardRemove
 
-TOKEN = "1808087529:AAHwN3jlCuI2pBluEi4-AwfaVmtI398mIdQ"
+TOKEN = "2068370357:AAGx2Wq9iST55zau8WDGnfEHLRU1POt7Xtk"
 bot = TeleBot(TOKEN)
 
 import os

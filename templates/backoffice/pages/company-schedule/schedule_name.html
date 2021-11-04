@@ -1,0 +1,288 @@
+{% extends 'backoffice/base.html' %}
+{% load static %}
+
+{% load app_tags %}
+{% block title %}
+Kompaniya ish vaqti
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'backoffice/assets/css/custom.css' %}">
+{% endblock %}
+
+{#zmdi-hc-spin#}
+{% block content %}
+<section class="content">
+    <div class="container-fluid">
+        <div class="block-header">
+            <div class="row clearfix">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <h2>Kompaniya ish vaqti</h2>
+                    <ul class="breadcrumb padding-0">
+                        <li class="breadcrumb-item"><a href="{% url 'backoffice-main' %}"><i class="zmdi zmdi-home"></i></a>
+                        </li>
+                        <li class="breadcrumb-item active">Kompaniya ish vaqti</li>
+                    </ul>
+                    {% if messages %}
+                    {% for message in messages %}
+                    <div class="text-center btn btn-success rounded-lg w-100 btn-{{ message.tags }} messages">
+                        <p class="text-center">{{ message|safe }}</p>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <!-- Disabled Items -->
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="card">
+                    <div class="header">
+
+                        <button type="button" data-color="pink" data-toggle="modal" data-target="#colorModal"
+                                class="btn btn-success waves-effect"><i class="zmdi zmdi-plus"></i> Biriktirish
+                        </button>
+
+                    </div>
+                    <div class="body">
+                        <table class="table table-borderless table-striped table-hover table-responsive"
+                               id="company-schedule">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Ish rejimi nomi</th>
+                                <th>O'chirish</th>
+                                <th>Taxrirlash</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for item in schedule_name_list %}
+                            <tr>
+                                <th scope="row">{{ forloop.counter }}</th>
+                                <td class="first-td">
+                                    <a href="{% url 'company_schedule_detail' item.id %}">
+                                        {{ item.name }}
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="{% url 'company_schedule_name_delete' item.id %}" data-color="pink"
+                                       class="btn btn-neutral waves-effect">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                             xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M19.3248 9.4682C19.3248 9.4682 18.7818 16.2032 18.4668 19.0402C18.3168 20.3952 17.4798 21.1892 16.1088 21.2142C13.4998 21.2612 10.8878 21.2642 8.27979 21.2092C6.96079 21.1822 6.13779 20.3782 5.99079 19.0472C5.67379 16.1852 5.13379 9.4682 5.13379 9.4682"
+                                                  stroke="#ED5E5E" stroke-width="1.5" stroke-linecap="round"
+                                                  stroke-linejoin="round"/>
+                                            <path d="M20.708 6.2397H3.75" stroke="#ED5E5E" stroke-width="1.5"
+                                                  stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M17.4406 6.2397C16.6556 6.2397 15.9796 5.6847 15.8256 4.9157L15.5826 3.6997C15.4326 3.1387 14.9246 2.7507 14.3456 2.7507H10.1126C9.53358 2.7507 9.02558 3.1387 8.87558 3.6997L8.63258 4.9157C8.47858 5.6847 7.80258 6.2397 7.01758 6.2397"
+                                                  stroke="#ED5E5E" stroke-width="1.5" stroke-linecap="round"
+                                                  stroke-linejoin="round"/>
+                                        </svg>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="{% url 'company_schedule_update' item.id %}" data-color="pink"
+                                       class="btn btn-neutral waves-effect">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                             xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M13.7471 20.4429H20.9997" stroke="hsla(250,43%,75%,1)"
+                                                  stroke-width="1.5" stroke-linecap="round"
+                                                  stroke-linejoin="round"></path>
+                                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                                  d="M12.78 3.79479C13.5557 2.86779 14.95 2.73186 15.8962 3.49173C15.9485 3.53296 17.6295 4.83879 17.6295 4.83879C18.669 5.46719 18.992 6.80311 18.3494 7.82259C18.3153 7.87718 8.81195 19.7645 8.81195 19.7645C8.49578 20.1589 8.01583 20.3918 7.50291 20.3973L3.86353 20.443L3.04353 16.9723C2.92866 16.4843 3.04353 15.9718 3.3597 15.5773L12.78 3.79479Z"
+                                                  stroke="hsla(250,43%,75%,1)" stroke-width="1.5" stroke-linecap="round"
+                                                  stroke-linejoin="round"></path>
+                                            <path d="M11.0205 6.00089L16.4728 10.188" stroke="hsla(250,43%,75%,1)"
+                                                  stroke-width="1.5" stroke-linecap="round"
+                                                  stroke-linejoin="round"></path>
+                                        </svg>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- #END# Disabled Items -->
+    </div>
+</section>
+
+<div class="modal fade" id="colorModal" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Biriktirish</h5>
+                <button type="button" class="btn btn-neutral" data-dismiss="modal"><i
+                        class="zmdi zmdi-close"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                    <div class="body add-company-schedule-name">
+                        <form action="{% url 'company_schedule' %}" method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {{ form_name.name }}
+                            <table class="table table-borderless table-striped table-hover table-responsive">
+                                <thead>
+                                <tr>
+                                    <th>Kun</th>
+                                    <th>Ish boshlanish vaqti</th>
+                                    <th>Ish tugash vaqti</th>
+                                    <th>Tushlik vaqti</th>
+                                    <th>Tsuhlik tugash vaqti</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for value in list %}
+                                <tr>
+                                    <td>{{ value }}</td>
+                                    <td>{{ form_time.start_work }}</td>
+                                    <td>{{ form_time.end_work }}</td>
+                                    <td>{{ form_time.lunch_start }}</td>
+                                    <td>{{ form_time.lunch_end }}</td>
+                                </tr>
+                                {% endfor %}
+
+                                </tbody>
+                            </table>
+                            <input type="submit" class="btn btn-success waves-effect" value="Saqlash">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">O'chirish</h5>
+                <button type="button" onclick="location.href = '/backoffice/company-schedule';" class="btn btn-neutral"
+                        data-dismiss="modal"><i
+                        class="zmdi zmdi-close"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                    <div class="body">
+                        <form method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div>
+                                <p>Siz <b>{{ object }}</b> ish rejimini o'chirmoqchimisiz?</p>
+                            </div>
+                            <button type="button" onclick="location.href = '/backoffice/company-schedule';"
+                                    class="btn btn-secondary waves-effect">Yo'q
+                            </button>
+                            <input type="submit" class="btn btn-success waves-effect" value="Ha">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="update_modal" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Yangilash</h5>
+                <button type="button" onclick="location.href = '/backoffice/company-schedule';" class="btn btn-neutral"
+                        data-dismiss="modal"><i
+                        class="zmdi zmdi-close"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                    <div class="body add-company-schedule-name">
+                        <form method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <input type="text" class="form-control" name="name" value="{{ form.name }}">
+                            <table class="table table-borderless table-striped table-hover table-responsive">
+                                <thead>
+                                <tr>
+                                    <th>Kun</th>
+                                    <th>Ish boshlanish vaqti</th>
+                                    <th>Ish tugash vaqti</th>
+                                    <th>Tushlik vaqti</th>
+                                    <th>Tsuhlik tugash vaqti</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for value in update_list %}
+                                <tr>
+                                    <td>{{ value.day|title }}</td>
+                                    <td><input type="time" name="start_work" class="form-control" value="{{ value.start_work|time:'h:i:s' }}"></td>
+                                    <td><input type="time" name="end_work" class="form-control" value="{{ value.end_work|time:'h:i:s' }}"></td>
+                                    <td><input type="time" name="lunch_start" class="form-control" value="{{ value.lunch_start|time:'h:i:s' }}"></td>
+                                    <td><input type="time" name="lunch_end" class="form-control" value="{{ value.lunch_end|time:'h:i:s' }}"></td>
+                                </tr>
+                                {% endfor %}
+
+                                </tbody>
+                            </table>
+                            <input type="submit" class="btn btn-success waves-effect" value="Yangilash">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block js %}
+<script>
+        $(function () {
+            $('#company-schedule').DataTable({
+                 dom: 'Bfrtip',
+                 paging: true,
+                 autoWidth: false,
+                 buttons: [
+                    'copy', 'excel', 'pdf', 'print'
+                ],
+                "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+                "oLanguage": {
+                    "sEmptyTable": "Ro'yxat bo'sh",
+                    "sSearch": "Qidiruv:",
+                    "sLengthMenu": "Ko’rsatkich _MENU_ talik",
+                    "sInfo": "Sahifa _START_ dan _END_ gacha, umumiy _TOTAL_",
+                    "oPaginate": {
+                        "sFirst": "Birinchi sahifa", // This is the link to the first page
+                        "sPrevious": "Oldingi sahifa", // This is the link to the previous page
+                        "sNext": "Keyengi sahifa", // This is the link to the next page
+                        "sLast": "Oxirgi sahifa" // This is the link to the last page
+                    }
+
+                },
+            });
+        })
+
+
+</script>
+<script>
+    setTimeout(fade_out, 3000);
+    function fade_out() {
+        $(".messages").fadeOut().empty();
+    }
+
+{% if form_error %}
+    $('#colorModal').modal("show");
+{% endif %}
+
+{% if delete_schedule_name %}
+    $('#staticBackdrop').modal("show");
+{% endif %}
+
+{% if update_list %}
+    $('#update_modal').modal("show");
+{% endif %}
+
+
+</script>
+{% endblock %}

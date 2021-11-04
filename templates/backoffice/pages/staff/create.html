@@ -1,18 +1,19 @@
 {% extends 'backoffice/base.html' %}
 
 {% block title %}
-    Xodim yaratish
+Xodim yaratish
 {% endblock %}
 
 {% block content %}
-    <section class="content home">
-        <div class="container-fluid">
+<section class="content home">
+    <div class="container-fluid">
         <div class="block-header">
             <div class="row clearfix">
                 <div class="col-lg-5 col-md-5 col-sm-12">
                     <h2>Bosh sahifa</h2>
                     <ul class="breadcrumb padding-0">
-                        <li class="breadcrumb-item"><a href="{% url 'backoffice-main' %}"><i class="zmdi zmdi-home"></i></a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'backoffice-main' %}"><i class="zmdi zmdi-home"></i></a>
+                        </li>
                         <li class="breadcrumb-item active"><a href="{% url 'staff' %}">Xodim</a></li>
                         <li class="breadcrumb-item active">Xodim yaratish</li>
                     </ul>
@@ -29,6 +30,9 @@
                     <div class="body">
                         <form action="{% url 'staff_create' %}" method="post" enctype="multipart/form-data">
                             {% csrf_token %}
+                            {% for i in form.errors %}
+                            {{ i }}
+                            {% endfor %}
                             <div class="col-sm-12">
                                 <div class="form-group">
                                     <label for="first_name">Ism:</label>
@@ -50,12 +54,19 @@
                             <div class="col-sm-12">
                                 <div class="form-group">
                                     <label for="birth_date">Tug'ilgan yili</label>
-                                    <input type="date" name="birth_date" id="birth_date" class="form-control" >
+                                    <input type="date" name="birth_date" id="birth_date" class="form-control">
                                 </div>
                             </div>
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                    Jinsi:    {{ form.gender }}<br>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        Jinsi: {{ form.gender }}<br>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        Ish rejimi: {{ form.group_name }}<br>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-sm-12">
@@ -67,7 +78,7 @@
                             <div class="col-sm-12">
                                 <div class="form-group">
                                     <label for="start_work_at">Ish boshlagan sanasi</label>
-                                    <input type="date" name="start_work_at" id=start_work_at class="form-control" >
+                                    <input type="date" name="start_work_at" id=start_work_at class="form-control">
                                 </div>
                             </div>
                             <div class="col-sm-12">
@@ -117,7 +128,7 @@
                                     <label for="department">Bo'lim</label>
                                     <select name="department" id="department">
                                         {% for department in departments %}
-                                            <option value="{{ department.id }}">{{ department.name }}</option>
+                                        <option value="{{ department.id }}">{{ department.name }}</option>
                                         {% endfor %}
                                     </select>
                                 </div>
@@ -127,7 +138,7 @@
                                     <label for="position">Lavozim</label>
                                     <select name="position" id="position">
                                         {% for position in positions %}
-                                            <option value="{{ position.id }}">{{ position.name }}</option>
+                                        <option value="{{ position.id }}">{{ position.name }}</option>
                                         {% endfor %}
                                     </select>
                                 </div>
@@ -157,5 +168,5 @@
             </div>
         </div>
     </div>
-    </section>
+</section>
 {% endblock %}

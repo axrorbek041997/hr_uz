@@ -11,7 +11,7 @@ urlpatterns = [
     path('registration', views.Registration.as_view(), name="registration"),
 
     # Staff
-    path('staff', views.StaffListTemplate.as_view(), name="staff"),
+    path('staff/', views.StaffListTemplate.as_view(), name="staff"),
     path('staff/create', views.StaffCreate.as_view(), name="staff_create"),
     path('staff/<int:pk>', views.StaffUpdate.as_view(), name="staff-detail"),
     path('staff/delete/<int:pk>', views.StaffDeleteView.as_view(), name="staff_delete"),
@@ -53,14 +53,19 @@ urlpatterns = [
 
     # AdditionalPayments
     path('additional-payment/<int:pk>', views.AdditionalPaymentsCreateView.as_view(), name='additional_payment'),
-    path('additional-payment/update/<int:pk>', views.AdditionalPaymentsUpdateView.as_view(), name='additional_payment_update'),
-    path('additional-payment/delete/<int:pk>', views.AdditionalPaymentsDeleteView.as_view(), name='additional_payment_delete'),
+    path('additional-payment/update/<int:pk>', views.AdditionalPaymentsUpdateView.as_view(),
+         name='additional_payment_update'),
+    path('additional-payment/delete/<int:pk>', views.AdditionalPaymentsDeleteView.as_view(),
+         name='additional_payment_delete'),
 
     # AdditionalPaymentsType
     path('additional-payment-type', views.AdditionalPaymentsTypeListView.as_view(), name='additional_payment_type'),
-    path('additional-payment-type/create', views.AdditionalPaymentsTypeCreateView.as_view(), name='additional_payment_type_create'),
-    path('additional-payment-type/update/<int:pk>', views.AdditionalPaymentsTypeUpdateView.as_view(), name='additional_payment_type_update'),
-    path('additional-payment-type/delete/<int:pk>', views.AdditionalPaymentsTypeDeleteView.as_view(), name='additional_payment_type_delete'),
+    path('additional-payment-type/create', views.AdditionalPaymentsTypeCreateView.as_view(),
+         name='additional_payment_type_create'),
+    path('additional-payment-type/update/<int:pk>', views.AdditionalPaymentsTypeUpdateView.as_view(),
+         name='additional_payment_type_update'),
+    path('additional-payment-type/delete/<int:pk>', views.AdditionalPaymentsTypeDeleteView.as_view(),
+         name='additional_payment_type_delete'),
 
     # Document
     path('document/<int:pk>', views.DocumentListCreateView.as_view(), name='document'),
@@ -105,6 +110,7 @@ urlpatterns = [
 
     # TrainingInfo
     path('training-info', views.TrainingInfoTemplateView.as_view(), name="training_info"),
+    path('training-info/create', views.TrainingInfoCreateViewTemplateView.as_view(), name="training_info_create"),
     path('training-info/delete/<int:pk>', views.TrainingInfoDeleteView.as_view(), name="training_info_delete"),
     path('training-info/update/<int:pk>', views.TrainingInfoUpdateView.as_view(), name="training_info_update"),
 
@@ -114,9 +120,15 @@ urlpatterns = [
     path('company-culture/update/<int:pk>', views.CompanyCultureUpdateView.as_view(), name="company_culture_update"),
 
     # CompanySchedule
-    path('company-schedule', views.CompanyScheduleCreateViewListView.as_view(), name="company_schedule"),
-    path('company-schedule/delete/<int:pk>', views.CompanyScheduleDeleteView.as_view(), name="company_schedule_delete"),
-    path('company-schedule/update/<int:pk>', views.CompanyScheduleUpdateView.as_view(), name="company_schedule_update"),
+    path('company-schedule/', views.create_company_schedule_name, name="company_schedule"),
+    path('company-schedule-clear/<int:t_id>/<int:name_id>/', views.clear_schedule_time, name="clear_schedule_time"),
+    path('company-schedule-detail/<int:pk>/', views.DetailCompanyScheduleName.as_view(),
+         name="company_schedule_detail"),
+    path('company-schedule-update/<int:pk>/', views.update_company_schedule_name, name="company_schedule_update"),
+    path('company-schedule-update-time/<int:pk>/', views.UpdateCompanyScheduleTime.as_view(),
+         name="company_schedule_update_time"),
+    path('company-schedule-delete/<int:pk>/', views.DeleteCompanyScheduleName.as_view(),
+         name="company_schedule_name_delete"),
 
     # TrainingAnswerListView
     path('staff-training-answer', views.TrainingAnswerListView.as_view(), name="staff_training_answer"),

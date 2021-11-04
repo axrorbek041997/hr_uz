@@ -1,0 +1,19 @@
+
+.modal-dialog{
+    max-width: 800px !important;
+}
+
+#add-company-schedule-name {
+    display: flex;
+    justify-content: center;
+    overflow-x: auto;
+}
+
+input.form-control {
+    max-width: 100% !important;
+    height: 35px;
+}
+
+.first-td {
+    width: 70vmax;
+}

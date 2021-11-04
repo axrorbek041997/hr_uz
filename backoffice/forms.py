@@ -1,3 +1,5 @@
+import datetime
+
 from django import forms
 from mptt import forms as mppt_forms
 from app import models
@@ -49,6 +51,10 @@ class StaffModelForm(forms.ModelForm):
     class Meta:
         model = models.Staff
         exclude = ('company',)
+
+    # def __init__(self, user, *args, **kwargs):
+    #     super(StaffModelForm, self).__init__(*args, **kwargs)
+    #     self.fields['group_name'].queryset = models.CompanyScheduleName.objects.filter(company=user.company)
 
 
 class DepartmentsModelForm(forms.ModelForm):
@@ -157,15 +163,26 @@ class CompanyCultureModelForm(forms.ModelForm):
         }
 
 
+class CompanyScheduleNameForm(forms.ModelForm):
+    class Meta:
+        model = models.CompanyScheduleName
+        fields = '__all__'
+        widgets = {
+            'name': forms.TimeInput(
+                attrs={'class': 'form-control', 'type': 'text', 'placeholder': "Ish rejimi nomini kiriting"}),
+        }
+
+
 class CompanyScheduleModelForm(forms.ModelForm):
     class Meta:
         model = models.CompanySchedule
-        exclude = ('company',)
+        exclude = ('company', 'name')
         widgets = {
-            'start_work': forms.TimeInput(attrs={'class': 'form-control', 'type': 'time'}),
-            'lunch_start': forms.TimeInput(attrs={'class': 'form-control', 'type': 'time'}),
-            'lunch_end': forms.TimeInput(attrs={'class': 'form-control', 'type': 'time'}),
-            'end_work': forms.TimeInput(attrs={'class': 'form-control', 'type': 'time'}),
+            'start_work': forms.TimeInput(
+                attrs={'class': 'form-control col-md-4', 'type': 'time'}),
+            'lunch_start': forms.TimeInput(attrs={'class': 'form-control col-md-4', 'type': 'time'}),
+            'lunch_end': forms.TimeInput(attrs={'class': 'form-control col-md-4', 'type': 'time'}),
+            'end_work': forms.TimeInput(attrs={'class': 'form-control col-md-4', 'type': 'time'}),
         }
 
 

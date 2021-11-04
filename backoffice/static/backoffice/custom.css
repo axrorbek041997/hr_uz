@@ -1,18 +1,25 @@
+
 .modal-dialog{
-    width: 100% !important;
+    max-width: 800px !important;
 }
 
-@media (min-width: 576px){
-    .modal-dialog {
-        max-width: 100%;
-        margin: 1.75rem auto;
-    }
+.add-company-schedule-name {
+    display: flex;
+    justify-content: center;
+    overflow-x: auto;
 }
 
-.modal {
-    width: 71%;
-    margin: 0 216px;
+input.form-control {
+    max-width: 100% !important;
+    height: 35px;
 }
-#DataTables_Table_0_length{
-    display: none;
+
+.first-td {
+    width: 70vmax;
+}
+
+.first-td a {
+    color: #212529;
+    width: 100%;
+    height: 100%;
 }

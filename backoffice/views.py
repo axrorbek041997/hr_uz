@@ -1,22 +1,36 @@
+import json
 import os
+from datetime import datetime
 from io import BytesIO
 
 import pendulum
 import qrcode
 from PIL import Image, ImageDraw
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.files import File
 from django.db.models import Count
-from django.http import HttpResponseRedirect
-from django.urls import reverse_lazy
+from django.http import HttpResponseRedirect, HttpResponse, HttpRequest
+from django.shortcuts import render, redirect
+from django.template.defaulttags import csrf_token
+from django.urls import reverse_lazy, reverse
 from django.views import generic
-
+from django.db.models import Q
 from app import models
-from backoffice import forms
-from project import settings
+from . import forms
+from django.conf import settings
+
+
+def calculation_the_date_of_late(that_date, start_work_time, work_time):
+    company_staffs = work_time.staff_set.all()
+    # TODO: came ni create_at ga o'zgartir!!!
+    flows = models.Flow.objects.filter(staff__in=company_staffs, came__date=that_date)
+    flows_all = flows.filter(came__time__gt=start_work_time)
+    ll = flows_all.values_list('staff__pk', flat=True)
+    return set(ll)
 
 
 class MainTemplate(LoginRequiredMixin, generic.ListView):
@@ -33,45 +47,42 @@ class MainTemplate(LoginRequiredMixin, generic.ListView):
         6: "sunday",
     }
 
-    def calculation_the_date_of_late(self, that_date, start_work_time):
-        company_staffs = self.request.user.company.staff_set.all()
-        flows = models.Flow.objects.filter(staff__in=company_staffs, created_at__startswith=that_date)
-        flows_all = flows.filter(came__time__lte=start_work_time)
-        flow_list = []
-        for flow in flows_all:
-            flow_list.append(flow.staff.id)
-
-        flows.exclude(id__in=flows)
-        ll = models.Flow.objects.filter(staff__in=company_staffs, created_at__startswith=that_date).exclude(
-            staff__in=flow_list).values_list('staff__pk', flat=True)
-
-        return set(ll)
-
     def get_context_data(self, *, object_list=None, **kwargs):
-        ctx = super(MainTemplate, self).get_context_data(**kwargs)
+        ctx = super(MainTemplate, self).get_context_data(object_list=None, **kwargs)
         k_day = pendulum.now().day_of_week
-        schedules = self.request.user.company.companyschedule_set.all()
 
         # user count by date
         result = [0, 0, 0, 0, 0, 0, 0]
-        if schedules:
-            for i in range(k_day, 0, -1):
-                that_day = pendulum.now().subtract(days=k_day - i).strftime('%Y-%m-%d')
-                start_work_time = self.request.user.company.companyschedule_set.get(
-                    day=self.DAYS_OF_WEEK.get(i - 1)).start_work
-                late_count = len(self.calculation_the_date_of_late(that_day, start_work_time))
-                result[i - 1] = late_count
-        print(result)
-        import datetime
-        today = datetime.datetime.today().date()
+        schedule_name = self.request.user.company.companyschedulename_set.all()
+        for i in schedule_name:
+            schedules = i.companyschedule_set.all()
+            if schedules:
+                for j in range(k_day, 0, -1):
+                    that_day = pendulum.now().subtract(days=k_day - j).strftime('%Y-%m-%d')
+                    start_work_time = schedules.get(day=self.DAYS_OF_WEEK.get(j - 1)).start_work
+                    if start_work_time:
+                        late_count = len(calculation_the_date_of_late(that_day, start_work_time, i))
+                    else:
+                        late_count = 0
+                    result[j - 1] += late_count
+            print(result)
+        today = datetime.today().date()
         try:
-            start_work = self.request.user.company.companyschedule_set.get(
-                day=self.DAYS_OF_WEEK.get(datetime.datetime.today().weekday())).start_work
-            staff_id = self.calculation_the_date_of_late(today, start_work)
-            late_today = models.Staff.objects.filter(id__in=staff_id)
+            schedules = self.request.user.company.companyschedulename_set.all()
+            late_today = list()
+            for i in schedules:
+                start_work = i.companyschedule_set.get(day=self.DAYS_OF_WEEK[today.weekday()]).start_work
+                if start_work:
+                    staff_id = calculation_the_date_of_late(today, start_work, i)
+                    late_today.extend(models.Staff.objects.filter(id__in=staff_id))
+
             ctx['late_today'] = late_today
+            came_today = [i for i in self.request.user.company.staff_set.all() for j in
+                          models.Flow.objects.filter(came__date=datetime.today()) if i.id == j.staff.id]
+            ctx['absent_today'] = [i for i in self.request.user.company.staff_set.all() if i not in came_today]
         except:
             ctx['late_today'] = ""
+            ctx['absent_today'] = ""
 
         ctx['late_came_person_count_per_day'] = result
         return ctx
@@ -99,6 +110,12 @@ class StaffUpdate(LoginRequiredMixin, generic.UpdateView, generic.DetailView):
     model = models.Staff
     context_object_name = 'staff'
     queryset = models.Staff.objects.all()
+
+    def get_form(self, form_class=None):
+        form = super(StaffUpdate, self).get_form(form_class)
+        form.fields['group_name'].queryset = models.CompanyScheduleName.objects.filter(
+            company=self.request.user.company)
+        return form
 
     def get_success_url(self):
         staff_id = self.kwargs['pk']
@@ -129,6 +146,12 @@ class StaffCreate(LoginRequiredMixin, generic.CreateView):
     model = models.Staff
     form_class = forms.StaffModelForm
     success_url = reverse_lazy('staff')
+
+    def get_form(self, form_class=None):
+        form = super(StaffCreate, self).get_form(form_class)
+        form.fields['group_name'].queryset = models.CompanyScheduleName.objects.filter(
+            company=self.request.user.company)
+        return form
 
     def get_context_data(self, **kwargs):
         ctx = super(StaffCreate, self).get_context_data(**kwargs)
@@ -366,7 +389,7 @@ class DepartmentUpdateView(LoginRequiredMixin, generic.UpdateView):
         self.department.save()
         questions_a = models.Question.objects.filter(department_id=self.kwargs.get('pk'))
         for pk, question in enumerate(questions_a):
-            question.question = post_questions[pk-1]
+            question.question = post_questions[pk - 1]
             question.save()
         super(DepartmentUpdateView, self).form_valid(form)
         messages.success(self.request, "Bo'lim o'zgartirildi !!!")
@@ -515,7 +538,6 @@ class VacationUpdateView(LoginRequiredMixin, generic.UpdateView):
     def get_success_url(self):
         staff_id = self.request.META['HTTP_REFERER'].split("/")[-1]
         return reverse_lazy('vacation', kwargs={'pk': staff_id})
-
 
     def form_valid(self, form):
         super(VacationUpdateView, self).form_valid(form)
@@ -702,7 +724,6 @@ class DocumentListCreateView(LoginRequiredMixin, generic.CreateView):
         messages.success(self.request, 'Xujjat biriktirildi')
         return HttpResponseRedirect(reverse_lazy('document', kwargs={'pk': staff_id}))
 
-
     def form_invalid(self, form):
         return super(DocumentListCreateView, self).form_invalid(form)
 
@@ -716,7 +737,6 @@ class DocumentDeleteView(LoginRequiredMixin, generic.DeleteView):
         staff_id = self.request.META['HTTP_REFERER'].split("/")[-1]
         messages.success(self.request, "Xujjat o'chirildi")
         return HttpResponseRedirect(reverse_lazy('document', kwargs={'pk': staff_id}))
-
 
     def get_success_url(self):
         staff_id = self.request.META['HTTP_REFERER'].split("/")[-1]
@@ -761,6 +781,7 @@ class NewTelegramStaffDetailView(LoginRequiredMixin, generic.DetailView):
         new_staff = models.NewStaff.objects.filter(company=self.request.user.company)
         ctx['answers'] = models.Answer.objects.filter(candidate__company=self.request.user.company)
         return ctx
+
 
 # -----------------------------------------------------------------------------------------
 
@@ -1050,6 +1071,56 @@ class TrainingInfoTemplateView(LoginRequiredMixin, generic.CreateView):
         return super(TrainingInfoTemplateView, self).form_invalid(form)
 
 
+class TrainingInfoCreateViewTemplateView(LoginRequiredMixin, generic.CreateView):
+    template_name = 'backoffice/pages/trainig-info/create.html'
+    form_class = forms.TrainingInfoModelForm
+    success_url = reverse_lazy('training_info')
+    model = models.TrainingInfo
+
+    def get_form(self, form_class=None):
+        f = super().get_form(form_class)
+        f.fields['position'].queryset = self.request.user.company.position_set.all()
+        return f
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        ctx = super(TrainingInfoCreateViewTemplateView, self).get_context_data(**kwargs)
+        company = self.request.user.company
+        training_info = models.TrainingInfo.objects.filter(company=company)
+        staffs = models.Staff.objects.filter(company=company)
+        ctx['items'] = training_info
+        ctx['staffs'] = staffs
+        return ctx
+
+    def form_valid(self, form):
+        self.training_info = form.save(commit=False)
+        self.training_info.company = self.request.user.company
+        self.training_info.save()
+        questions = self.request.POST.getlist('field_name')
+        position_id = self.request.POST.get('position')
+        staffs = self.request.POST.getlist('staff')
+
+        for staff_id in staffs:
+            staff = models.Staff.objects.get(id=staff_id)
+            staff.traininganswer_set.all().delete()
+        for question in questions:
+            training_questions = models.TrainingQuestion.objects.create(question=question,
+                                                                        position=self.training_info.position)
+            for staff_id in staffs:
+                traininganswer = models.TrainingAnswer.objects.create()
+                staff = models.Staff.objects.get(id=staff_id)
+                staff.traininganswer_set.add(traininganswer)
+
+                staff.save()
+                training_questions.traininganswer_set.add(traininganswer)
+                training_questions.save()
+
+        messages.success(self.request, 'Hodim Adaptatsiyasi biriktirildi !!!')
+        return HttpResponseRedirect(reverse_lazy('training_info'))
+
+    def form_invalid(self, form):
+        return super(TrainingInfoCreateViewTemplateView, self).form_invalid(form)
+
+
 class TrainingInfoDeleteView(LoginRequiredMixin, generic.DeleteView):
     queryset = models.TrainingInfo.objects.all()
     form_class = forms.TrainingInfoModelForm
@@ -1061,7 +1132,7 @@ class TrainingInfoUpdateView(LoginRequiredMixin, generic.UpdateView):
     form_class = forms.TrainingInfoModelForm
     model = models.TrainingInfo
     success_url = reverse_lazy('training_info')
-    
+
     def form_valid(self, form):
         super(TrainingInfoUpdateView, self).form_valid(form)
         messages.success(self.request, "Xodim adaptatsiyasi o'zgartirildi !!!")
@@ -1117,7 +1188,7 @@ class CompanyCultureUpdateView(LoginRequiredMixin, generic.UpdateView):
     form_class = forms.CompanyCultureModelForm
     model = models.CompanyCulture
     success_url = reverse_lazy('company_culture')
-    
+
     def form_valid(self, form):
         super(CompanyCultureUpdateView, self).form_valid(form)
         messages.success(self.request, "Kompaniya madaniyati o'zgartirildi !!!")
@@ -1125,54 +1196,148 @@ class CompanyCultureUpdateView(LoginRequiredMixin, generic.UpdateView):
 
 
 # CompanySchadule
+@login_required
+def clear_schedule_time(request, t_id, name_id):
+    models.CompanySchedule.objects.filter(id=t_id).update(start_work=None, end_work=None, lunch_start=None,
+                                                          lunch_end=None)
+    return redirect('company_schedule_detail', pk=name_id)
 
 
-# CompanySchedule
-class CompanyScheduleCreateViewListView(LoginRequiredMixin, generic.CreateView):
-    template_name = 'backoffice/pages/company-schedule/index.html'
-    form_class = forms.CompanyScheduleModelForm
-    success_url = reverse_lazy('company_schedule')
-    model = models.CompanySchedule
+@login_required
+def create_company_schedule_name(request):
+    form_name = forms.CompanyScheduleNameForm
+    form_time = forms.CompanyScheduleModelForm
+    my_list = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+    schedule_name_list = models.CompanyScheduleName.objects.all()
 
-    def get_context_data(self, *, object_list=None, **kwargs):
-        ctx = super(CompanyScheduleCreateViewListView, self).get_context_data(**kwargs)
-        company = self.request.user.company
-        company_schedule = models.CompanySchedule.objects.filter(company=company)
-        ctx['items'] = company_schedule
+    ctx = {
+        'form_name': form_name,
+        'form_time': form_time,
+        'list': my_list,
+        'form_error': False,
+        'schedule_name_list': schedule_name_list
+    }
+
+    if request.method == 'POST':
+        company = models.Company.objects.get(id=request.user.company.id)
+        form_name = forms.CompanyScheduleNameForm(
+            {'csrfmiddlewaretoken': request.POST.get('csrfmiddlewaretoken'), 'name': request.POST.get('name'),
+             'company': company})
+        if form_name.is_valid():
+            # models.CompanyScheduleName.objects.create(name=form_name.cleaned_data['name'], company=company)
+            form_name.save()
+            instance = models.CompanyScheduleName.objects.get(name=form_name.cleaned_data['name'])
+            for i in range(len(my_list)):
+                form_time = forms.CompanyScheduleModelForm(
+                    {'csrfmiddlewaretoken': request.POST.get('csrfmiddlewaretoken'), 'day': my_list[i].lower(),
+                     'name': instance, 'start_work': dict(request.POST).get('start_work')[i],
+                     'end_work': dict(request.POST).get('end_work')[i],
+                     'lunch_start': dict(request.POST).get('lunch_start')[i],
+                     'lunch_end': dict(request.POST).get('lunch_end')[i], 'company': company})
+
+                # models.CompanySchedule.objects.create(**form_time.cleaned_data)
+                if form_time.is_valid():
+                    models.CompanySchedule.objects.create(
+                        name=instance,
+                        day=form_time.cleaned_data['day'],
+                        company=request.user.company,
+                        start_work=form_time.cleaned_data['start_work'],
+                        end_work=form_time.cleaned_data['end_work'],
+                        lunch_start=form_time.cleaned_data['lunch_start'],
+                        lunch_end=form_time.cleaned_data['lunch_end'],
+                    )
+
+                    ctx['messages'] = ['Kompaniya ish rejimi yaratildi!!!']
+                else:
+                    ctx['form_error'] = True
+        else:
+            ctx['form_error'] = True
+
+    return render(request, 'backoffice/pages/company-schedule/schedule_name.html', ctx)
+
+
+class DeleteCompanyScheduleName(LoginRequiredMixin, generic.DeleteView):
+    template_name = 'backoffice/pages/company-schedule/schedule_name.html'
+    model = models.CompanyScheduleName
+
+    def get_success_url(self):
+        return reverse_lazy('company_schedule')
+
+    def get_context_data(self, **kwargs):
+        ctx = super(DeleteCompanyScheduleName, self).get_context_data(**kwargs)
+        ctx['delete_schedule_name'] = True
+        ctx['schedule_name_list'] = models.CompanyScheduleName.objects.all()
         return ctx
 
-    def form_valid(self, form):
-        self.company = form.save(commit=False)
-        self.company.company = self.request.user.company
-        self.company.save()
-        messages.success(self.request, "Kompaniya ish vaqti yaratildi !!!")
-        return HttpResponseRedirect(reverse_lazy('company_schedule'))
 
-    def form_invalid(self, form):
-        return super(CompanyScheduleCreateViewListView, self).form_invalid(form)
+@login_required
+def update_company_schedule_name(request, pk):
+    object = models.CompanyScheduleName.objects.get(id=pk)
+    time_list = object.companyschedule_set.all()
+    name_list = models.CompanyScheduleName.objects.all()
+
+    if request.method == 'POST':
+        company = models.Company.objects.get(id=request.user.company.id)
+        my_list = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+
+        if request.POST.get('name'):
+            models.CompanyScheduleName.objects.filter(id=pk).update(name=request.POST.get('name'),
+                                                                    company=company)
+            # form_name.save()
+            instance = models.CompanyScheduleName.objects.get(name=request.POST.get('name'))
+            for i in range(len(my_list)):
+                form_time = forms.CompanyScheduleModelForm(
+                    {'csrfmiddlewaretoken': request.POST.get('csrfmiddlewaretoken'), 'day': my_list[i].lower(),
+                     'name': instance, 'start_work': dict(request.POST).get('start_work')[i],
+                     'end_work': dict(request.POST).get('end_work')[i],
+                     'lunch_start': dict(request.POST).get('lunch_start')[i],
+                     'lunch_end': dict(request.POST).get('lunch_end')[i], 'company': company})
+
+                # models.CompanySchedule.objects.create(**form_time.cleaned_data)
+                if form_time.is_valid():
+                    print('validate')
+                    models.CompanySchedule.objects.filter(name=object, day=my_list[i].lower()).update(
+                        name=instance,
+                        day=form_time.cleaned_data['day'],
+                        company=request.user.company,
+                        start_work=form_time.cleaned_data['start_work'],
+                        end_work=form_time.cleaned_data['end_work'],
+                        lunch_start=form_time.cleaned_data['lunch_start'],
+                        lunch_end=form_time.cleaned_data['lunch_end'],
+                    )
+            return redirect('company_schedule')
+
+    ctx = {
+        'form': object,
+        'update_list': time_list,
+        'schedule_name_list': name_list
+    }
+    return render(request, 'backoffice/pages/company-schedule/schedule_name.html', ctx)
 
 
-class CompanyScheduleDeleteView(LoginRequiredMixin, generic.DeleteView):
+class UpdateCompanyScheduleTime(LoginRequiredMixin, generic.UpdateView):
+    template_name = 'backoffice/pages/company-schedule/index.html'
     model = models.CompanySchedule
     form_class = forms.CompanyScheduleModelForm
-    success_message = "deleted..."
-    success_url = reverse_lazy('company_schedule')
 
-    def delete(self, request, *args, **kwargs):
-        super(CompanyScheduleDeleteView, self).delete(request, *args, **kwargs)
-        messages.warning(self.request, "Kompaniya ish vaqti o'chirildi !!!")
-        return HttpResponseRedirect(reverse_lazy('company_schedule'))
+    def get_success_url(self):
+        return reverse('company_schedule_detail', kwargs={'pk': self.object.name.id})
+
+    def get_context_data(self, **kwargs):
+        ctx = super(UpdateCompanyScheduleTime, self).get_context_data(**kwargs)
+        ctx['update_time'] = True
+        ctx['time_list'] = models.CompanySchedule.objects.filter(name__pk=self.object.name.id)
+        return ctx
 
 
-class CompanyScheduleUpdateView(LoginRequiredMixin, generic.UpdateView):
-    form_class = forms.CompanyScheduleModelForm
-    model = models.CompanySchedule
-    success_url = reverse_lazy('company_schedule')
+class DetailCompanyScheduleName(LoginRequiredMixin, generic.DetailView):
+    template_name = 'backoffice/pages/company-schedule/index.html'
+    model = models.CompanyScheduleName
 
-    def form_valid(self, form):
-        super(CompanyScheduleUpdateView, self).form_valid(form)
-        messages.success(self.request, "Kompaniya ish vaqti o'zgartirildi !!!")
-        return HttpResponseRedirect(reverse_lazy('company_schedule'))
+    def get_context_data(self, **kwargs):
+        ctx = super(DetailCompanyScheduleName, self).get_context_data(**kwargs)
+        ctx['time_list'] = self.object.companyschedule_set.all()
+        return ctx
 
 
 # Super Staff
@@ -1215,7 +1380,7 @@ class SuperStaffUpdateView(LoginRequiredMixin, generic.UpdateView):
     form_class = forms.SuperStaffsModelForm
     model = models.SuperStaffs
     success_url = reverse_lazy('super_staff')
-    
+
     def form_valid(self, form):
         super(SuperStaffUpdateView, self).form_valid(form)
         messages.success(self.request, "Shuxrat burchagi o'zgartirildi !!!")

@@ -1,3 +1,5 @@
+import datetime
+
 from ckeditor import fields
 from ckeditor_uploader.fields import RichTextUploadingField
 from django.contrib.auth.models import AbstractUser
@@ -54,6 +56,14 @@ class Company(models.Model):
         verbose_name_plural = "Kompaniya ma'lumotini qo'shish"
 
 
+class CompanyScheduleName(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, default=None, null=True)
+
+    def __str__(self):
+        return self.name
+
+
 class CompanySchedule(models.Model):
     DAYS_OF_THE_WEEK = (
         ('monday', 'Monday'),
@@ -65,16 +75,18 @@ class CompanySchedule(models.Model):
         ('sunday', 'Sunday'),
     )
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    name = models.ForeignKey(CompanyScheduleName, on_delete=models.CASCADE, default=None, null=True)
     day = models.CharField(choices=DAYS_OF_THE_WEEK, max_length=15)
-    start_work = models.TimeField(verbose_name="Ish boshlanishi")
-    lunch_start = models.TimeField(verbose_name="Tushlik vaqti")
-    lunch_end = models.TimeField(verbose_name="Tushlik tugash vaqti")
-    end_work = models.TimeField(verbose_name="Ish Tugash vaqti")
+    start_work = models.TimeField(verbose_name="Ish boshlanishi", default=None, blank=True, null=True)
+    lunch_start = models.TimeField(verbose_name="Tushlik vaqti", default=None, blank=True, null=True)
+    lunch_end = models.TimeField(verbose_name="Tushlik tugash vaqti", default=None, blank=True,
+                                 null=True)
+    end_work = models.TimeField(verbose_name="Ish Tugash vaqti", default=None, blank=True, null=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.day
+        return f'{self.name} - {self.day}'
 
 
 class Branch(models.Model):
@@ -91,7 +103,7 @@ class Branch(models.Model):
 
 class User(AbstractUser):
     branch = models.ForeignKey(Branch, on_delete=models.CASCADE, null=True, blank=True, verbose_name="Filial")
-    company = models.ForeignKey("Company", on_delete=models.CASCADE, null=True, blank=True, verbose_name='Kompaniya')
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, null=True, blank=True, verbose_name='Kompaniya')
     is_director = models.BooleanField(default=True)
     # is_staff = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -288,6 +300,8 @@ class Staff(models.Model):
     tabel_number = models.PositiveIntegerField(null=True, blank=True, verbose_name="Tabel raqami")
     start_work_at = models.DateField(null=True, blank=True, verbose_name="Ish boshlagan sana")
     account_number = models.BigIntegerField(null=True, blank=True, verbose_name="Xisob raqami")
+
+    group_name = models.ForeignKey(CompanyScheduleName, on_delete=models.SET_NULL, default=None, null=True)
 
     email = models.EmailField(unique=True, verbose_name="Elektron manzil")
     mobile_phone = models.CharField(null=True, blank=True, max_length=15, verbose_name="Mobil telefon")
