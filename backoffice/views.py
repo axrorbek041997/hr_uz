@@ -53,21 +53,22 @@ class MainTemplate(LoginRequiredMixin, generic.ListView):
 
         # user count by date
         result = [0, 0, 0, 0, 0, 0, 0]
-        schedule_name = self.request.user.company.companyschedulename_set.all()
-        for i in schedule_name:
-            schedules = i.companyschedule_set.all()
-            if schedules:
-                for j in range(k_day, 0, -1):
-                    that_day = pendulum.now().subtract(days=k_day - j).strftime('%Y-%m-%d')
-                    start_work_time = schedules.get(day=self.DAYS_OF_WEEK.get(j - 1)).start_work
-                    if start_work_time:
-                        late_count = len(calculation_the_date_of_late(that_day, start_work_time, i))
-                    else:
-                        late_count = 0
-                    result[j - 1] += late_count
-            print(result)
-        today = datetime.today().date()
         try:
+            schedule_name = self.request.user.company.companyschedulename_set.all()
+            for i in schedule_name:
+                schedules = i.companyschedule_set.all()
+                if schedules:
+                    for j in range(k_day, 0, -1):
+                        that_day = pendulum.now().subtract(days=k_day - j).strftime('%Y-%m-%d')
+                        start_work_time = schedules.get(day=self.DAYS_OF_WEEK.get(j - 1)).start_work
+                        if start_work_time:
+                            late_count = len(calculation_the_date_of_late(that_day, start_work_time, i))
+                        else:
+                            late_count = 0
+                        result[j - 1] += late_count
+                print(result)
+            today = datetime.today().date()
+
             schedules = self.request.user.company.companyschedulename_set.all()
             late_today = list()
             for i in schedules:
@@ -1208,7 +1209,7 @@ def create_company_schedule_name(request):
     form_name = forms.CompanyScheduleNameForm
     form_time = forms.CompanyScheduleModelForm
     my_list = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
-    schedule_name_list = models.CompanyScheduleName.objects.all()
+    schedule_name_list = request.user.company.companyschedulename_set.all()
 
     ctx = {
         'form_name': form_name,
@@ -1219,14 +1220,14 @@ def create_company_schedule_name(request):
     }
 
     if request.method == 'POST':
-        company = models.Company.objects.get(id=request.user.company.id)
+        company = request.user.company
         form_name = forms.CompanyScheduleNameForm(
             {'csrfmiddlewaretoken': request.POST.get('csrfmiddlewaretoken'), 'name': request.POST.get('name'),
              'company': company})
         if form_name.is_valid():
             # models.CompanyScheduleName.objects.create(name=form_name.cleaned_data['name'], company=company)
             form_name.save()
-            instance = models.CompanyScheduleName.objects.get(name=form_name.cleaned_data['name'])
+            instance = request.user.company.companyschedulename_set.get(name=form_name.cleaned_data['name'])
             for i in range(len(my_list)):
                 form_time = forms.CompanyScheduleModelForm(
                     {'csrfmiddlewaretoken': request.POST.get('csrfmiddlewaretoken'), 'day': my_list[i].lower(),
@@ -1246,6 +1247,7 @@ def create_company_schedule_name(request):
                         lunch_start=form_time.cleaned_data['lunch_start'],
                         lunch_end=form_time.cleaned_data['lunch_end'],
                     )
+                    # form_time.save()
 
                     ctx['messages'] = ['Kompaniya ish rejimi yaratildi!!!']
                 else:
@@ -1266,25 +1268,25 @@ class DeleteCompanyScheduleName(LoginRequiredMixin, generic.DeleteView):
     def get_context_data(self, **kwargs):
         ctx = super(DeleteCompanyScheduleName, self).get_context_data(**kwargs)
         ctx['delete_schedule_name'] = True
-        ctx['schedule_name_list'] = models.CompanyScheduleName.objects.all()
+        ctx['schedule_name_list'] = self.request.user.company.companyschedulename_set.all()
         return ctx
 
 
 @login_required
 def update_company_schedule_name(request, pk):
-    object = models.CompanyScheduleName.objects.get(id=pk)
+    object = request.user.company.companyschedulename_set.all().get(id=pk)
     time_list = object.companyschedule_set.all()
-    name_list = models.CompanyScheduleName.objects.all()
+    name_list = request.user.company.companyschedulename_set.all()
 
     if request.method == 'POST':
         company = models.Company.objects.get(id=request.user.company.id)
         my_list = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 
         if request.POST.get('name'):
-            models.CompanyScheduleName.objects.filter(id=pk).update(name=request.POST.get('name'),
+            request.user.company.companyschedulename_set.filter(id=pk).update(name=request.POST.get('name'),
                                                                     company=company)
             # form_name.save()
-            instance = models.CompanyScheduleName.objects.get(name=request.POST.get('name'))
+            instance = request.user.company.companyschedulename_set.get(name=request.POST.get('name'))
             for i in range(len(my_list)):
                 form_time = forms.CompanyScheduleModelForm(
                     {'csrfmiddlewaretoken': request.POST.get('csrfmiddlewaretoken'), 'day': my_list[i].lower(),
@@ -1333,6 +1335,9 @@ class UpdateCompanyScheduleTime(LoginRequiredMixin, generic.UpdateView):
 class DetailCompanyScheduleName(LoginRequiredMixin, generic.DetailView):
     template_name = 'backoffice/pages/company-schedule/index.html'
     model = models.CompanyScheduleName
+
+    def get_queryset(self):
+        return self.request.user.company.companyschedulename_set.all()
 
     def get_context_data(self, **kwargs):
         ctx = super(DetailCompanyScheduleName, self).get_context_data(**kwargs)

@@ -1,277 +1,296 @@
 {% extends 'backoffice/base.html' %}
 
 {% block title %}
-    Qo'shimcha dam olish
+Qo'shimcha dam olish
 {% endblock %}
 
 
 {% block content %}
-    <section class="content">
-        <div class="container-fluid">
-            <div class="block-header">
-                <div class="row clearfix">
-                    <div class="col-lg-12 col-md-12 col-sm-12">
-                        <h2>Qo'shimcha dam olish</h2>
-                        <ul class="breadcrumb padding-0">
-                            <li class="breadcrumb-item"><a href="{% url 'backoffice-main' %}"><i class="zmdi zmdi-home"></i></a></li>
-                            <li class="breadcrumb-item"><a href="{% url 'staff' %}">Xodimlar</a></li>
-                            <li class="breadcrumb-item"><a href="{% url 'staff-detail' staff.id %}">{{ staff.first_name}} {{ staff.second_name}} {{ staff.last_name}}</a></li>
-                            <li class="breadcrumb-item">Qo'shimcha dam olish</li>
-                        </ul>
-                        {% if messages %}
-                             {% for message in messages %}
-                                 <div class="text-center btn btn-success rounded-lg w-100 btn-{{ message.tags }} messages">
-                                     <p class="text-center">{{ message|safe }}</p>
-                                 </div>
-                             {% endfor %}
-                    {% endif %}
-                    </div>
-                </div>
-            </div>
-
+<section class="content">
+    <div class="container-fluid">
+        <div class="block-header">
             <div class="row clearfix">
                 <div class="col-lg-12 col-md-12 col-sm-12">
-                    <div class="card">
-                        <div class="header">
-                                <div class="button-demo js-modal-buttons d-flex justify-content-between">
-                                    <button type="button" data-color="pink" data-toggle="modal" data-target="#colorModal"
-                                            class="btn btn-success waves-effect"><i class="zmdi zmdi-plus"></i> Biriktirish
-                                    </button>
-                                    <a href="{% url 'vacation_type' %}" class="btn btn-info waves-effect">Dam olish turi qo'shish</a>
-                                </div>
-                        </div>
-                        <div class="body table-responsive">
-                            <table class="table table-hover">
-                                <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Qo'shimcha dam olish turi</th>
-                                    <th>Boshlash vaqti</th>
-                                    <th>Tugash vaqti</th>
-                                    <th>Izoh</th>
-                                    <th>Soatbay/Kunbay</th>
-                                    <th>O'chirish</th>
-                                    <th>Taxrirlash</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {% for vacantion in vacations %}
-                                    <tr>
-                                        <th scope="row">{{ vacantion.id }}</th>
-                                        <td>{{ vacantion.vacation_type.name }}</td>
-                                        <td>{{ vacantion.start_at }}</td>
-                                        <td>{{ vacantion.end_at }}</td>
-                                        <td>{{ vacantion.note }}</td>
-                                        <td>
-                                            {% for x,y in form.fields.vocation_period_types.choices %}
-                                                {% if vacantion.vocation_period_types == x %}
-                                                    {{ y }}
-                                                {% endif %}
-                                            {% endfor %}
-                                        </td>
-                                        <td>
-                                            <a href="javascript:void(0);" data-color="pink"
-                                               data-toggle="modal" data-target="#item_{{ vacantion.id }}"
-                                               class="btn btn-neutral waves-effect">
-                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M19.3248 9.4682C19.3248 9.4682 18.7818 16.2032 18.4668 19.0402C18.3168 20.3952 17.4798 21.1892 16.1088 21.2142C13.4998 21.2612 10.8878 21.2642 8.27979 21.2092C6.96079 21.1822 6.13779 20.3782 5.99079 19.0472C5.67379 16.1852 5.13379 9.4682 5.13379 9.4682" stroke="#ED5E5E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M20.708 6.2397H3.75" stroke="#ED5E5E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M17.4406 6.2397C16.6556 6.2397 15.9796 5.6847 15.8256 4.9157L15.5826 3.6997C15.4326 3.1387 14.9246 2.7507 14.3456 2.7507H10.1126C9.53358 2.7507 9.02558 3.1387 8.87558 3.6997L8.63258 4.9157C8.47858 5.6847 7.80258 6.2397 7.01758 6.2397" stroke="#ED5E5E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
-                                        </a>
-                                        </td>
-                                        <td>
-                                            <button type="button" data-color="pink" data-toggle="modal"
-                                                    data-target="#colorModal{{ vacantion.id }}"
-                                                    class="btn btn-neutral waves-effect">
-                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M13.7471 20.4429H20.9997" stroke="#130F26" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M12.78 3.79479C13.5557 2.86779 14.95 2.73186 15.8962 3.49173C15.9485 3.53296 17.6295 4.83879 17.6295 4.83879C18.669 5.46719 18.992 6.80311 18.3494 7.82259C18.3153 7.87718 8.81195 19.7645 8.81195 19.7645C8.49578 20.1589 8.01583 20.3918 7.50291 20.3973L3.86353 20.443L3.04353 16.9723C2.92866 16.4843 3.04353 15.9718 3.3597 15.5773L12.78 3.79479Z" stroke="#130F26" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M11.0205 6.00089L16.4728 10.188" stroke="#130F26" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
+                    <h2>Qo'shimcha dam olish</h2>
+                    <ul class="breadcrumb padding-0">
+                        <li class="breadcrumb-item"><a href="{% url 'backoffice-main' %}"><i class="zmdi zmdi-home"></i></a>
+                        </li>
+                        <li class="breadcrumb-item"><a href="{% url 'staff' %}">Xodimlar</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'staff-detail' staff.id %}">{{ staff.first_name}} {{
+                            staff.second_name}} {{ staff.last_name}}</a></li>
+                        <li class="breadcrumb-item">Qo'shimcha dam olish</li>
+                    </ul>
+                    {% if messages %}
+                    {% for message in messages %}
+                    <div class="text-center btn btn-success rounded-lg w-100 btn-{{ message.tags }} messages">
+                        <p class="text-center">{{ message|safe }}</p>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
 
-                                            </button>
-                                        </td>
-                                    </tr>
-                                {% endfor %}
-                                </tbody>
-                            </table>
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="card">
+                    <div class="header">
+                        <div class="button-demo js-modal-buttons d-flex justify-content-between">
+                            <button type="button" data-color="pink" data-toggle="modal" data-target="#colorModal"
+                                    class="btn btn-success waves-effect"><i class="zmdi zmdi-plus"></i> Biriktirish
+                            </button>
+                            <a href="{% url 'vacation_type' %}" class="btn btn-info waves-effect">Dam olish turi
+                                qo'shish</a>
                         </div>
+                    </div>
+                    <div class="body table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Qo'shimcha dam olish turi</th>
+                                <th>Boshlash vaqti</th>
+                                <th>Tugash vaqti</th>
+                                <th>Izoh</th>
+                                <th>Soatbay/Kunbay</th>
+                                <th>O'chirish</th>
+                                <th>Taxrirlash</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for vacantion in vacations %}
+                            <tr>
+                                <th scope="row">{{ vacantion.id }}</th>
+                                <td>{{ vacantion.vacation_type.name }}</td>
+                                <td>{{ vacantion.start_at }}</td>
+                                <td>{{ vacantion.end_at }}</td>
+                                <td>{{ vacantion.note }}</td>
+                                <td>
+                                    {% for x,y in form.fields.vocation_period_types.choices %}
+                                    {% if vacantion.vocation_period_types == x %}
+                                    {{ y }}
+                                    {% endif %}
+                                    {% endfor %}
+                                </td>
+                                <td>
+                                    <a href="javascript:void(0);" data-color="pink"
+                                       data-toggle="modal" data-target="#item_{{ vacantion.id }}"
+                                       class="btn btn-neutral waves-effect">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                             xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M19.3248 9.4682C19.3248 9.4682 18.7818 16.2032 18.4668 19.0402C18.3168 20.3952 17.4798 21.1892 16.1088 21.2142C13.4998 21.2612 10.8878 21.2642 8.27979 21.2092C6.96079 21.1822 6.13779 20.3782 5.99079 19.0472C5.67379 16.1852 5.13379 9.4682 5.13379 9.4682"
+                                                  stroke="#ED5E5E" stroke-width="1.5" stroke-linecap="round"
+                                                  stroke-linejoin="round"/>
+                                            <path d="M20.708 6.2397H3.75" stroke="#ED5E5E" stroke-width="1.5"
+                                                  stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M17.4406 6.2397C16.6556 6.2397 15.9796 5.6847 15.8256 4.9157L15.5826 3.6997C15.4326 3.1387 14.9246 2.7507 14.3456 2.7507H10.1126C9.53358 2.7507 9.02558 3.1387 8.87558 3.6997L8.63258 4.9157C8.47858 5.6847 7.80258 6.2397 7.01758 6.2397"
+                                                  stroke="#ED5E5E" stroke-width="1.5" stroke-linecap="round"
+                                                  stroke-linejoin="round"/>
+                                        </svg>
+                                    </a>
+                                </td>
+                                <td>
+                                    <button type="button" data-color="pink" data-toggle="modal"
+                                            data-target="#colorModal{{ vacantion.id }}"
+                                            class="btn btn-neutral waves-effect">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                             xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M13.7471 20.4429H20.9997" stroke="#130F26" stroke-width="1.5"
+                                                  stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                                  d="M12.78 3.79479C13.5557 2.86779 14.95 2.73186 15.8962 3.49173C15.9485 3.53296 17.6295 4.83879 17.6295 4.83879C18.669 5.46719 18.992 6.80311 18.3494 7.82259C18.3153 7.87718 8.81195 19.7645 8.81195 19.7645C8.49578 20.1589 8.01583 20.3918 7.50291 20.3973L3.86353 20.443L3.04353 16.9723C2.92866 16.4843 3.04353 15.9718 3.3597 15.5773L12.78 3.79479Z"
+                                                  stroke="#130F26" stroke-width="1.5" stroke-linecap="round"
+                                                  stroke-linejoin="round"/>
+                                            <path d="M11.0205 6.00089L16.4728 10.188" stroke="#130F26"
+                                                  stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
 
-                        <div class="header">
-                                <div class="button-demo js-modal-buttons d-flex justify-content-between">
-                                    <button type="button" data-color="pink" data-toggle="modal" data-target="#colorModal"
-                                            class="btn btn-success waves-effect"><i class="zmdi zmdi-plus"></i> Biriktirish
                                     </button>
-                                    <a href="{% url 'vacation_type' %}" class="btn btn-info waves-effect">Dam olish turi qo'shish</a>
-                                </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="header">
+                        <div class="button-demo js-modal-buttons d-flex justify-content-between">
+                            <button type="button" data-color="pink" data-toggle="modal" data-target="#colorModal"
+                                    class="btn btn-success waves-effect"><i class="zmdi zmdi-plus"></i> Biriktirish
+                            </button>
+                            <a href="{% url 'vacation_type' %}" class="btn btn-info waves-effect">Dam olish turi
+                                qo'shish</a>
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
-    </section>
 
-    <div class="modal fade" id="colorModal" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content bg-white">
-                <div class="modal-header">
-                    <h4 class="title text-dark">Qo'shimcha dam olish hosil qilish</h4>
-                </div>
-                <div class="modal-body">
-                    <form action="{% url 'vacation' staff_id %}" method="post">
-                        {% csrf_token %}
-                        <div class="col-sm-12">
-                            <div class="form-group">
-                                <label for="vacation_type" class="text-dark">Qo'shimcha dam olish turi: </label>
-                                <select name="vacation_type" id="vacation_type">
-                                    {% for vacation_type in vacation_types %}
-                                        <option value="{{ vacation_type.id }}">
-                                            {{ vacation_type.name }}
-                                        </option>
-                                    {% endfor %}
-                                </select>
-                            </div>
+    </div>
+</section>
+
+<div class="modal fade" id="colorModal" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content bg-white">
+            <div class="modal-header">
+                <h4 class="title text-dark">Qo'shimcha dam olish hosil qilish</h4>
+            </div>
+            <div class="modal-body">
+                <form action="{% url 'vacation' staff_id %}" method="post">
+                    {% csrf_token %}
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="vacation_type" class="text-dark">Qo'shimcha dam olish turi: </label>
+                            <select name="vacation_type" id="vacation_type">
+                                {% for vacation_type in vacation_types %}
+                                <option value="{{ vacation_type.id }}">
+                                    {{ vacation_type.name }}
+                                </option>
+                                {% endfor %}
+                            </select>
                         </div>
-                        <div class="col-sm-12">
-                            <div class="form-group">
-                                <label for="vocation_period_types" class="text-dark">Turi:</label>
-                                <select name="vocation_period_types" id="vocation_period_types">
-                                    {% for x,y in form.fields.vocation_period_types.choices %}
-                                        <option value="{{ x }}">{{ y }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="vocation_period_types" class="text-dark">Turi:</label>
+                            <select name="vocation_period_types" id="vocation_period_types">
+                                {% for x,y in form.fields.vocation_period_types.choices %}
+                                <option value="{{ x }}">{{ y }}</option>
+                                {% endfor %}
+                            </select>
                         </div>
-                        <div class="col-sm-12">
-                            <div class="form-group">
-                                <label for="start_at" class="text-dark">Boshlanish:</label>
-                                <input type="date" name="start_at" id="start_at" class="form-control" required>
-                            </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="start_at" class="text-dark">Boshlanish:</label>
+                            <input type="date" name="start_at" id="start_at" class="form-control" required>
                         </div>
-                        <div class="col-sm-12">
-                            <div class="form-group">
-                                <label for="end_at" class="text-dark">Tugash:</label>
-                                <input type="date" name="end_at" id="end_at" class="form-control" required>
-                            </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="end_at" class="text-dark">Tugash:</label>
+                            <input type="date" name="end_at" id="end_at" class="form-control" required>
                         </div>
-                        <div class="col-sm-12">
-                            <div class="form-group">
-                                <label for="note" class="text-dark">Izoh:</label>
-                                <input type="text" name="note" id="note" class="form-control" required>
-                            </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="note" class="text-dark">Izoh:</label>
+                            <input type="text" name="note" id="note" class="form-control" required>
                         </div>
-                        <button type="submit" class="btn btn-success">Biriktirish</button>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary btn-round" data-dismiss="modal"><i
-                            class="zmdi zmdi-close"></i></button>
-                </div>
+                    </div>
+                    <button type="submit" class="btn btn-success">Biriktirish</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary btn-round" data-dismiss="modal"><i
+                        class="zmdi zmdi-close"></i></button>
             </div>
         </div>
     </div>
-    {% for vacation in vacations %}
-        <div class="modal fade" id="colorModal{{ vacation.id }}" tabindex="-1" role="dialog" style="display: none;"
-             aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content bg-white">
-                    <div class="modal-header">
-                        <h4 class="title text-dark">Qo'shimcha dam olish hosil qilish</h4>
+</div>
+{% for vacation in vacations %}
+<div class="modal fade" id="colorModal{{ vacation.id }}" tabindex="-1" role="dialog" style="display: none;"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content bg-white">
+            <div class="modal-header">
+                <h4 class="title text-dark">Qo'shimcha dam olish hosil qilish</h4>
+            </div>
+            <div class="modal-body">
+                <form action="{% url 'vacation_update' vacation.id %}" method="post">
+                    {% csrf_token %}
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="vacation_type" class="text-dark">Qo'shimcha dam olish turi: </label>
+                            <select name="vacation_type" id="vacation_type">
+                                {% for vacation_type in vacation_types %}
+                                <option value="{{ vacation_type.id }}">
+                                    {{ vacation_type.name }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
                     </div>
-                    <div class="modal-body">
-                        <form action="{% url 'vacation_update' vacation.id %}" method="post">
-                            {% csrf_token %}
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                    <label for="vacation_type" class="text-dark">Qo'shimcha dam olish turi: </label>
-                                    <select name="vacation_type" id="vacation_type">
-                                        {% for vacation_type in vacation_types %}
-                                            <option value="{{ vacation_type.id }}">
-                                                {{ vacation_type.name }}
-                                            </option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                            </div>
 
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                    <label for="vocation_period_types" class="text-dark">Turi:</label>
-                                    <select name="vocation_period_types" id="vocation_period_types">
-                                        {% for x,y in form.fields.vocation_period_types.choices %}
-                                            <option value="{{ x }}">{{ y }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                    <label for="start_at" class="text-dark">Boshlanish:</label>
-                                    <input type="date" name="start_at" id="start_at" class="form-control"
-                                           value="{{ vacation.start_at|date:"Y-m-d" }}" required>
-                                </div>
-                            </div>
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                    <label for="end_at" class="text-dark">Tugash:</label>
-                                    <input type="date" name="end_at" id="end_at" class="form-control" required
-                                           value="{{ vacation.end_at|date:"Y-m-d" }}">
-                                </div>
-                            </div>
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                    <label for="note" class="text-dark">Izoh:</label>
-                                    <input type="text" name="note" id="note" class="form-control" required
-                                           value="{{ vacation.note }}">
-                                </div>
-                            </div>
-                            <button type="submit" class="btn btn-success">Saqlash</button>
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="vocation_period_types" class="text-dark">Turi:</label>
+                            <select name="vocation_period_types" id="vocation_period_types">
+                                {% for x,y in form.fields.vocation_period_types.choices %}
+                                <option value="{{ x }}">{{ y }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="start_at" class="text-dark">Boshlanish:</label>
+                            <input type="date" name="start_at" id="start_at" class="form-control"
+                                   value="{{ vacation.start_at|date:" Y-m-d" }}" required>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="end_at" class="text-dark">Tugash:</label>
+                            <input type="date" name="end_at" id="end_at" class="form-control" required
+                                   value="{{ vacation.end_at|date:" Y-m-d" }}">
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="note" class="text-dark">Izoh:</label>
+                            <input type="text" name="note" id="note" class="form-control" required
+                                   value="{{ vacation.note }}">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-success">Saqlash</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary btn-round" data-dismiss="modal"><i
+                        class="zmdi zmdi-close"></i></button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+{% for item in vacations %}
+<div class="modal fade" id="item_{{ item.id }}" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content bg-white">
+            <div class="modal-header">
+
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                    <div class="header">
+                        <h2>O'chirmoqchimisiz?</h2>
+                    </div>
+                    <div class="body d-flex justify-content-around">
+                        <button type="button" class="btn btn-success rounded-lg waves-effect" data-dismiss="modal">Bekor
+                            qilish
+                        </button>
+                        <form action="{% url 'vacation_delete' pk=item.pk %}" method="POST">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger rounded-lg waves-effect">O'chirish</button>
                         </form>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary btn-round" data-dismiss="modal"><i
-                                class="zmdi zmdi-close"></i></button>
-                    </div>
                 </div>
             </div>
-        </div>
-    {% endfor %}
 
-     {% for item in vacations %}
-        <div class="modal fade" id="item_{{ item.id }}" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content bg-white">
-                <div class="modal-header">
-
-                </div>
-                <div class="modal-body">
-                    <div class="card">
-                        <div class="header">
-                            <h2>O'chirmoqchimisiz?</h2>
-                        </div>
-                        <div class="body d-flex justify-content-around">
-                            <button type="button" class="btn btn-success rounded-lg waves-effect" data-dismiss="modal">Bekor qilish</button>
-                            <form action="{% url 'vacation_delete' pk=item.pk %}" method="POST">
-                                {% csrf_token %}
-                                <button type="submit" class="btn btn-danger rounded-lg waves-effect">O'chirish</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
         </div>
     </div>
-    {% endfor %}
+</div>
+{% endfor %}
 {% endblock %}
 
 {% block js %}
-    <script>
+<script>
         setTimeout(fade_out, 3000);
         function fade_out() {
             $(".messages").fadeOut().empty();
         }
-    </script>
+
+</script>
 {% endblock %}

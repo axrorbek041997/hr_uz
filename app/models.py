@@ -57,11 +57,14 @@ class Company(models.Model):
 
 
 class CompanyScheduleName(models.Model):
-    name = models.CharField(max_length=100, unique=True)
+    name = models.CharField(max_length=100, unique=False)
     company = models.ForeignKey(Company, on_delete=models.CASCADE, default=None, null=True)
 
     def __str__(self):
-        return self.name
+        return f'{self.name}'
+
+    class Meta:
+        unique_together = ['name', 'company']
 
 
 class CompanySchedule(models.Model):
@@ -86,7 +89,7 @@ class CompanySchedule(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'{self.name} - {self.day}'
+        return f'{self.day} - {self.name}'
 
 
 class Branch(models.Model):

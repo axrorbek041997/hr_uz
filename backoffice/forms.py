@@ -52,10 +52,6 @@ class StaffModelForm(forms.ModelForm):
         model = models.Staff
         exclude = ('company',)
 
-    # def __init__(self, user, *args, **kwargs):
-    #     super(StaffModelForm, self).__init__(*args, **kwargs)
-    #     self.fields['group_name'].queryset = models.CompanyScheduleName.objects.filter(company=user.company)
-
 
 class DepartmentsModelForm(forms.ModelForm):
     class Meta:
