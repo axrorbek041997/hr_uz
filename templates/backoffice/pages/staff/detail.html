@@ -229,18 +229,23 @@ Xodimlar - {{ staff.first_name }} {{ staff.second_name }} {{ staff.last_name }}
                                                        placeholder="Uy manzili" value="{{ staff.address }}">
                                             </div>
                                         </div>
-                                        <div class="row" style="padding: 0 20px;">
-                                            <div class="col-md-6">
+                                        <div class="row staff-4-row" style="padding: 0 20px;">
+                                            <div class="col-md-4">
                                                 <div class="form-group">
                                                     Jinsi: {{ form.gender }}
                                                 </div>
                                             </div>
-                                            <div class="col-md-6">
+                                            <div class="col-md-4">
                                                 <div class="form-group">
                                                     Ish rejimi: {{ form.group_name }}
                                                 </div>
                                             </div>
-                                            <div class="col-md-6">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    Is outsource: {{ form.is_outsource }}
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
                                                 <div class="form-group">
                                                     Bo'lim:
                                                     <select name="department">
@@ -251,7 +256,7 @@ Xodimlar - {{ staff.first_name }} {{ staff.second_name }} {{ staff.last_name }}
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6">
+                                            <div class="col-md-4">
                                                 <div class="form-group">
                                                     Lavozim:
                                                     <select name="position" id="">

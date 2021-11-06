@@ -36,6 +36,8 @@
                                     <th>Xodim</th>
                                     <th>Kirish vaqti</th>
                                     <th>Chiqish vaqti</th>
+                                    <th>Ovqatga chiqish</th>
+                                    <th>Ovqatdan qaytish</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -48,22 +50,36 @@
                                         <tr>
                                             <td>{{ flow.came|date:'H:i' }}
                                                 {% if forloop.first %}
-                                                    <i class="text-{% if flow.came|date:'H:i'|late_delta_bool:user %}danger{% else %}success{% endif %}">
-                                                        ({% if flow.came|date:'H:i'|late_delta_bool:user %}-{% else %}+{% endif %}{{ flow.came|date:'H:i'|late_delta:user }})
+                                                    <i class="text-{% if flow.came|date:'H:i'|late_delta_bool:flow.staff %}danger{% else %}success{% endif %}">
+                                                        ({% if flow.came|date:'H:i'|late_delta_bool:flow.staff %}-{% else %}+{% endif %}{{ flow.came|date:'H:i'|late_delta:flow.staff }})
                                                     </i>
                                                 {% endif %}
                                             </td>
                                             <td>{{ flow.went|date:'H:i' }}
                                                 {% if forloop.last %}
-                                                    <i class="text-{% if flow.went|date:'H:i'|earlier_delta_bool:user %}danger{% else %}success{% endif %}">
-                                                            ({% if flow.went|date:'H:i'|earlier_delta_bool:user %}-{% else %}+{% endif %}{{ flow.went|date:'H:i'|earlier_delta:user }})
+                                                    <i class="text-{% if flow.went|date:'H:i'|earlier_delta_bool:flow.staff %}danger{% else %}success{% endif %}">
+                                                            ({% if flow.went|date:'H:i'|earlier_delta_bool:flow.staff %}-{% else %}+{% endif %}{{ flow.went|date:'H:i'|earlier_delta:flow.staff }})
+                                                    </i>
+                                                {% endif %}
+                                            </td>
+                                            <td>{{ flow.went_lunch|date:'H:i' }}
+                                                {% if forloop.first %}
+                                                    <i class="text-{% if flow.went_lunch|date:'H:i'|lunch_earlier_delta_bool:flow.staff %}danger{% else %}success{% endif %}">
+                                                        ({% if flow.went_lunch|date:'H:i'|lunch_earlier_delta_bool:flow.staff %}-{% else %}+{% endif %}{{ flow.went_lunch|date:'H:i'|lunch_earlier_delta:flow.staff }})
+                                                    </i>
+                                                {% endif %}
+                                            </td>
+                                            <td>{{ flow.came_lunch|date:'H:i' }}
+                                                {% if forloop.last %}
+                                                    <i class="text-{% if flow.came_lunch|date:'H:i'|lunch_late_delta_bool:flow.staff %}danger{% else %}success{% endif %}">
+                                                            ({% if flow.came_lunch|date:'H:i'|lunch_late_delta_bool:flow.staff %}-{% else %}+{% endif %}{{ flow.came_lunch|date:'H:i'|lunch_late_delta:flow.staff }})
                                                     </i>
                                                 {% endif %}
                                             </td>
                                         </tr>
                                     {% endfor %}
                                 </div>
-                          {% endfor %}
+                            {% endfor %}
                             </tbody>
                         </table>
                     </div>
@@ -76,6 +92,8 @@
 {% endblock %}
 
 {% block js %}
+<script src="{% static 'backoffice/assets/js/custom.js' %}"></script>
+
     <script>
          $(function () {
 

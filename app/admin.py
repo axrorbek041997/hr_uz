@@ -130,14 +130,14 @@ class AdminModelAdmin(admin.ModelAdmin):
     pass
 
 
-# @admin.register(models.CompanyScheduleName)
-# class CompanyScheduleNameModelAdmin(admin.ModelAdmin):
-#     pass
-#
-#
-# @admin.register(models.CompanySchedule)
-# class CompanyScheduleModelAdmin(admin.ModelAdmin):
-#     pass
+@admin.register(models.CompanyScheduleName)
+class CompanyScheduleNameModelAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(models.CompanySchedule)
+class CompanyScheduleModelAdmin(admin.ModelAdmin):
+    pass
 
 
 @admin.register(models.TrainingInfo)

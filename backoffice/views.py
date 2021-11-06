@@ -1,6 +1,6 @@
 import json
 import os
-from datetime import datetime
+from datetime import datetime, timedelta
 from io import BytesIO
 
 import pendulum
@@ -31,6 +31,19 @@ def calculation_the_date_of_late(that_date, start_work_time, work_time):
     flows_all = flows.filter(came__time__gt=start_work_time)
     ll = flows_all.values_list('staff__pk', flat=True)
     return set(ll)
+
+
+def find_birthdays(request) -> list:
+    start_date = pendulum.now().subtract(days=2)
+    end_date = pendulum.now().add(days=7)
+    birth_day = []
+
+    while start_date <= end_date:
+        birth_day.extend(request.user.company.staff_set.filter(birth_date__month=start_date.month,
+                                                               birth_date__day=start_date.day))
+        start_date += timedelta(days=1)
+
+    return birth_day
 
 
 class MainTemplate(LoginRequiredMixin, generic.ListView):
@@ -86,6 +99,14 @@ class MainTemplate(LoginRequiredMixin, generic.ListView):
             ctx['absent_today'] = ""
 
         ctx['late_came_person_count_per_day'] = result
+
+        ctx['birth_day'] = find_birthdays(self.request)
+
+        all_stafs = self.request.user.company.staff_set.all().count()
+        ctx['male_count'] = self.request.user.company.staff_set.filter(gender='male').count()
+        ctx['width_male'] = int(ctx['male_count'] * 100 / all_stafs)
+        ctx['female_count'] = self.request.user.company.staff_set.filter(gender='female').count()
+        ctx['width_female'] = 100 - ctx['width_male']
         return ctx
 
 
@@ -1284,7 +1305,7 @@ def update_company_schedule_name(request, pk):
 
         if request.POST.get('name'):
             request.user.company.companyschedulename_set.filter(id=pk).update(name=request.POST.get('name'),
-                                                                    company=company)
+                                                                              company=company)
             # form_name.save()
             instance = request.user.company.companyschedulename_set.get(name=request.POST.get('name'))
             for i in range(len(my_list)):

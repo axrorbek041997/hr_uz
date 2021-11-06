@@ -232,6 +232,9 @@ class AdditionalPayments(models.Model):
 class Flow(models.Model):
     came = models.DateTimeField(verbose_name="Kelishi", null=True, blank=True)
     went = models.DateTimeField(verbose_name="Ketishi", null=True, blank=True)
+    went_lunch = models.DateTimeField(verbose_name="Ovqatga ketish", default=None,
+                                      null=True, blank=True)
+    came_lunch = models.DateTimeField(verbose_name="Ovqatdan kelish", default=None, null=True, blank=True)
     staff = models.ForeignKey("Staff", on_delete=models.CASCADE, verbose_name="Xodim")
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -260,8 +263,15 @@ class Document(models.Model):
 
 
 class Salary(models.Model):
+    work_type = [
+        ('full time', 'Full Time'),
+        ('part time', 'Part Time'),
+        ('intern', 'Intern')
+    ]
+
     type_of_work = models.CharField(null=True, blank=True, max_length=255,
                                     verbose_name="Ishlash turi(soatbay, kunbay, ishbay ...)")
+    work_type = models.CharField(choices=work_type, default='full time', max_length=50)
     amount = models.FloatField(null=True, blank=True, verbose_name="Miqdori")
     attached_date = models.DateField(null=True, blank=True, verbose_name="Biriktirilgan sana")
     completion_date = models.DateField(null=True, blank=True, verbose_name="Yankunlangan sana")
@@ -305,6 +315,7 @@ class Staff(models.Model):
     account_number = models.BigIntegerField(null=True, blank=True, verbose_name="Xisob raqami")
 
     group_name = models.ForeignKey(CompanyScheduleName, on_delete=models.SET_NULL, default=None, null=True)
+    is_outsource = models.BooleanField(default=False)
 
     email = models.EmailField(unique=True, verbose_name="Elektron manzil")
     mobile_phone = models.CharField(null=True, blank=True, max_length=15, verbose_name="Mobil telefon")

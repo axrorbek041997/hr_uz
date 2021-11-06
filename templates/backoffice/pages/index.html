@@ -4,210 +4,243 @@
 {% block title %}Main{% endblock %}
 
 {% block content %}
-    <section class="content home">
-        <div class="container-fluid">
-            <div class="block-header">
-                <div class="row clearfix">
-                    <div class="col-lg-5 col-md-5 col-sm-12">
-                        <h2>Bosh sahifa</h2>
-                        <ul class="breadcrumb padding-0">
-                            <li class="breadcrumb-item"><a href="{% url 'backoffice-main' %}"><i
-                                    class="zmdi zmdi-home"></i></a></li>
-                            <li class="breadcrumb-item active">Bosh sahifa</li>
-                        </ul>
+<section class="content home">
+    <div class="container-fluid">
+        <div class="block-header">
+            <div class="row clearfix">
+                <div class="col-lg-5 col-md-5 col-sm-12">
+                    <h2>Bosh sahifa</h2>
+                    <ul class="breadcrumb padding-0">
+                        <li class="breadcrumb-item"><a href="{% url 'backoffice-main' %}"><i
+                                class="zmdi zmdi-home"></i></a></li>
+                        <li class="breadcrumb-item active">Bosh sahifa</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row clearfix">
+            <div class="col-lg-3 col-md-6">
+                <div class="card text-center">
+                    <div class="body">
+                        <p class="m-b-20"><i class="zmdi zmdi-balance zmdi-hc-3x col-amber"></i></p>
+                        <span>Bo'limlar</span>
+                        <h3 class="m-b-10"><span class="number count-to" data-from="0"
+                                                 data-to="{{ department_amounts }}" data-speed="2000"
+                                                 data-fresh-interval="700">{{ department_amounts }}</span></h3>
+                        {# <small class="text-muted">27% lower growth</small>#}
                     </div>
                 </div>
             </div>
-            <div class="row clearfix">
-                <div class="col-lg-3 col-md-6">
-                    <div class="card text-center">
-                        <div class="body">
-                            <p class="m-b-20"><i class="zmdi zmdi-balance zmdi-hc-3x col-amber"></i></p>
-                            <span>Bo'limlar</span>
-                            <h3 class="m-b-10"><span class="number count-to" data-from="0"
-                                                     data-to="{{ department_amounts }}" data-speed="2000"
-                                                     data-fresh-interval="700">{{ department_amounts }}</span></h3>
-                            {#                        <small class="text-muted">27% lower growth</small>#}
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="card text-center">
-                        <div class="body">
-                            <p class="m-b-20"><i class="zmdi zmdi-folder-person zmdi-hc-3x col-blue"></i></p>
-                            <span>Lavozim</span>
-                            <h3 class="m-b-10 number count-to" data-from="0" data-to="{{ position_amounts }}"
-                                data-speed="2000" data-fresh-interval="700">{{ position_amounts }}</h3>
-                            {#                        <small class="text-muted">88% lower growth</small>#}
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="card text-center">
-                        <div class="body">
-                            <p class="m-b-20"><i class="zmdi zmdi-account zmdi-hc-3x"></i></p>
-                            <span>Hodimlar</span>
-                            <h3 class="m-b-10 number count-to" data-from="0" data-to="{{ amount_staff }}"
-                                data-speed="2000" data-fresh-interval="700">{{ amount_staff }}</h3>
-                            {#                        <small class="text-muted">38% lower growth</small>#}
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="card text-center">
-                        <div class="body">
-                            <p class="m-b-20"><i class="zmdi zmdi-account-box zmdi-hc-3x col-green"></i></p>
-                            <span>Kondidatlar</span>
-                            <h3 class="m-b-10 number count-to" data-from="0" data-to="{{ bot_user_list_counter }}"
-                                data-speed="2000" data-fresh-interval="700">{{ bot_user_list_counter }}</h3>
-                            {#                        <small class="text-muted">78% lower growth</small>#}
-                        </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="card text-center">
+                    <div class="body">
+                        <p class="m-b-20"><i class="zmdi zmdi-folder-person zmdi-hc-3x col-blue"></i></p>
+                        <span>Lavozim</span>
+                        <h3 class="m-b-10 number count-to" data-from="0" data-to="{{ position_amounts }}"
+                            data-speed="2000" data-fresh-interval="700">{{ position_amounts }}</h3>
+                        {# <small class="text-muted">88% lower growth</small>#}
                     </div>
                 </div>
             </div>
-            <div class="row clearfix">
-                <div class="col-lg-12 col-md-12">
-                    <div class="card">
-                        <div class="header">
-                            <h2><strong>Hodim</strong> Statistikasi</h2>
-                            <ul class="header-dropdown">
-                                <li class="dropdown"><a href="javascript:void(0);" class="dropdown-toggle"
-                                                        data-toggle="dropdown" role="button" aria-haspopup="true"
-                                                        aria-expanded="false"> <i class="zmdi zmdi-more"></i> </a>
-                                    <ul class="dropdown-menu slideUp">
-                                        <li><a href="javascript:void(0);" class="boxs-close">Hide</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="body m-b-10">
-                            <div class="progress-container progress-info">
-                                <span class="progress-badge">Male</span>
-                                <div class="progress">
-                                    <div class="progress-bar" role="progressbar" aria-valuenow="{{ male_count }}"
-                                         aria-valuemin="0" aria-valuemax="{{ company_staff_count }}"
-                                         style="width: {{ width_male }}%;">
-                                        <span class="progress-value">{{ male_count }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="body m-b-20">
-                            <div class="progress-container progress-warning">
-                                <span class="progress-badge">Female</span>
-                                <div class="progress">
-                                    <div class="progress-bar" role="progressbar" aria-valuenow="{{ female_count }}"
-                                         aria-valuemin="0" aria-valuemax="{{ company_staff_count }}"
-                                         style="width: {{ width_female }}%;">
-                                        <span class="progress-value">{{ female_count }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="body m-b-20 table-responsive">
-                            <h3>Kech qolganlar</h3>
-                            <table class="table table-borderless table-striped table-hover" id="late_staff">
-                                <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>FISH</th>
-                                    <th>Lavozim</th>
-                                    <th>Telefon</th>
-                                    <th>Kelgan vaqit</th>
-                                    <th>Ketgan vaqti</th>
-                                </tr>
-                                </thead>
-                                <tfoot>
-                                </tfoot>
-                                <tbody>
-                                {% for item in late_today %}
-                                    <tr>
-                                        <td>{{ forloop.counter }}</td>
-                                        <td>{{ item.first_name }} {{ item.second_name }} {{ item.last_name }}</td>
-                                        <td>{{ item.position.name }}</td>
-                                        <td>{{ item.mobile_phone }}</td>
-                                        <td>
-                                        {% with item.get_today_flow|first as flow %}
-                                            {{ flow.came|date:'H:i' }}
-                                            <i class="text-{% if flow.came|date:'H:i'|late_delta_bool:user %}danger{% else %}success{% endif %}">
-                                                        ({% if flow.came|date:'H:i'|late_delta_bool:user %}
-                                                        -{% else %}
-                                                        +{% endif %}{{ flow.came|date:'H:i'|late_delta:user }})
-                                                    </i>
-                                        {% endwith %}
-                                        </td>
-                                        <td>
-                                            {% with item.get_today_flow|first as flow %}
-                                                {{ flow.went|date:'H:i' }}
-                                                    <i class="text-{% if flow.went|date:'H:i'|earlier_delta_bool:user %}danger{% else %}success{% endif %}">
-                                                        ({% if flow.went|date:'H:i'|earlier_delta_bool:user %}
-                                                        -{% else %}
-                                                        +{% endif %}{{ flow.went|date:'H:i'|earlier_delta:user }}
-                                                        )
-                                                    </i>
-                                            {% endwith %}
-                                        </td>
-                                    </tr>
-                                {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="body m-b-20 table-responsive">
-                            <h3>Kelmaganlar</h3>
-                            <table class="table table-borderless table-striped table-hover" id="late_staff">
-                                <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>FISH</th>
-                                    <th>Lavozim</th>
-                                    <th>Telefon</th>
-                                </tr>
-                                </thead>
-                                <tfoot>
-                                </tfoot>
-                                <tbody>
-                                {% for item in absent_today %}
-                                    <tr>
-                                        <td>{{ forloop.counter }}</td>
-                                        <td>{{ item.first_name }} {{ item.second_name }} {{ item.last_name }}</td>
-                                        <td>{{ item.position.name }}</td>
-                                        <td>{{ item.mobile_phone }}</td>
-                                    </tr>
-                                {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="card text-center">
+                    <div class="body">
+                        <p class="m-b-20"><i class="zmdi zmdi-account zmdi-hc-3x"></i></p>
+                        <span>Hodimlar</span>
+                        <h3 class="m-b-10 number count-to" data-from="0" data-to="{{ amount_staff }}"
+                            data-speed="2000" data-fresh-interval="700">{{ amount_staff }}</h3>
+                        {# <small class="text-muted">38% lower growth</small>#}
                     </div>
                 </div>
-
-                <div class="col-lg-12 col-md-12">
-                    <div class="card">
-                        <div class="header">
-                            <h2>Kunlar bo’yicha tashriflar statistikasi</h2>
-                            <ul class="header-dropdown">
-                                <li class="dropdown"><a href="javascript:void(0);" class="dropdown-toggle"
-                                                        data-toggle="dropdown" role="button" aria-haspopup="true"
-                                                        aria-expanded="false"> <i class="zmdi zmdi-more"></i> </a>
-                                    <ul class="dropdown-menu dropdown-menu-right" x-placement="bottom-end"
-                                        style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(32px, 32px, 0px);">
-                                        <li><a href="javascript:void(0);" class="boxs-close">Hide</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="body">
-                            <div class="e_chart" id="echart-rainfall"
-                                 style="height: 400px; -webkit-tap-highlight-color: transparent; user-select: none; position: relative;"></div>
-                        </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="card text-center">
+                    <div class="body">
+                        <p class="m-b-20"><i class="zmdi zmdi-account-box zmdi-hc-3x col-green"></i></p>
+                        <span>Kondidatlar</span>
+                        <h3 class="m-b-10 number count-to" data-from="0" data-to="{{ bot_user_list_counter }}"
+                            data-speed="2000" data-fresh-interval="700">{{ bot_user_list_counter }}</h3>
+                        {# <small class="text-muted">78% lower growth</small>#}
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12">
+                <div class="card">
+                    <div class="header">
+                        <h2><strong>Hodim</strong> Statistikasi</h2>
+                        <ul class="header-dropdown">
+                            <li class="dropdown"><a href="javascript:void(0);" class="dropdown-toggle"
+                                                    data-toggle="dropdown" role="button" aria-haspopup="true"
+                                                    aria-expanded="false"> <i class="zmdi zmdi-more"></i> </a>
+                                <ul class="dropdown-menu slideUp">
+                                    <li><a href="javascript:void(0);" class="boxs-close">Hide</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="body m-b-10">
+                                <div class="progress-container progress-info">
+                                    <span class="progress-badge">Male</span>
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" aria-valuenow="{{ male_count }}"
+                                             aria-valuemin="0" aria-valuemax="{{ company_staff_count }}"
+                                             style="width: {{ width_male }}%;">
+                                            <span class="progress-value">{{ male_count }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="body m-b-20">
+                                <div class="progress-container progress-warning">
+                                    <span class="progress-badge">Female</span>
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" aria-valuenow="{{ female_count }}"
+                                             aria-valuemin="0" aria-valuemax="{{ company_staff_count }}"
+                                             style="width: {{ width_female }}%;">
+                                            <span class="progress-value">{{ female_count }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="body m-b-20 table-responsive">
+                                <h3>Tadbirlar</h3>
+                                <table class="table table-borderless table-striped table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>FISH</th>
+                                        <th>Lavozim</th>
+                                        <th>Telefon</th>
+                                        <th>Tug'ilgan kuni</th>
+                                    </tr>
+                                    </thead>
+                                    <tfoot>
+                                    </tfoot>
+                                    <tbody>
+                                    {% for item in birth_day %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ item.first_name }} {{ item.second_name }} {{ item.last_name }}</td>
+                                        <td>{{ item.position.name }}</td>
+                                        <td>{{ item.mobile_phone }}</td>
+                                        <td style="color: red;">{{ item.birth_date }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="body m-b-20 table-responsive">
+                        <h3>Kech qolganlar</h3>
+                        <table class="table table-borderless table-striped table-hover" id="late_staff">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>FISH</th>
+                                <th>Lavozim</th>
+                                <th>Telefon</th>
+                                <th>Kelgan vaqit</th>
+                                <th>Ketgan vaqti</th>
+                            </tr>
+                            </thead>
+                            <tfoot>
+                            </tfoot>
+                            <tbody>
+                            {% for item in late_today %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ item.first_name }} {{ item.second_name }} {{ item.last_name }}</td>
+                                <td>{{ item.position.name }}</td>
+                                <td>{{ item.mobile_phone }}</td>
+                                <td>
+                                    {% with item.get_today_flow|first as flow %}
+                                    {{ flow.came|date:'H:i' }}
+                                    <i class="text-{% if flow.came|date:'H:i'|late_delta_bool:flow.staff %}danger{% else %}success{% endif %}">
+                                        ({% if flow.came|date:'H:i'|late_delta_bool:flow.staff %}
+                                        -{% else %}
+                                        +{% endif %}{{ flow.came|date:'H:i'|late_delta:flow.staff }})
+                                    </i>
+                                    {% endwith %}
+                                </td>
+                                <td>
+                                    {% with item.get_today_flow|first as flow %}
+                                    {{ flow.went|date:'H:i' }}
+                                    <i class="text-{% if flow.went|date:'H:i'|earlier_delta_bool:flow.staff %}danger{% else %}success{% endif %}">
+                                        ({% if flow.went|date:'H:i'|earlier_delta_bool:flow.staff %}
+                                        -{% else %}
+                                        +{% endif %}{{ flow.went|date:'H:i'|earlier_delta:flow.staff }}
+                                        )
+                                    </i>
+                                    {% endwith %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="body m-b-20 table-responsive">
+                        <h3>Kelmaganlar</h3>
+                        <table class="table table-borderless table-striped table-hover">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>FISH</th>
+                                <th>Lavozim</th>
+                                <th>Telefon</th>
+                            </tr>
+                            </thead>
+                            <tfoot>
+                            </tfoot>
+                            <tbody>
+                            {% for item in absent_today %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ item.first_name }} {{ item.second_name }} {{ item.last_name }}</td>
+                                <td>{{ item.position.name }}</td>
+                                <td>{{ item.mobile_phone }}</td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-12 col-md-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>Kunlar bo’yicha tashriflar statistikasi</h2>
+                        <ul class="header-dropdown">
+                            <li class="dropdown"><a href="javascript:void(0);" class="dropdown-toggle"
+                                                    data-toggle="dropdown" role="button" aria-haspopup="true"
+                                                    aria-expanded="false"> <i class="zmdi zmdi-more"></i> </a>
+                                <ul class="dropdown-menu dropdown-menu-right" x-placement="bottom-end"
+                                    style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(32px, 32px, 0px);">
+                                    <li><a href="javascript:void(0);" class="boxs-close">Hide</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="body">
+                        <div class="e_chart" id="echart-rainfall"
+                             style="height: 400px; -webkit-tap-highlight-color: transparent; user-select: none; position: relative;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 {% endblock %}
 
 {% block js %}
-    <script>
+<script>
         {% comment %}late_staff{% endcomment %}
         $(function () {
 
@@ -235,8 +268,12 @@
                 }
             });
         })
-    </script>
-    <script>
+
+
+
+
+</script>
+<script>
         // Kechikanlar soni
         (function () {
             let chart = document.getElementById("echart-rainfall");
@@ -313,6 +350,10 @@
             myChart.setOption(option, true)
         })()
 
-    </script>
+
+
+
+
+</script>
 
 {% endblock %}

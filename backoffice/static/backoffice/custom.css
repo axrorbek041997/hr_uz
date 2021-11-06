@@ -23,3 +23,21 @@ input.form-control {
     width: 100%;
     height: 100%;
 }
+
+.staff-4-row {
+    display: flex;
+    align-items: center;
+}
+
+.is-outsource-checkbox[type=checkbox]:checked {
+    border-color: blue;
+}
+
+.progress {
+    height: 3px !important;
+}
+
+.progress span {
+    font-size: 16px !important;
+    font-weight: 500 !important;
+}

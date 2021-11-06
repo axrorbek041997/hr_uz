@@ -106,13 +106,13 @@ urlpatterns = [
     path('search-staff', views.SearchingStaffListView.as_view(), name='search_staff'),
 
     # Controlling staff flow
-    path('control-staff-flow', views.ControlFlowingStaffTemplateView.as_view(), name='control_staff_flow'),
+    path('control-staff-flow/', views.ControlFlowingStaffTemplateView.as_view(), name='control_staff_flow'),
 
     # TrainingInfo
-    path('training-info', views.TrainingInfoTemplateView.as_view(), name="training_info"),
-    path('training-info/create', views.TrainingInfoCreateViewTemplateView.as_view(), name="training_info_create"),
-    path('training-info/delete/<int:pk>', views.TrainingInfoDeleteView.as_view(), name="training_info_delete"),
-    path('training-info/update/<int:pk>', views.TrainingInfoUpdateView.as_view(), name="training_info_update"),
+    path('training-info/', views.TrainingInfoTemplateView.as_view(), name="training_info"),
+    path('training-info/create/', views.TrainingInfoCreateViewTemplateView.as_view(), name="training_info_create"),
+    path('training-info/delete/<int:pk>/', views.TrainingInfoDeleteView.as_view(), name="training_info_delete"),
+    path('training-info/update/<int:pk>/', views.TrainingInfoUpdateView.as_view(), name="training_info_update"),
 
     # CompanyCulture
     path('company-culture', views.CompanyCultureCreateViewListView.as_view(), name="company_culture"),
