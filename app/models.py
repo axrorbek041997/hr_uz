@@ -269,12 +269,12 @@ class Salary(models.Model):
         ('intern', 'Intern')
     ]
 
-    type_of_work = models.CharField(null=True, blank=True, max_length=255,
+    type_of_work = models.CharField(default='kunbay', max_length=255,
                                     verbose_name="Ishlash turi(soatbay, kunbay, ishbay ...)")
     work_type = models.CharField(choices=work_type, default='full time', max_length=50)
-    amount = models.FloatField(null=True, blank=True, verbose_name="Miqdori")
-    attached_date = models.DateField(null=True, blank=True, verbose_name="Biriktirilgan sana")
-    completion_date = models.DateField(null=True, blank=True, verbose_name="Yankunlangan sana")
+    amount = models.FloatField(verbose_name="Miqdori")
+    attached_date = models.DateField(default=None, null=True, blank=True, verbose_name="Biriktirilgan sana")
+    completion_date = models.DateField(default=None, null=True, blank=True, verbose_name="Yankunlangan sana")
     staff = models.ForeignKey("Staff", on_delete=models.CASCADE, verbose_name="Xodim")
 
     class Meta:

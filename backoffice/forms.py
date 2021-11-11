@@ -68,6 +68,13 @@ class SalaryModelForm(forms.ModelForm):
         model = models.Salary
         exclude = ('staff',)
 
+        widgets = {
+            'type_of_work': forms.TextInput(attrs={'class': 'form-control', 'id': 'type_of_work'}),
+            'amount': forms.NumberInput(attrs={'class': 'form-control'}),
+            'attached_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+            'completion_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+        }
+
 
 class VacationModelForm(forms.ModelForm):
     class Meta:

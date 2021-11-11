@@ -1,80 +1,120 @@
 {% extends 'backoffice/base.html' %}
+{% load static %}
 
 {% load app_tags %}
 
 {% block title %}
-    Hodim Adaptatsiyasi
+Hodim Adaptatsiyasi
 {% endblock %}
 
+{% block css %}
+<link rel="stylesheet" href="{% static 'backoffice/assets/css/add_training.css' %}">
+{% endblock %}
 
 {% block content %}
-    <section class="content">
-         <div class="container-fluid">
-            <div class="block-header">
-                <div class="row clearfix">
-                    <div class="col-lg-12 col-md-12 col-sm-12">
-                        <h2>Hodim Adaptatsiyasi</h2>
-                        <ul class="breadcrumb padding-0">
-                            <li class="breadcrumb-item"><a href="{% url 'backoffice-main' %}"><i
-                                    class="zmdi zmdi-home"></i></a></li>
-                            <li class="breadcrumb-item active">
-                                <a href="{% url 'training_info' %}">Hodim Adaptatsiyasi</a></li>
-                            <li class="breadcrumb-item active">Training yaratish</li>
-                        </ul>
-                        {% if messages %}
-                            {% for message in messages %}
-                                <div class="text-center btn btn-success rounded-lg w-100 btn-{{ message.tags }} messages">
-                                    <p class="text-center">{{ message|safe }}</p>
-                                </div>
-                            {% endfor %}
-                        {% endif %}
+<section class="content">
+    <div class="container-fluid">
+        <div class="block-header">
+            <div class="row clearfix">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <h2>Hodim Adaptatsiyasi</h2>
+                    <ul class="breadcrumb padding-0">
+                        <li class="breadcrumb-item"><a href="{% url 'backoffice-main' %}"><i
+                                class="zmdi zmdi-home"></i></a></li>
+                        <li class="breadcrumb-item active">
+                            <a href="{% url 'training_info' %}">Hodim Adaptatsiyasi</a></li>
+                        <li class="breadcrumb-item active">Trening yaratish</li>
+                    </ul>
+                    {% if messages %}
+                    {% for message in messages %}
+                    <div class="text-center btn btn-success rounded-lg w-100 btn-{{ message.tags }} messages">
+                        <p class="text-center">{{ message|safe }}</p>
                     </div>
+                    {% endfor %}
+                    {% endif %}
                 </div>
             </div>
-             <div class="row clearfix">
-                <div class="card">
-                    <div class="header">
-                        <h3>
-                            Training yaratish
-                        </h3>
-                    </div>
-                    <div class="body">
-                        <form action="{% url 'training_info_create' %}" method="POST" enctype="multipart/form-data">
-                     {% csrf_token %}
-                     {{ form.media|safe }}
-                     {{ form.as_p }}
-                     <div class="field_wrapper">
-                         <div class="mt-5">
-                             <div class="col-sm-12">
-                                 <div class="form-group">
-                                     <label class="text-dark" for="staff">Hodimlar:</label>
-                                     <select name="staff" id="staff" multiple>
-                                         {% for staff in staffs %}
-                                             <option value="{{ staff.id }}">{{ staff.first_name }} {{ staff.last_name }}</option>
-                                         {% endfor %}
-                                     </select>
-                                 </div>
-                             </div>
-                             <h1>Savollar</h1>
-                             <label class="text-dark" for="explicit-label-name-1">Savol-1: </label>
-                             <input type="text" id="explicit-label-name-1" name="field_name" class="form-control" value=""
-                                    required/>
-                             <a href="javascript:void(0);" class="add_button" title="Add field">
-                                 <i class="zmdi zmdi-plus"></i>
-                             </a>
-                         </div>
-                     </div>
-                     <input type="submit" class="btn btn-info" value="Save">
-                 </form>
-                    </div>
+        </div>
+        <div class="row clearfix">
+            <div class="card">
+                <div class="header">
+                    <h3>
+                        Trening yaratish
+                    </h3>
                 </div>
-             </div>
-         </div>
-    </section>
+                <div class="body">
+                    <form action="{% url 'training_info_create' %}" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="training-list">
+                            <div class="training-item">
+                                <label>Lavozim</label>
+                                <select class="form-select">
+                                    <option value="1">1</option>
+                                    <option value="1">1</option>
+                                    <option value="1">1</option>
+                                    <option value="1">1</option>
+                                </select>
+                            </div>
+                            <div class="training-item">
+                                <label>Title</label>
+                                <input type="text" class="form-control">
+                            </div>
+                            <div class="training-item">
+                                <label>Fayl yuklash</label>
+                                <div class="row file-upload-row">
+                                    <div class="col">
+                                        <label class="custom-file-upload">
+                                            <input type="file" accept="video/mp4,video/x-m4v,video/*" multiple
+                                                   id="video-files"/>
+                                            Video
+                                        </label>
+                                    </div>
+                                    <div class="col">
+                                        <label class="custom-file-upload">
+                                            URL
+                                        </label>
+                                    </div>
+                                    <div class="col">
+                                        <label class="custom-file-upload">
+                                            <input type="file" accept="application/pdf,application/vnd.ms-excel"
+                                                   multiple/>
+                                            PDF
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="training-item">
+                                <div class="row video-items">
+
+                                </div>
+                            </div>
+                            <div class="training-item">
+                                <div class="row url-items">
+
+                                </div>
+                            </div>
+                            <div class="training-item">
+                                <div class="row file-items">
+
+                                </div>
+                            </div>
+
+                            <div class="training-item">
+                                <textarea placeholder="Matn kiriting" rows="10"></textarea>
+                            </div>
+                        </div>
+
+                        <input type="submit" class="btn btn-info" value="Save">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 {% endblock %}
 
 {% block js %}
-     <script type="text/javascript">
+<script type="text/javascript">
         $(document).ready(function () {
             var maxField = 50;
             var addButton = $('.add_button');
@@ -103,5 +143,13 @@
             });
         });
 
-    </script>
+</script>
+
+<script>
+    $(document).ready(function() {
+        console.log('salom');
+        console.log($('#video-files').prop('files'));
+    });
+
+</script>
 {% endblock %}

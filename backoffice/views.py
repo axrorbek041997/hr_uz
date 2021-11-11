@@ -13,7 +13,7 @@ from django.contrib.auth.views import LoginView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.files import File
 from django.db.models import Count
-from django.http import HttpResponseRedirect, HttpResponse, HttpRequest
+from django.http import HttpResponseRedirect, HttpResponse, HttpRequest, QueryDict
 from django.shortcuts import render, redirect
 from django.template.defaulttags import csrf_token
 from django.urls import reverse_lazy, reverse
@@ -439,27 +439,24 @@ class DepartmentCreateView(LoginRequiredMixin, generic.CreateView):
 
 
 # Salary
-class SalaryListView(LoginRequiredMixin, generic.ListView):
+class SalaryListView(LoginRequiredMixin, generic.CreateView):
     model = models.Salary
     template_name = 'backoffice/pages/salary/list.html'
+    form_class = forms.SalaryModelForm
+
+    def get_success_url(self):
+        staff_id = self.kwargs.get('pk')
+        return reverse_lazy('salary', kwargs={'pk': staff_id})
 
     def get_context_data(self, *, object_list=None, **kwargs):
         ctx = super(SalaryListView, self).get_context_data(**kwargs)
         staff_id = self.kwargs.get('pk')
         ctx['staff'] = models.Staff.objects.get(id=staff_id)
-        ctx['salaries'] = models.Salary.objects.filter(staff_id=staff_id).order_by('-id')
+        ctx['salaries'] = models.Salary.objects.filter(staff=staff_id).order_by('-id')
         return ctx
 
-
-class SalaryCreateView(LoginRequiredMixin, generic.CreateView):
-    form_class = forms.SalaryModelForm
-
-    def get_success_url(self):
-        staff_id = self.request.META['HTTP_REFERER'].split("/")[-1]
-        return reverse_lazy('salary', kwargs={'pk': staff_id})
-
     def form_valid(self, form):
-        staff_id = self.request.META['HTTP_REFERER'].split("/")[-1]
+        staff_id = self.kwargs['pk']
         self.object = form.save(commit=False)
         staff = models.Staff.objects.get(pk=staff_id)
         self.object.staff = staff
@@ -468,40 +465,59 @@ class SalaryCreateView(LoginRequiredMixin, generic.CreateView):
         return HttpResponseRedirect(reverse_lazy('salary', kwargs={'pk': staff_id}))
 
     def form_invalid(self, form):
-        return super(SalaryCreateView, self).form_invalid(form)
+        return super(SalaryListView, self).form_invalid(form)
+
+
+# @login_required
+# def salary_update_view(request, pk):
+#     salary = models.Salary.objects.get(id=pk)
+#     if request.method == 'POST':
+#         form = forms.SalaryModelForm(request.POST)
+#         if form.is_valid():
+#             salary.type_of_work = form.cleaned_data['type_of_work']
+#             salary.work_type = form.cleaned_data['work_type']
+#             salary.amount = form.cleaned_data['amount']
+#             salary.attached_date = form.cleaned_data['attached_date']
+#             salary.completion_date = form.cleaned_data['completion_date']
+#             salary.save()
+#             return redirect('salary', pk=salary.staff.id)
+#         else:
+#             return redirect('salary', pk=salary.staff.id)
+
+class SalaryDetailView(LoginRequiredMixin, generic.DetailView):
+    model = models.Staff
+    template_name = 'backoffice/pages/staff/list.html'
 
 
 class SalaryUpdateView(LoginRequiredMixin, generic.UpdateView):
-    form_class = forms.SalaryModelForm
     model = models.Salary
-
-    def get_success_url(self):
-        staff_id = self.request.META['HTTP_REFERER'].split("/")[-1]
-        return reverse_lazy('salary', kwargs={'pk': staff_id})
-
-    def form_valid(self, form):
-        super(SalaryUpdateView, self).form_valid(form)
-        staff_id = self.request.META['HTTP_REFERER'].split("/")[-1]
-        messages.success(self.request, "Xodim ish haqqi o'zgartirildi")
-        return HttpResponseRedirect(reverse_lazy('salary', kwargs={'pk': staff_id}))
-
-    def form_invalid(self, form):
-        return super(SalaryUpdateView, self).form_invalid(form)
-
-
-class SalaryDeleteView(LoginRequiredMixin, generic.DeleteView):
-    queryset = models.Salary.objects.all()
     form_class = forms.SalaryModelForm
-
-    def delete(self, request, *args, **kwargs):
-        super(SalaryDeleteView, self).delete(*args, **kwargs)
-        staff_id = self.request.META['HTTP_REFERER'].split("/")[-1]
-        messages.success(self.request, "Xodim ish haqqi o'chirildi")
-        return HttpResponseRedirect(reverse_lazy('salary', kwargs={'pk': staff_id}))
+    template_name = 'backoffice/pages/salary/list.html'
 
     def get_success_url(self):
-        staff_id = self.request.META['HTTP_REFERER'].split("/")[-1]
+        staff_id = models.Salary.objects.get(id=self.object.id).staff.id
         return reverse_lazy('salary', kwargs={'pk': staff_id})
+
+    def get_context_data(self, **kwargs):
+        ctx = super(SalaryUpdateView, self).get_context_data(**kwargs)
+        print(self.get_form_kwargs())
+
+        staff = models.Salary.objects.get(id=self.object.id).staff
+        ctx['update'] = True
+        ctx['update_form'] = self.get_form()
+        ctx['staff'] = staff
+        ctx['salaries'] = staff.salary_set.order_by('-id')
+        return ctx
+
+
+@login_required
+def salary_delete_view(request, pk):
+    id = models.Salary.objects.get(id=pk).staff.id
+    if request.method == "POST":
+        models.Salary.objects.filter(id=pk).delete()
+
+        return redirect('salary', pk=id)
+    return redirect('backoffice-main')
 
 
 # Vacation

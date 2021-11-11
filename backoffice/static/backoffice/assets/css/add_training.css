@@ -1,0 +1,33 @@
+input[type="file"] {
+    display: none;
+}
+
+.custom-file-upload {
+    border: 1px solid #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    width: 150px;
+    height: 150px;
+    padding: 6px 12px;
+    cursor: pointer;
+}
+
+.file-upload-row {
+    width: 50%;
+    margin: auto;
+    justify-content: center;
+    align-items: center;
+}
+
+.training-item {
+    margin: 10px 0;
+}
+
+.training-item textarea {
+    width: 100%;
+    border 1px solid rgb(245, 245, 245);
+    padding: 10px 20px;
+    border-radius: 10px;
+}

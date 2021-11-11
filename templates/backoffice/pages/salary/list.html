@@ -52,6 +52,7 @@ Hodimning ish haqqi
                             <th>#</th>
                             <th>Stavka</th>
                             <th>Turi</th>
+                            <th>Ish turi</th>
                             <th>Boshlanish sanasi</th>
                             <th>Yakunlangan sana</th>
                             <th>O'chirish</th>
@@ -61,9 +62,10 @@ Hodimning ish haqqi
                         <tbody>
                         {% for salary in salaries %}
                         <tr>
-                            <th scope="row">{{ salary.id }}</th>
+                            <th scope="row">{{ forloop.counter }}</th>
                             <td>{{ salary.amount }}</td>
                             <td>{{ salary.type_of_work }}</td>
+                            <td>{{ salary.work_type|title }}</td>
                             <td>{{ salary.attached_date }}</td>
                             <td>{{ salary.completion_date }}</td>
                             <td>
@@ -84,8 +86,7 @@ Hodimning ish haqqi
                                 </a>
                             </td>
                             <td>
-                                <button type="button" data-color="pink" data-toggle="modal"
-                                        data-target="#colorModal{{ salary.id }}"
+                                <a href="{% url 'salary_update' salary.id %}" data-color="pink"
                                         class="btn btn-neutral waves-effect">
                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -100,7 +101,7 @@ Hodimning ish haqqi
                                               stroke-linejoin="round"/>
                                     </svg>
 
-                                </button>
+                                </a>
                             </td>
                         </tr>
                         {% endfor %}
@@ -117,116 +118,110 @@ Hodimning ish haqqi
             </div>
         </div>
     </div>
-
-    </div>
 </section>
 
 <div class="modal fade" id="colorModal" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content bg-white">
+            <div class="modal-footer">
+                <a href="#0" data-dismiss="modal"><i class="zmdi zmdi-close"></i></a>
+            </div>
             <div class="modal-header">
                 <h4 class="title text-dark">Ish haqqini biriktirish</h4>
             </div>
             <div class="modal-body">
-                <form action="{% url 'salary_create' %}" method="post">
+                <form action="{% url 'salary' staff.id %}" method="post">
                     {% csrf_token %}
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label for="type_of_work" class="text-dark">Ishlash turi(soatbay, kunbay, ishbay
-                                ...):</label>
-                            <input type="text" name="type_of_work" id="type_of_work" class="form-control">
+                            <label class="text-dark">Ishlash turi(soatbay, kunbay,
+                                ishbay...):</label>
+                            {{ form.type_of_work }}
                         </div>
                     </div>
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label for="amount" class="text-dark">Ish turi:</label>
-                            <select class="form-select">
-                                <option selected>Ish turini tanlang</option>
-                                <option value="full time">Full Time</option>
-                                <option value="part time">Part Time</option>
-                                <option value="intern">Intern</option>
-                            </select>
+                            <label class="text-dark">Ish turi:</label>
+                            {{ form.work_type }}
                         </div>
                     </div>
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label for="amount" class="text-dark">Stavka:</label>
-                            <input type="text" name="amount" id="amount" class="form-control">
+                            <label class="text-dark">Stavka:</label>
+                            {{ form.amount }}
                         </div>
                     </div>
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label for="attached_date" class="text-dark">Biriktirilgan sana:</label>
-                            <input type="date" name="attached_date" id="attached_date" class="form-control">
+                            <label class="text-dark">Biriktirilgan sana:</label>
+                            {{ form.attached_date }}
                         </div>
                     </div>
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label for="completion_date" class="text-dark">Yakunlangan sana:</label>
-                            <input type="date" name="completion_date" id="completion_date" class="form-control">
+                            <label class="text-dark">Yakunlangan sana:</label>
+                            {{ form.completion_date }}
                         </div>
                     </div>
                     <button type="submit" class="btn btn-success">Biriktirish</button>
                 </form>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal"><i
-                        class="zmdi zmdi-close"></i></button>
-            </div>
         </div>
     </div>
 </div>
-{% for salary in salaries %}
-<div class="modal fade" id="colorModal{{ salary.id }}" tabindex="-1" role="dialog" style="display: none;"
+
+<div class="modal fade" id="salary_update_modal" tabindex="-1" role="dialog" style="display: none;"
      aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content bg-white">
+            <div class="modal-footer">
+                <a href="{% url 'salary' staff.id %}" ><i
+                        class="zmdi zmdi-close"></i></a>
+            </div>
             <div class="modal-header">
                 <h4 class="title text-dark">Ish haqqini biriktirish</h4>
             </div>
             <div class="modal-body">
-                <form action="{% url 'salary_update' salary.id %}" method="post">
+                <form method="post">
                     {% csrf_token %}
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label for="type_of_work" class="text-dark">Ishlash turi(soatbay, kunbay, ishbay
+                            <label class="text-dark">Ishlash turi(soatbay, kunbay, ishbay
                                 ...):</label>
-                            <input type="text" name="type_of_work" id="type_of_work" class="form-control"
-                                   value="{{ salary.type_of_work }}">
+                            {{ form.type_of_work }}
                         </div>
                     </div>
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label for="amount" class="text-dark">Stavka:</label>
-                            <input type="text" name="amount" id="amount" class="form-control"
-                                   value="{{ salary.amount }}">
+                            <label class="text-dark">Ish turi:</label>
+                            {{ form.work_type }}
                         </div>
                     </div>
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label for="attached_date" class="text-dark">Biriktirilgan sana:</label>
-                            <input type="date" name="attached_date" id="attached_date" class="form-control"
-                                   value="{{ salary.attached_date|date:" Y-m-d" }}">
+                            <label class="text-dark">Stavka:</label>
+                            {{ form.amount }}
                         </div>
                     </div>
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label for="completion_date" class="text-dark">Yakunlangan sana:</label>
-                            <input type="date" name="completion_date" id="completion_date" class="form-control"
-                                   value="{{ salary.completion_date|date:" Y-m-d" }}">
+                            <label class="text-dark">Biriktirilgan sana:</label>
+                            <input type="date" class="form-control" value="{{ form.attached_date.value|date:'Y-m-d' }}" name="attached_date">
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label class="text-dark">Yakunlangan sana:</label>
+                            <input type="date" class="form-control" value="{{ form.completion_date.value|date:'Y-m-d' }}" name="completion_date">
                         </div>
                     </div>
                     <button type="submit" class="btn btn-success">O'zgartirishni saqlash</button>
                 </form>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger waves-effect" data-dismiss="modal"><i
-                        class="zmdi zmdi-close"></i></button>
-            </div>
         </div>
     </div>
 </div>
-{% endfor %}
+
 {% for item in salaries %}
 <div class="modal fade" id="staff-{{ item.id }}" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -255,6 +250,7 @@ Hodimning ish haqqi
     </div>
 </div>
 {% endfor %}
+
 {% endblock %}
 
 {% block js %}
@@ -264,6 +260,11 @@ Hodimning ish haqqi
             $(".messages").fadeOut().empty();
         }
 
+        {% if update %}
+        $("#salary_update_modal").modal('show');
+        {% endif %}
 
 </script>
+
+
 {% endblock %}
