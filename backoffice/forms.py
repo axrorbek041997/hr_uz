@@ -1,6 +1,8 @@
 import datetime
 
 from django import forms
+from django.db.models.query_utils import select_related_descend
+from django.forms import widgets
 from mptt import forms as mppt_forms
 from app import models
 
@@ -138,6 +140,17 @@ class TrainingInfoModelForm(forms.ModelForm):
         exclude = ('company',)
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
+
+class AdoptationModelForm(forms.ModelForm):
+    class Meta:
+        model = models.AdoptationModel
+        exclude = ['videos', 'files', 'company', 'urls']
+
+        widgets = {
+            "title": forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Trening titlini kiriting'}),
+            'text': forms.Textarea(attrs={'placeholder': 'Matn kiriting'}),
         }
 
 

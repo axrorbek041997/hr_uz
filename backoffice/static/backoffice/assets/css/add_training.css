@@ -1,4 +1,4 @@
-input[type="file"] {
+.custom-file-upload > input[type="file"] {
     display: none;
 }
 

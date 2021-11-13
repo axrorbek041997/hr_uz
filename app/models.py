@@ -1,5 +1,4 @@
 import datetime
-
 from ckeditor import fields
 from ckeditor_uploader.fields import RichTextUploadingField
 from django.contrib.auth.models import AbstractUser
@@ -479,6 +478,31 @@ class FinishText(models.Model):
     def __str__(self):
         return str(self.name)
 
+
+class AdoptationVideos(models.Model):
+    video = models.FileField(upload_to='company/video')
+
+class AdoptationUrls(models.Model):
+    url = models.URLField()
+
+class AdoptationFiles(models.Model):
+    file = models.FileField(upload_to='company/files')
+
+
+# Todo: delete, if have any other training model 
+class AdoptationModel(models.Model):
+    position = models.ForeignKey(Position, on_delete=models.CASCADE,
+                                 verbose_name="Xodimning lavozimi")
+    title = models.CharField(max_length=255)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, verbose_name="Kompaniya")
+    videos = models.ManyToManyField(AdoptationVideos, default=None, blank=True)
+    urls = models.ManyToManyField(AdoptationUrls, default=None, blank=True)
+    files = models.ManyToManyField(AdoptationFiles, default=None, blank=True)
+    text = models.TextField(default=None, blank=True)
+    create_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
 
 class TrainingInfo(models.Model):
     position = models.ForeignKey(Position, on_delete=models.CASCADE, null=True, blank=True,
