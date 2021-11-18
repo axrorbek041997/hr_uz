@@ -14,7 +14,7 @@ class StaffLoginTemplateView(generic.FormView):
 
     def form_valid(self, form):
         print(form)
-        staff = models.Staff.objects.get(username=form.data.get('username'))
+        staff = models.Staff.objects.filter(username=form.data.get('username')).first()
         staff.training_url = uuid.uuid4()
         self.success_url = reverse('staff_training', kwargs={'staff_uuid': staff.training_url})
         staff.save()

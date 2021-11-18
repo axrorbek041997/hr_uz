@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'app.apps.AppConfig',
     'backoffice.apps.BackofficeConfig',
+    'django_cleanup',
     'drf_yasg',
     # Rest
     'rest_framework_simplejwt',

@@ -5,6 +5,8 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
 
+from django.db.models.signals import pre_delete, post_delete
+from django.dispatch.dispatcher import receiver
 
 def get_directory(instance, filename):
     return 'files/{0}/{1}'.format(f'{instance.first_name} {instance.second_name} {instance.last_name}', filename)
@@ -503,6 +505,24 @@ class AdoptationModel(models.Model):
 
     def __str__(self):
         return self.title
+
+
+@receiver(pre_delete, sender=AdoptationModel)
+def cascade_delete_branch(sender, instance, **kwargs):
+   if instance.urls:
+       instance.urls.all().delete()
+   if instance.files:
+       instance.files.all().delete()
+   if instance.videos:
+       instance.videos.all().delete()
+
+class AdoptationQuestions(models.Model):
+    question = models.CharField(max_length=1024)
+    adopt = models.ForeignKey(AdoptationModel, on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return self.question
+
 
 class TrainingInfo(models.Model):
     position = models.ForeignKey(Position, on_delete=models.CASCADE, null=True, blank=True,

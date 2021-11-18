@@ -69,3 +69,48 @@ document.getElementById("url-save-changes").addEventListener('click', e => {
 
     $('#exampleModal').modal('hide');
 });
+
+
+var delete_btn = document.getElementById('delete-question')
+
+document.getElementById('add-question').addEventListener('click', e => {
+    var add_list = document.getElementById('add-questions');
+    var input_list = document.querySelectorAll('input[name="question"]');
+    var i = add_list.childElementCount;
+
+    if (input_list[input_list.length - 1].value) {
+        var div1 = document.createElement('div');
+        div1.className = 'training-item';
+
+        var label = document.createElement('lable')
+        label.textContent = ++i + " - savol"
+
+        var q = document.createElement("input")
+        q.type = 'text'
+        q.className = 'form-control'
+        q.name = 'question'
+        q.placeholder = 'Savolni kiriting...'
+
+        div1.appendChild(label);
+        div1.appendChild(q);
+
+        document.getElementById('add-questions').appendChild(div1);
+    }
+    var questions = document.querySelectorAll("input[name='question']")
+
+    if (questions.length > 1) {
+        delete_btn.hidden = false;
+    }
+
+});
+
+delete_btn.addEventListener('click', e => {
+    // var questions = document.querySelectorAll("input[name='question']")
+    var questions = document.getElementById("add-questions")
+    if (questions.childElementCount > 2) {
+        questions.removeChild(questions.lastChild)
+    } else {
+        questions.removeChild(questions.lastChild);
+        e.target.hidden = true;
+    }
+})

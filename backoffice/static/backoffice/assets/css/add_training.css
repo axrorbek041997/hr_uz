@@ -31,3 +31,13 @@
     padding: 10px 20px;
     border-radius: 10px;
 }
+
+.save-btn {
+    display: flex;
+    justify-content: end;
+}
+
+.training-list-header {
+    display: flex;
+    justify-content: space-between;
+}

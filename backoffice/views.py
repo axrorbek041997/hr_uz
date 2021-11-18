@@ -1098,6 +1098,11 @@ def adoptation_create_view(request):
 
             instance.save()
 
+            if request.POST.getlist('question')[0]:
+                a = [models.AdoptationQuestions(question=i, adopt=instance) for i in request.POST.getlist('question')]
+                models.AdoptationQuestions.objects.bulk_create(a)
+
+
             return redirect('training_info')
         else:
             form.fields['position'].queryset = request.user.company.position_set.all()

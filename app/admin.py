@@ -159,6 +159,8 @@ admin.site.register(models.AdoptationVideos)
 admin.site.register(models.AdoptationFiles)
 admin.site.register(models.AdoptationUrls)
 admin.site.register(models.AdoptationModel)
+admin.site.register(models.AdoptationQuestions)
+
 
 @admin.register(models.User)
 class UserModelAdmin(admin.ModelAdmin):

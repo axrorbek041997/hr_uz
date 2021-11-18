@@ -1,4 +1,5 @@
 {% extends 'backoffice/base.html' %}
+{% load static %}
 
 {% load app_tags %}
 
@@ -33,12 +34,14 @@ Hodim Adaptatsiyasi
         <div class="row clearfix">
             <div class="col-lg-12 col-md-12 col-sm-12">
                 <div class="card">
-                    <div class="header">
+                    <div class="header training-list-header">
 
                         <a href="{% url 'training_info_create' %}" class="btn btn-success waves-effect"><i
                                 class="zmdi zmdi-collection-add"></i> Training yaratish
                         </a>
 
+                        <button class="btn" id="copy-url" onclick="myFunction()">Ishchilar uchun
+                            manzil</button>
                     </div>
                     <div class="body">
                         <table class="table table-borderless table-striped table-hover" id="training_info">
@@ -60,8 +63,9 @@ Hodim Adaptatsiyasi
 
                                     </td>
                                     <td>
+                                        <!-- type="button" id="{{ item.id }}" onclick="onDelete(this.id)" -->
                                         <a href="{% url 'training_info_delete' item.id %}" data-color="pink"
-                                            class="btn btn-neutral waves-effect">
+                                            class="btn btn-neutral waves-effect training-delete">
                                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                                 xmlns="http://www.w3.org/2000/svg">
                                                 <path
@@ -108,22 +112,25 @@ Hodim Adaptatsiyasi
     </div>
 </section>
 
-<div class="modal fade" id="delete-modal" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
+<div class="modal fade" id="delete_modal" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">
+        <div class="modal-content bg-white">
             <div class="modal-header">
-                <h5 class="modal-title">O'chirmoqchimisiz?</h5>
-                <button type="button" class="btn btn-neutral waves-effect" style="padding: 0 !important;"
-                    data-dismiss="modal"><i class="zmdi zmdi-close"></i></button>
 
             </div>
             <div class="modal-body">
                 <div class="card">
+                    <div class="header">
+                        <h2>O'chirmoqchimisiz?</h2>
+                    </div>
                     <div class="body d-flex justify-content-around">
+                        <button type="button" onclick="location.href='/backoffice/training-info/'"
+                            class="btn btn-success rounded-lg waves-effect" data-dismiss="modal">Bekor
+                            qilish
+                        </button>
                         <form method="POST">
                             {% csrf_token %}
-                            <button type="submit" class="btn btn-danger rounded-lg waves-effect">O'chirish
-                            </button>
+                            <button type="submit" class="btn btn-danger rounded-lg waves-effect">O'chirish</button>
                         </form>
                     </div>
                 </div>
@@ -132,9 +139,9 @@ Hodim Adaptatsiyasi
         </div>
     </div>
 </div>
+{% endblock %}
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
+{% block js %}
 <script type="text/javascript">
     $(document).ready(function () {
         var maxField = 50;
@@ -185,6 +192,7 @@ Hodim Adaptatsiyasi
         });
     })
 </script>
+
 <script>
     setTimeout(fade_out, 3000);
 
@@ -193,7 +201,23 @@ Hodim Adaptatsiyasi
     }
 
     {% if delete %}
-    $('#delete-modal').modal('show');
+    $('#delete_modal').modal();
     {% endif %}
+
+    document.getElementById('copy-url').addEventListener('click', function (clicked) {
+        return function () {
+            if (!clicked) {
+                var copyText = document.location.host + "/staff-login/";
+                var last = this.innerHTML;
+                this.innerHTML = 'Nusxalandi';
+                clicked = true;
+                navigator.clipboard.writeText(copyText);
+                setTimeout(function () {
+                    this.innerHTML = last;
+                    clicked = false;
+                }.bind(this), 2000);
+            }
+        };
+    }(false), this);
 </script>
 {% endblock %}
