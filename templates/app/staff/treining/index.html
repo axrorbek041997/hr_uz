@@ -3,254 +3,227 @@
 {% load static %}
 {% load mptt_tags %}
 {% block title %}
-    Login
+Login
 {% endblock %}
 {% block css %}
-    <link rel="stylesheet" media="screen, projection" href="{% static 'mptt_graph/tree.css' %}" />
+<link rel="stylesheet" media="screen, projection" href="{% static 'mptt_graph/tree.css' %}" />
 {% endblock %}
 {% block content %}
-    <section class="">
-        <div class="container-fluid">
-            <div class="block-header">
-            <div class="row clearfix">
-                    <div class="col-lg-12 col-md-12 col-sm-12 ">
-                        <div class="card">
-                            <div class="header">
-                                <h2 class="text-center">{{ staff.company.name }}</h2>
-                            </div>
-                            <div class="body" style="background: url({% static 'defaults/1.png' %})">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                       <div class="d-flex justify-content-between">
-                                            <p style="color: white"><strong>Maosh:</strong> {{ salary.amount }} so'm</p>
-                                        <img src="{{ staff.qr_code.url }}" style="width: 70px;" alt="">
-                                       </div>
-                                    </div>
-                                    <div class="col-md-12 align-center">
-                                        <img class="media-object items-center" src="{{ staff.image.url }}"
-                                             style="width: 210px;height: 210px; border-radius: 50%"
-                                             alt="">
-                                        <h3 class="media-heading bolder" style="color: white">{{ staff.first_name }} {{ staff.last_name }}</h3>
-                                                        <p style="color: white">
-                                                            <strong>Department:</strong> {{ staff.department.name }}
-                                                        </p>
-                                                        <p style="color: white"><strong>Position:</strong> {{ staff.position.name }}</p>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+<section class="">
+    <div class="container-fluid">
+        <div class="block-header">
             <div class="row clearfix">
                 <div class="col-lg-12 col-md-12 col-sm-12 ">
                     <div class="card">
                         <div class="header">
+                            <h2 class="text-center">{{ staff.company.name }}</h2>
                         </div>
-                        <div class="body">
+                        <div class="body" style="background: url({% static 'defaults/1.png' %})">
                             <div class="row">
-                                <div class="col-md-6">
-                                    <h2>Oyning eng yaxshi ishchisi</h2>
-                                    <div class="align-center">
-                                        {% if super_staff_monthly %}
-                                            <img src="{{ super_staff_monthly.staff.image.url }}" style="width: 150px;height: 150px; border-radius: 50%" alt="">
-                                            <p class="text-dark font-weight-bolder">{{ super_staff_monthly.staff.first_name }} {{ super_staff_monthly.staff.second_name }} {{ super_staff_monthly.staff.last_name }}</p>
-                                            <p class="inbox-message">{{ super_staff_monthly.text }}</p>
-                                            <p class="inbox-date">{{ super_staff_monthly.created_at|date:"d.m.Y" }}</p>
-                                        {% else %}
-                                            <img src="{% static 'defaults/2.jpg' %}" style="width: 150px;height: 150px; border-radius: 50%" alt="">
-                                        {% endif %}
+                                <div class="col-md-12">
+                                    <div class="d-flex justify-content-between">
+                                        <p style="color: white"><strong>Maosh:</strong> {{ salary.amount }} so'm</p>
+                                        <img src="{{ staff.qr_code.url }}" style="width: 100px;" alt="">
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <h2>Haftaning eng yaxshi ishchisi</h2>
-                                    <div class="align-center">
-                                        {% if super_staff_weekly %}
-                                        <img src="{{ super_staff_weekly.staff.image.url }}" style="width: 150px;height: 150px; border-radius: 50%" alt="">
-                                        <p class="text-dark font-weight-bolder">{{ super_staff_weekly.staff.first_name }} {{ super_staff_weekly.staff.second_name }} {{ super_staff_weekly.staff.last_name }}</p>
-                                        <p class="inbox-message">{{ super_staff_weekly.text }}</p>
-                                        <p class="inbox-date">{{ super_staff_weekly.created_at|date:"d.m.Y" }}</p>
-                                        {% else %}
-                                            <img src="{% static 'defaults/2.jpg' %}" style="width: 150px;height: 150px; border-radius: 50%" alt="">
-                                        {% endif %}
-                                    </div>
+                                <div class="col-md-12 align-center">
+                                    <img class="media-object items-center" src="{{ staff.image.url }}"
+                                        style="width: 210px;height: 210px; border-radius: 50%" alt="">
+                                    <h3 class="media-heading bolder" style="color: white">{{ staff.first_name }}
+                                        {{ staff.last_name }}</h3>
+                                    <p style="color: white">
+                                        <strong>Department:</strong> {{ staff.department.name }}
+                                    </p>
+                                    <p style="color: white"><strong>Position:</strong> {{ staff.position.name }}</p>
+
                                 </div>
-                            </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-                <div class="row clearfix">
-                    <div class="col-lg-12 col-md-12 col-sm-12">
-                        <div class="card">
-                            <div class="header">
-                                <ul class="header-dropdown">
-                                    <li class="dropdown"><a href="javascript:void(0);" class="dropdown-toggle"
-                                                            data-toggle="dropdown" role="button" aria-haspopup="true"
-                                                            aria-expanded="false"> <i class="zmdi zmdi-more"></i> </a>
-                                        <ul class="dropdown-menu dropdown-menu-right">
-                                            <li><a href="javascript:void(0);" class="boxs-close">Hide</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="body">
-                                <!-- Nav tabs -->
-                                <ul class="nav nav-tabs">
-                                    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#training_info">Training</a>
-                                    </li>
-                                    <li class="nav-item"><a class="nav-link" data-toggle="tab"
-                                                            href="#profile">Kompaniya madaniyati</a></li>
-                                </ul>
-                                <!-- Tab panes -->
-                                <div class="tab-content">
-                                    <div role="tabpanel" class="tab-pane in" id="training_info"><b></b>
-                                        <h2 class="text-center">{{ training_info.title }}</h2>
-                                        <h4 class="text-center">{{ training_info.company.name }}</h4>
-                                        <div>
-                                            {{ training_info.info|safe }}
-                                        </div>
-                                    </div>
-                                    <div role="tabpanel" class="tab-pane" id="profile">
-                                        <h2 class="text-center">{{ company_culture.title }}</h2>
-                                        <div>
-                                            {{ company_culture.text|safe }}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row clearfix">
-                    <div class="col-lg-12 col-md-12 col-sm-12 ">
-                        <div class="card">
-                            <div class="header">
-                                <h2><strong>Training</strong></h2>
-                                <ul class="header-dropdown">
-                                    <li class="dropdown"><a href="javascript:void(0);" class="dropdown-toggle"
-                                                            data-toggle="dropdown" role="button" aria-haspopup="true"
-                                                            aria-expanded="false"> <i class="zmdi zmdi-more"></i> </a>
-                                        <ul class="dropdown-menu dropdown-menu-right">
-                                            <li><a href="javascript:void(0);" class="boxs-close">Hide</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="body">
-                                <h3>Savollar</h3>
-                                <form action="{% url 'staff_training' staff.training_url %}" method="post">
-                                    {% csrf_token %}
-                                    {% for questions_answers in training_answers %}
-                                        <label for="explicit-name-1">{{ questions_answers.question.question }}</label>
-                                        <input type="text" id="explicit-name-1"
-                                               name="{{ questions_answers.id }}" class="form-control" required/>
-                                        <br>
-                                        <br>
-                                    {% endfor %}
-                                    <button type="submit" class="btn btn-success waves-effect btn-block">Submit</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row clearfix">
-                    <div class="col-lg-12 col-md-12 col-sm-12">
-                        <div class="card">
-                            <div class="header">
-                                <h2><strong>ORG.</strong>Sxema</h2>
-                                <ul class="header-dropdown">
-                                    <li class="dropdown"><a href="javascript:void(0);" class="dropdown-toggle"
-                                                            data-toggle="dropdown" role="button" aria-haspopup="true"
-                                                            aria-expanded="false"> <i class="zmdi zmdi-more"></i> </a>
-                                        <ul class="dropdown-menu dropdown-menu-right">
-                                            <li><a href="javascript:void(0);" class="boxs-close">Hide</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </div>
-
-                            <div class="body">
-                                 <div class="text-center">
-                                <div class="text-left" style="display:inline-block">
-                                    <div class="tree">
-                                        <ul>
-                                        {% recursetree staff_org_system %}
-                                            <li>
-                                                <a href="{% if node.url %}{{ node.url }}{% else %}{{ node.get_absolute_url }}{% endif %}" id="{{ id }}">
-                                                    <div class="card" style="width: 10rem; height: 10rem !important;">
-                                                      <img src="{{ node.staff.image.url }}" class="card-img-top" alt="...">
-                                                      <div class="card-body">
-                                                        <p class="card-title">{{ node.staff.first_name }} {{ node.staff.second_name }} {{ node.staff.last_name }}</p>
-                                                        <small class="card-text">{{ node.staff.position.name }}</small>
-                                                      </div>
-                                                    </div>
-                                                    <div id="displayzone_{{ id }}" class="displayzone"></div>
-                                                </a>
-                                                {% if not node.is_leaf_node %}
-                                                    <ul>
-                                                        {{ children }}
-                                                    </ul>
-                                                {% endif %}
-                                            </li>
-                                        {% endrecursetree %}
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-    <script type="text/javascript">
-        $(document).ready(function () {
-            var maxField = 50;
-            var addButton = $('.add_button');
-            var wrapper = $('.field_wrapper');
-            var x = 1; //Initial field counter is 1
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="card">
+                    <div class="header">
+                        <ul class="header-dropdown">
+                            <li class="dropdown"><a href="javascript:void(0);" class="dropdown-toggle"
+                                    data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i
+                                        class="zmdi zmdi-more"></i> </a>
+                                <ul class="dropdown-menu dropdown-menu-right">
+                                    <li><a href="javascript:void(0);" class="boxs-close">Hide</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="body">
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs">
+                            <li class="nav-item"><a class="nav-link" data-toggle="tab" id="training-btn"
+                                    href="#training_info">Training</a>
+                            </li>
+                            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#profile">Kompaniya
+                                    madaniyati</a></li>
+                        </ul>
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane in" id="training_info"><b></b>
+                                <h2 class="text-center">{{ training_info.title }}</h2>
+                                <h4 class="text-center">{{ training_info.company.name }}</h4>
+                                <div>
+                                    {{ training_info.info|safe }}
+                                </div>
+                            </div>
+                            <div role="tabpanel" class="tab-pane" id="profile">
+                                <h2 class="text-center">{{ company_culture.title }}</h2>
+                                <div>
+                                    {{ company_culture.text|safe }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row clearfix" style="display: none; visibility: hidden;" id="training-table">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="card">
+                    <div class="header">
+                        <ul class="header-dropdown">
+                            <li class="dropdown"><a href="javascript:void(0);" class="dropdown-toggle"
+                                    data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i
+                                        class="zmdi zmdi-more"></i> </a>
+                                <ul class="dropdown-menu dropdown-menu-right">
+                                    <li><a href="javascript:void(0);" class="boxs-close">Hide</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="body">
+                        <table class="table table-borderless table-striped table-hover" id="training_info">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Training</th>
+                                    <th>Lavozimi</th>
+                                    <th>Qo'yilgan sana</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in test %}
+                                <tr>
+                                    <th scope="row">{{ forloop.counter }}</th>
+                                    <td>
+                                        <a href="#0" id="{{ item.id }}" onclick="select_test(this.id)">
+                                            {{ item.title}}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        {{ item.position }}
+                                    </td>
+                                    <td>
+                                        {{ item.create_at }}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row clearfix" style="display: none; visibility: hidden;" id="training-form">
+            <div class="col-lg-12 col-md-12 col-sm-12 ">
+                <div class="card">
+                    <div class="header">
+                        <ul class="header-dropdown">
+                            <li class="dropdown"><a href="javascript:void(0);" class="dropdown-toggle"
+                                    data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i
+                                        class="zmdi zmdi-more"></i> </a>
+                                <ul class="dropdown-menu dropdown-menu-right">
+                                    <li><a href="javascript:void(0);" class="boxs-close">Hide</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="body">
+                        <!-- <h3>Savollar</h3> -->
+                        <div class="row" id="videos">
+
+                        </div>
+                        <div class="row" id="video-youtube">
+
+                        </div>
+                        <div class="row" id="files">
+                            
+                        </div>
+                        <form action="{% url 'staff_training' staff.training_url %}" method="post">
+                            {% csrf_token %}
+
+                            <div id="questions">
+                                <div>
+                                    <label>1. savol</label>
+                                    <input type="text" class="form-control" name="answer">
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-success waves-effect btn-block">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    </div>
+</section>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var maxField = 50;
+        var addButton = $('.add_button');
+        var wrapper = $('.field_wrapper');
+        var x = 1; //Initial field counter is 1
 
 
-            //Once add button is clicked
-            $(addButton).click(function () {
-                //Check maximum number of input fields
-                var fieldHTML = '<div class="mt-3">' +
-                    '<label for="explicit-label-name' + (x + 1) + '">Savol-' + (x + 1) + ': </label>' +
-                    '<input type="text" id="explicit-label-name' + (x + 1) + '" name="field_name" value="" class="form-control" required/>' +
-                    '<a href="javascript:void(0);" class="remove_button m-l-5 btn btn-neutral">' +
-                    '<i class="zmdi zmdi-minus"></i>' +
-                    '</a>' +
-                    '</div>';
-                if (x < maxField) {
-                    x++;
-                    $(wrapper).append(fieldHTML);
-                }
-            });
-
-
-            $(wrapper).on('click', '.remove_button', function (e) {
-                e.preventDefault();
-                $(this).parent('div').remove();
-                x--;
-            });
+        //Once add button is clicked
+        $(addButton).click(function () {
+            //Check maximum number of input fields
+            var fieldHTML = '<div class="mt-3">' +
+                '<label for="explicit-label-name' + (x + 1) + '">Savol-' + (x + 1) + ': </label>' +
+                '<input type="text" id="explicit-label-name' + (x + 1) + '" name="field_name" value="" class="form-control" required/>' +
+                '<a href="javascript:void(0);" class="remove_button m-l-5 btn btn-neutral">' +
+                '<i class="zmdi zmdi-minus"></i>' +
+                '</a>' +
+                '</div>';
+            if (x < maxField) {
+                x++;
+                $(wrapper).append(fieldHTML);
+            }
         });
 
-    </script>
+
+        $(wrapper).on('click', '.remove_button', function (e) {
+            e.preventDefault();
+            $(this).parent('div').remove();
+            x--;
+        });
+    });
+
+</script>
 {% endblock %}
 
 {% block js %}
+<script src="{% static 'js/test_axios.js' %}"></script>
 
-    <script src="{% static 'backoffice/assets/plugins/nestable/jquery.nestable.js' %}"></script>
-    <script>
+<script src="{% static 'backoffice/assets/plugins/nestable/jquery.nestable.js' %}"></script>
+<script>
 
-    </script>
+</script>
 {% endblock %}w

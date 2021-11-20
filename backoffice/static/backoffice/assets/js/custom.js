@@ -68,6 +68,7 @@ document.getElementById("url-save-changes").addEventListener('click', e => {
     _div.appendChild(my_a);
 
     $('#exampleModal').modal('hide');
+    e.target.disabled = true;
 });
 
 
@@ -113,4 +114,10 @@ delete_btn.addEventListener('click', e => {
         questions.removeChild(questions.lastChild);
         e.target.hidden = true;
     }
+})
+
+document.getElementById('url-name').addEventListener('keyup', e => {
+    if (e.target.value.includes('www.youtube.com')) {
+        document.getElementById('url-save-changes').disabled = false
+    } 
 })

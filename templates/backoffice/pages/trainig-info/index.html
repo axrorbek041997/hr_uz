@@ -49,6 +49,7 @@ Hodim Adaptatsiyasi
                                 <tr>
                                     <th>#</th>
                                     <th>Training</th>
+                                    <th>Lavozimi</th>
                                     <th>O'chirish</th>
                                     <th>Taxrirlash</th>
                                 </tr>
@@ -58,9 +59,10 @@ Hodim Adaptatsiyasi
                                 <tr>
                                     <th scope="row">{{ forloop.counter }}</th>
                                     <td>
-
                                         {{ item.title }}
-
+                                    </td>
+                                    <td>
+                                        {{ item.position }}
                                     </td>
                                     <td>
                                         <!-- type="button" id="{{ item.id }}" onclick="onDelete(this.id)" -->

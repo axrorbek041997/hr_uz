@@ -3,6 +3,7 @@ import os
 from datetime import datetime, timedelta
 from io import BytesIO
 from django import http
+from django import urls
 
 import pendulum
 import qrcode
@@ -1092,8 +1093,10 @@ def adoptation_create_view(request):
                 v = models.AdoptationFiles.objects.create(file=i)
                 instance.files.add(v)
 
+            import re
             for i in request.POST.getlist('urls'):
-                v = models.AdoptationUrls.objects.create(url=i)
+                print('/embed/'.join(i.split('/watch?v=')))
+                v = models.AdoptationUrls.objects.create(url='/embed/'.join(i.split('/watch?v=')))
                 instance.urls.add(v)
 
             instance.save()

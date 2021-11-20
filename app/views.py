@@ -1,9 +1,12 @@
+from django.http.response import JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.views import generic
 from app import forms
 from app import models
 import uuid
+
+from .models import Company
 
 
 # Staff Login
@@ -30,27 +33,14 @@ class StaffFormView(generic.FormView):
         context = super().get_context_data(**kwargs)
         staff_uuid = self.kwargs.get('staff_uuid')
         staff = models.Staff.objects.get(training_url=staff_uuid)
-        training_answers = models.TrainingAnswer.objects.filter(staff=staff).order_by('id')
         salary = models.Salary.objects.filter(staff=staff).last()
-        company_culture = models.CompanyCulture.objects.filter(company=staff.company).last()
-        position = staff.position
-        training_info = models.TrainingInfo.objects.filter(position=position).last()
-        import datetime
-        date = datetime.date.today()
-        today = datetime.datetime.now()
-        start_week = date - datetime.timedelta(date.weekday())
-        end_week = start_week + datetime.timedelta(7)
-        super_staff_weekly = models.SuperStaffs.objects.filter(created_at__range=[start_week, end_week], type='weekly', company=staff.company).last()
-        super_staff_monthly = models.SuperStaffs.objects.filter(created_at__month=today.month, type='monthly', company=staff.company).last()
-        staff_org_system = models.StaffORGSystem.objects.filter(company=staff.company)
-        context['staff_org_system'] = staff_org_system
-        context['super_staff_weekly'] = super_staff_weekly
-        context['super_staff_monthly'] = super_staff_monthly
+        staff_company = staff.company
+        staff_position = staff.position
+        test = models.AdoptationModel.objects.filter(company=staff_company, position=staff_position)
+        print(test)
         context['staff'] = staff
         context['salary'] = salary
-        context['company_culture'] = company_culture
-        context['training_info'] = training_info
-        context['training_answers'] = training_answers
+        context['test'] = test
         return context
 
     def get(self, request, *args, **kwargs):
@@ -73,3 +63,11 @@ class StaffFormView(generic.FormView):
         return super().form_invalid(form)
 
 
+def select_test_view(request):
+    if request.method == 'GET':
+        test = models.AdoptationModel.objects.filter(id=request.GET.get('id')).first()
+        videos = list(test.videos.all().values())
+        url_videos = list(test.urls.all().values())
+        files = list(test.files.all().values())
+        questions = list(test.adoptationquestions_set.all().values())
+        return JsonResponse({'videos': videos, 'url_videos': url_videos, 'files': files, 'questions': questions})
