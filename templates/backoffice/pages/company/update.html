@@ -1,11 +1,11 @@
 {% extends 'backoffice/base.html' %}
 
 {% block title %}
-    {{ request.user.company }}
+{{ request.user.company }}
 {% endblock %}
 
 {% block content %}
-    <section class="content">
+<section class="content">
     <div class="container-fluid">
         <div class="block-header">
             <div class="row">
@@ -28,7 +28,8 @@
                     </div>
                     <div class="body">
                         <div class="row">
-                            <form action="{% url 'company_update' request.user.company.id %}" method="POST" enctype="multipart/form-data">
+                            <form action="{% url 'company_update' request.user.company.id %}" method="POST"
+                                enctype="multipart/form-data">
                                 {% csrf_token %}
                                 {{ form.media|safe }}
                                 {{ form.as_p }}

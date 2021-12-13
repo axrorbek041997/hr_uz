@@ -1,6 +1,7 @@
-from django.http.response import JsonResponse
+from django.http.response import HttpResponseBadRequest, JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse
+from django.urls.base import reverse_lazy
 from django.views import generic
 from app import forms
 from app import models
@@ -24,43 +25,48 @@ class StaffLoginTemplateView(generic.FormView):
         return super().form_valid(form)
 
 
-class StaffFormView(generic.FormView):
+class StaffFormView(generic.TemplateView):
     template_name = 'app/staff/treining/index.html'
     form_class = forms.StaffTrainingQuestionForm
-    success_url = 'staff-login'
+    success_url = reverse_lazy('staff_login')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         staff_uuid = self.kwargs.get('staff_uuid')
-        staff = models.Staff.objects.get(training_url=staff_uuid)
-        salary = models.Salary.objects.filter(staff=staff).last()
-        staff_company = staff.company
-        staff_position = staff.position
+        self.staff = models.Staff.objects.get(training_url=staff_uuid)
+        salary = models.Salary.objects.filter(staff=self.staff).last()
+        staff_company = self.staff.company
+        staff_position = self.staff.position
         test = models.AdoptationModel.objects.filter(company=staff_company, position=staff_position)
         print(test)
-        context['staff'] = staff
+        context['staff'] = self.staff
         context['salary'] = salary
         context['test'] = test
         return context
 
-    def get(self, request, *args, **kwargs):
-        response = super().get(request, *args, **kwargs)
+    def dispatch(self, request, *args, **kwargs) -> HttpResponseBadRequest:
 
-        # return redirect('staff_login')
-        return response
-
-    def form_valid(self, form):
-        super().form_valid(form)
         staff_uuid = self.kwargs.get('staff_uuid')
-        staff = models.Staff.objects.get(training_url=staff_uuid)
-        training_answers = models.TrainingAnswer.objects.filter(staff=staff)
-        for training_answer in training_answers:
-            training_answer.answer = form.data.get(f'{training_answer.id}')
-            training_answer.save()
-        return redirect('staff_login')
+        self.staff = models.Staff.objects.get(training_url=staff_uuid)
 
-    def form_invalid(self, form):
-        return super().form_invalid(form)
+        if request.method == 'POST':
+            ids = request.POST.getlist('question')
+            answers = request.POST.getlist('answer')
+
+            print(ids, answers)
+
+            for i in answers:
+                index = answers.index(i)
+                try:
+                    question = models.AdoptationQuestions.objects.get(id=ids[index])
+                    models.StaffAnswers.objects.create(question=question, staff=self.staff, answer=i)
+                except:
+                    continue
+            
+        
+            return redirect('staff_login')
+
+        return super().dispatch(request, *args, **kwargs)
 
 
 def select_test_view(request):
@@ -70,4 +76,5 @@ def select_test_view(request):
         url_videos = list(test.urls.all().values())
         files = list(test.files.all().values())
         questions = list(test.adoptationquestions_set.all().values())
+        print(questions)
         return JsonResponse({'videos': videos, 'url_videos': url_videos, 'files': files, 'questions': questions})

@@ -106,9 +106,11 @@ class MainTemplate(LoginRequiredMixin, generic.ListView):
 
         all_stafs = self.request.user.company.staff_set.all().count()
         ctx['male_count'] = self.request.user.company.staff_set.filter(gender='male').count()
-        ctx['width_male'] = int(ctx['male_count'] * 100 / all_stafs)
         ctx['female_count'] = self.request.user.company.staff_set.filter(gender='female').count()
-        ctx['width_female'] = 100 - ctx['width_male']
+
+        if all_stafs:
+            ctx['width_male'] = int(ctx['male_count'] * 100 / all_stafs)
+            ctx['width_female'] = 100 - ctx['width_male']
         return ctx
 
 
@@ -251,6 +253,7 @@ class Registration(generic.FormView):
         return super().form_valid(form)
 
     def form_invalid(self, form):
+        print(form.errors)
         return super().form_invalid(form)
 
 
@@ -982,8 +985,8 @@ class CompanyTemplateView(LoginRequiredMixin, generic.TemplateView):
 
     def get_context_data(self, **kwargs):
         ctx = super(CompanyTemplateView, self).get_context_data(**kwargs)
-        ctx['company'] = models.User.objects.get(company=self.request.user.company)
-        ctx['item'] = models.Company.objects.get(id=self.request.user.company.id)
+        ctx['company'] = models.User.objects.filter(company=self.request.user.company).first()
+        ctx['item'] = models.Company.objects.filter(id=self.request.user.company.id).first()
         return ctx
 
 
@@ -1059,19 +1062,19 @@ class ControlFlowingStaffTemplateView(LoginRequiredMixin, generic.ListView):
         ctx['staff_flows'] = models.Staff.objects.filter(id__in=flows_list)
         return ctx
 
-
-# TrainingInfo
-class TrainingInfoTemplateView(LoginRequiredMixin, generic.TemplateView):
-    template_name = 'backoffice/pages/trainig-info/index.html'
-    # model = models.TrainingInfo
+# AdoptationInfo
+class AdoptationInfoTemplateView(LoginRequiredMixin, generic.TemplateView):
+    template_name = 'backoffice/pages/trainig-info/adoptation/index.html'
 
     def get_context_data(self, **kwargs):
-        ctx = super(TrainingInfoTemplateView, self).get_context_data(**kwargs)
+        ctx = super(AdoptationInfoTemplateView, self).get_context_data(**kwargs)
         company = self.request.user.company
         ctx['items'] = company.adoptationmodel_set.all()
         ctx['staffs'] = company.staff_set.all()
         return ctx
 
+
+# Adoptation Create
 @login_required
 def adoptation_create_view(request):
     form = forms.AdoptationModelForm()
@@ -1106,19 +1109,19 @@ def adoptation_create_view(request):
                 models.AdoptationQuestions.objects.bulk_create(a)
 
 
-            return redirect('training_info')
+            return redirect('adoptation_info')
         else:
             form.fields['position'].queryset = request.user.company.position_set.all()
     
-    return render(request, 'backoffice/pages/trainig-info/create.html', {'form': form})
+    return render(request, 'backoffice/pages/trainig-info/adoptation/create.html', {'form': form})
 
-
-class TrainingInfoDeleteView(LoginRequiredMixin, generic.DeleteView):
-    template_name = 'backoffice/pages/trainig-info/index.html'
+# Adoptation Delete
+class AdoptationInfoDeleteView(LoginRequiredMixin, generic.DeleteView):
+    template_name = 'backoffice/pages/trainig-info/adoptation/index.html'
     model = models.AdoptationModel
     form_class = forms.AdoptationModelForm
     success_message = "deleted..."
-    success_url = reverse_lazy('training_info')
+    success_url = reverse_lazy('adoptation_info')
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
@@ -1128,15 +1131,85 @@ class TrainingInfoDeleteView(LoginRequiredMixin, generic.DeleteView):
         return ctx
 
 
-class TrainingInfoUpdateView(LoginRequiredMixin, generic.UpdateView):
-    form_class = forms.TrainingInfoModelForm
-    model = models.TrainingInfo
+# AdoptationAnswerListView
+class AdoptationAnswerListView(LoginRequiredMixin, generic.ListView):
+    template_name = 'backoffice/pages/trainig-info/adoptation/answer.html'
+    model = models.Staff
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        ctx = super(AdoptationAnswerListView, self).get_context_data(**kwargs)
+        company = self.request.user.company
+        ctx['staffs'] = models.Staff.objects.filter(company=company)
+        ctx['answers'] = models.StaffAnswers.objects.filter(staff__in=ctx['staffs'])
+        return ctx
+
+# TrainingInfo
+class TrainingInfoTemplateView(LoginRequiredMixin, generic.TemplateView):
+    template_name = 'backoffice/pages/trainig-info/index.html'
+    # model = models.TrainingInfo
+
+    def get_context_data(self, **kwargs):
+        ctx = super(TrainingInfoTemplateView, self).get_context_data(**kwargs)
+        company = self.request.user.company
+        ctx['items'] = company.trainingmodel_set.all()
+        ctx['staffs'] = company.staff_set.all()
+        return ctx
+
+# Training Create
+@login_required
+def training_create_view(request):
+    form = forms.TrainingModelForm()
+    form.fields['position'].queryset = request.user.company.position_set.all()
+
+    if request.method == 'POST':
+        form = forms.TrainingModelForm(request.POST, request.FILES)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.company = request.user.company
+
+            instance.save()
+
+            for i in request.FILES.getlist('videos'):
+                v = models.TrainingVideos.objects.create(video=i)
+                instance.videos.add(v)
+            
+            for i in request.FILES.getlist('files'):
+                v = models.TrainingFiles.objects.create(file=i)
+                instance.files.add(v)
+
+            import re
+            for i in request.POST.getlist('urls'):
+                v = models.TrainingUrls.objects.create(url='/embed/'.join(i.split('/watch?v=')))
+                instance.urls.add(v)
+
+            instance.save()
+
+            if request.POST.getlist('question')[0]:
+                a = [models.TrainingQuestions(question=i, adopt=instance) for i in request.POST.getlist('question')]
+                models.TrainingQuestions.objects.bulk_create(a)
+
+
+            return redirect('training_info')
+        else:
+            form.fields['position'].queryset = request.user.company.position_set.all()
+    
+    return render(request, 'backoffice/pages/trainig-info/create.html', {'form': form})
+
+
+# Training delete
+class TrainingInfoDeleteView(LoginRequiredMixin, generic.DeleteView):
+    template_name = 'backoffice/pages/trainig-info/index.html'
+    model = models.TrainingModel
+    form_class = forms.TrainingModelForm
+    success_message = "deleted..."
     success_url = reverse_lazy('training_info')
 
-    def form_valid(self, form):
-        super(TrainingInfoUpdateView, self).form_valid(form)
-        messages.success(self.request, "Xodim adaptatsiyasi o'zgartirildi !!!")
-        return HttpResponseRedirect(reverse_lazy('training_info'))
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx['items'] = self.request.user.company.trainingmodel_set.all()
+        ctx['staffs'] = self.request.user.company.staff_set.all()
+        ctx['delete'] = True
+        return ctx
 
 
 # TrainingAnswerListView
@@ -1148,7 +1221,7 @@ class TrainingAnswerListView(LoginRequiredMixin, generic.ListView):
         ctx = super(TrainingAnswerListView, self).get_context_data(**kwargs)
         company = self.request.user.company
         ctx['staffs'] = models.Staff.objects.filter(company=company)
-        ctx['answers'] = models.TrainingAnswer.objects.filter(staff__company=company)
+        ctx['answers'] = models.StaffAnswers.objects.filter(staff__in=ctx['staffs'])
         return ctx
 
 

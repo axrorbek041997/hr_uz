@@ -1,9 +1,11 @@
+from ckeditor import fields
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 from rest_framework_simplejwt import serializers as rest_framework_simplejwt_serializers
 from rest_framework_simplejwt.serializers import TokenVerifySerializer
 
 from app import models
+from app.models import Position
 
 UserModel = get_user_model()
 
@@ -17,6 +19,11 @@ class FlowModelSerializer(serializers.ModelSerializer):
 
 
 class StaffModelSerializer(serializers.ModelSerializer):
+    position = serializers.CharField(source='position.name', read_only=True)
+    company = serializers.CharField(source='company.name', read_only=True)
+    group_name = serializers.CharField(source='group_name.name', read_only=True)
+    department = serializers.CharField(source='department.name', read_only=True)
+
     class Meta:
         model = models.Staff
         exclude = ()

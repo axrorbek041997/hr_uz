@@ -36,6 +36,7 @@
                         </div>
                         <form class="form" method="POST" action="{% url 'registration' %}">
                             {% csrf_token %}
+                            {{ form.username.errors }}
                             <div class="input-group">
                                 <input type="text" name="username" class="form-control" placeholder="Enter User Name" required>
                                 <span class="input-group-addon"><i class="zmdi zmdi-account-circle"></i></span>
@@ -50,9 +51,10 @@
                                 <span class="input-group-addon"><i class="zmdi zmdi-phone"></i></span>
                             </div>
                             <div class="input-group">
+                                {{ form.type_of_company_id.errors }}
                                 <div class="select-wrapper">
-                                    <span>Kompaniya turi<i class="zmdi zmdi-compare ml-3"></i></span>
-                                    <select class="form-select" name="type_of_company_id" id="">
+                                    <select class="form-select" name="type_of_company_id" id="" data-width="180%">
+                                    <option value="0">Kompaniya turi</option>
                                     {% for type in types %}
                                         <option value="{{ type.id }}">
                                             {{ type.name }}

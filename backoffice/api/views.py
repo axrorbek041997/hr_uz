@@ -1,6 +1,11 @@
+from django.conf import settings
+from django.contrib.auth import logout as django_logout
+from django.core.exceptions import ObjectDoesNotExist
+from django.utils.translation import gettext as _
 from rest_framework import permissions
 from rest_framework import status
 from rest_framework import viewsets
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt import views as rest_framework_simplejwt_views
@@ -8,11 +13,36 @@ from rest_framework_simplejwt import views as rest_framework_simplejwt_views
 from app import models
 from . import serializers
 
-
 class LogoutAPIView(APIView):
-    def get(self, request, format=None):
-        request.user.auth_token.delete()
-        return Response(status=status.HTTP_200_OK)
+    permission_classes = (AllowAny,)
+
+    def get(self, request, *args, **kwargs):
+        if getattr(settings, 'ACCOUNT_LOGOUT_ON_GET', False):
+            response = self.logout(request)
+        else:
+            response = self.http_method_not_allowed(request, *args, **kwargs)
+
+        return self.finalize_response(request, response, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        return self.logout(request)
+
+    def logout(self, request):
+        try:
+            request.user.auth_token.delete()
+        except (AttributeError, ObjectDoesNotExist):
+            pass
+        if getattr(settings, 'REST_SESSION_LOGIN', True):
+            django_logout(request)
+
+        response = Response({"detail": _("Successfully logged out.")},
+                            status=status.HTTP_200_OK)
+        if getattr(settings, 'REST_USE_JWT', False):
+            from rest_framework_simplejwt.settings import api_settings as jwt_settings
+            if jwt_settings.JWT_AUTH_COOKIE:
+                response.delete_cookie(jwt_settings.JWT_AUTH_COOKIE)
+
+        return response
 
 
 class FlowModelViewSet(viewsets.ModelViewSet):
@@ -47,6 +77,7 @@ class StaffModelViewSet(viewsets.ModelViewSet):
 class JWTTokenObtainView(rest_framework_simplejwt_views.TokenObtainPairView):
     serializer_class = serializers.JWTTokenObtainSerializer
 
+
 #
 # class JWTTokenVerifyView(rest_framework_simplejwt_views.TokenVerifyView):
 #     serializer_class = serializers.JWTTokenVerifySerializer
@@ -54,5 +85,3 @@ class JWTTokenObtainView(rest_framework_simplejwt_views.TokenObtainPairView):
 
 class JWTTokenRefreshView(rest_framework_simplejwt_views.TokenRefreshView):
     pass
-
-

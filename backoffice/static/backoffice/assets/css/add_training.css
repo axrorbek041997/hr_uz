@@ -41,3 +41,7 @@
     display: flex;
     justify-content: space-between;
 }
+
+button.btn-block {
+    max-width: 250px;
+}

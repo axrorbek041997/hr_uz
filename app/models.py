@@ -353,7 +353,13 @@ class Staff(models.Model):
         flow_count = self.flow_set.filter(created_at__day=today.day).count()
         return flow_count + 1
 
+    @property
+    def position_name(self):
+        return self.position.name
+
+
     class Meta:
+        unique_together = ['company', 'username']
         ordering = ['-created_at']
         verbose_name_plural = "Xodimlar"
 
@@ -523,45 +529,97 @@ class AdoptationQuestions(models.Model):
     def __str__(self) -> str:
         return self.question
 
+class TrainingVideos(models.Model):
+    video = models.FileField(upload_to='company/video')
 
-class TrainingInfo(models.Model):
-    position = models.ForeignKey(Position, on_delete=models.CASCADE, null=True, blank=True,
+class TrainingUrls(models.Model):
+    url = models.URLField()
+
+class TrainingFiles(models.Model):
+    file = models.FileField(upload_to='company/files')
+
+
+# Todo: delete, if have any other training model 
+class TrainingModel(models.Model):
+    position = models.ForeignKey(Position, on_delete=models.CASCADE,
                                  verbose_name="Xodimning lavozimi")
-    title = models.CharField(null=True, blank=True, max_length=255)
-    company = models.ForeignKey(Company, on_delete=models.CASCADE, blank=True, null=True, verbose_name="Kompaniya")
-    info = RichTextUploadingField(null=True, blank=True)
+    title = models.CharField(max_length=255)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, verbose_name="Kompaniya")
+    videos = models.ManyToManyField(AdoptationVideos, default=None, blank=True)
+    urls = models.ManyToManyField(AdoptationUrls, default=None, blank=True)
+    files = models.ManyToManyField(AdoptationFiles, default=None, blank=True)
+    text = models.TextField(default=None, blank=True)
     create_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return str(self.title)
+        return self.title
 
 
-class TrainingQuestion(models.Model):
-    question = models.CharField(max_length=500, blank=True, null=True, verbose_name="Savol")
-    position = models.ForeignKey(Position, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)
+@receiver(pre_delete, sender=TrainingModel)
+def cascade_delete_branch(sender, instance, **kwargs):
+   if instance.urls:
+       instance.urls.all().delete()
+   if instance.files:
+       instance.files.all().delete()
+   if instance.videos:
+       instance.videos.all().delete()
 
-    def __str__(self):
-        return self.question if self.question else "None"
+class TrainingQuestions(models.Model):
+    question = models.CharField(max_length=1024)
+    adopt = models.ForeignKey(AdoptationModel, on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return self.question
+
+class StaffAnswers(models.Model):
+    question = models.ForeignKey(AdoptationQuestions, on_delete=models.CASCADE)
+    answer = models.TextField()
+    staff = models.ForeignKey(Staff, on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return self.answer
 
     class Meta:
-        ordering = ['-created_at']
-        verbose_name_plural = "Training savollar"
+        unique_together = ['question', 'staff']
+
+# class TrainingInfo(models.Model):
+#     position = models.ForeignKey(Position, on_delete=models.CASCADE, null=True, blank=True,
+#                                  verbose_name="Xodimning lavozimi")
+#     title = models.CharField(null=True, blank=True, max_length=255)
+#     company = models.ForeignKey(Company, on_delete=models.CASCADE, blank=True, null=True, verbose_name="Kompaniya")
+#     info = RichTextUploadingField(null=True, blank=True)
+#     create_at = models.DateTimeField(auto_now_add=True)
+
+#     def __str__(self):
+#         return str(self.title)
 
 
-class TrainingAnswer(models.Model):
-    staff = models.ForeignKey(Staff, null=True, blank=True, on_delete=models.CASCADE, verbose_name="Xodim")
-    question = models.ForeignKey(TrainingQuestion, null=True, blank=True, on_delete=models.CASCADE,
-                                 verbose_name="Savol")
-    answer = models.CharField(max_length=512, null=True, blank=True, verbose_name="Javob")
-    created_at = models.DateTimeField(auto_now_add=True)
+# class TrainingQuestion(models.Model):
+#     question = models.CharField(max_length=500, blank=True, null=True, verbose_name="Savol")
+#     position = models.ForeignKey(Position, on_delete=models.CASCADE)
+#     created_at = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return self.answer if self.answer else "..."
+#     def __str__(self):
+#         return self.question if self.question else "None"
 
-    class Meta:
-        ordering = ['-created_at']
-        verbose_name_plural = "Training Javoblar"
+#     class Meta:
+#         ordering = ['-created_at']
+#         verbose_name_plural = "Training savollar"
+
+
+# class TrainingAnswer(models.Model):
+    # staff = models.ForeignKey(Staff, null=True, blank=True, on_delete=models.CASCADE, verbose_name="Xodim")
+    # question = models.ForeignKey(TrainingQuestion, null=True, blank=True, on_delete=models.CASCADE,
+    #                              verbose_name="Savol")
+    # answer = models.CharField(max_length=512, null=True, blank=True, verbose_name="Javob")
+    # created_at = models.DateTimeField(auto_now_add=True)
+
+    # def __str__(self):
+    #     return self.answer if self.answer else "..."
+
+    # class Meta:
+    #     ordering = ['-created_at']
+    #     verbose_name_plural = "Training Javoblar"
 
 
 class CompanyCulture(models.Model):

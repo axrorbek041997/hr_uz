@@ -24,6 +24,21 @@ class RegistrationForm(forms.Form):
                                                 amount_of_staff=amount_of_staff, name=company_name)
         models.User.objects.create_user(username=username, password=password, company=company, is_staff=True)
 
+    def clean_username(self):
+        username = self.cleaned_data['username']
+        try:
+            models.User.objects.get(username=username)
+        except:
+            pass
+        else:
+            raise forms.ValidationError("Bunday username mavjud.")
+        return username
+
+    def clean_type_of_company_id(self):
+        typy_of = self.cleaned_data['type_of_company_id']
+        if not typy_of:
+            raise forms.ValidationError('Kompaniya turini tanlang.')
+        return typy_of
 
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=100)
@@ -131,13 +146,13 @@ class FinishTextModelForm(forms.ModelForm):
         exclude = ('company',)
 
 
-class TrainingInfoModelForm(forms.ModelForm):
-    class Meta:
-        model = models.TrainingInfo
-        exclude = ('company',)
-        widgets = {
-            'title': forms.TextInput(attrs={'class': 'form-control'}),
-        }
+# class TrainingInfoModelForm(forms.ModelForm):
+#     class Meta:
+#         model = models.TrainingInfo
+#         exclude = ('company',)
+#         widgets = {
+#             'title': forms.TextInput(attrs={'class': 'form-control'}),
+#         }
 
 
 class AdoptationModelForm(forms.ModelForm):
@@ -150,20 +165,29 @@ class AdoptationModelForm(forms.ModelForm):
             'text': forms.Textarea(attrs={'placeholder': 'Matn kiriting'}),
         }
 
+class TrainingModelForm(forms.ModelForm):
+    class Meta:
+        model = models.TrainingModel
+        exclude = ['videos', 'files', 'company', 'urls']
+
+        widgets = {
+            "title": forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Trening titlini kiriting'}),
+            'text': forms.Textarea(attrs={'placeholder': 'Matn kiriting'}),
+        }
 
 class CompanyModelForm(forms.ModelForm):
     class Meta:
         model = models.Company
         exclude = ('company',)
         widgets = {
-            'name': forms.TextInput(attrs={'class': 'form-control'}),
-            'phone': forms.TextInput(attrs={'class': 'form-control'}),
-            'address': forms.TextInput(attrs={'class': 'form-control'}),
-            'creator': forms.TextInput(attrs={'class': 'form-control'}),
-            'info': forms.TextInput(attrs={'class': 'form-control'}),
-            'amount_of_staff': forms.NumberInput(attrs={'class': 'form-control'}),
-            'video': forms.ClearableFileInput(attrs={'class': 'form-control'}),
-            'logo': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+            'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nomi'}),
+            'phone': forms.TextInput(attrs={'class': 'form-control', "placeholder": "Telefon raqami"}),
+            'address': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Manzili'}),
+            'creator': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Asoschisi'}),
+            'info': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ma\'lumot'}),
+            'amount_of_staff': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Ishchilar soni'}),
+            'video': forms.ClearableFileInput(attrs={'class': 'form-control', 'placeholder': 'Video'}),
+            'logo': forms.ClearableFileInput(attrs={'label': None, 'class': 'form-control', 'placeholder': 'logo'}),
         }
 
 

@@ -110,9 +110,14 @@ urlpatterns = [
 
     # TrainingInfo
     path('training-info/', views.TrainingInfoTemplateView.as_view(), name="training_info"),
-    path('training-info/create/', views.adoptation_create_view, name="training_info_create"),
+    path('training-info/create/', views.training_create_view, name="training_info_create"),
     path('training-info/delete/<int:pk>/', views.TrainingInfoDeleteView.as_view(), name="training_info_delete"),
-    path('training-info/update/<int:pk>/', views.TrainingInfoUpdateView.as_view(), name="training_info_update"),
+#     path('training-info/update/<int:pk>/', views.TrainingInfoUpdateView.as_view(), name="training_info_update"),
+
+    # Adoptation
+    path('adoptation-info/', views.AdoptationInfoTemplateView.as_view(), name="adoptation_info"),
+    path('adoptation-info/create/', views.adoptation_create_view, name="adoptation_info_create"),
+    path('adoptation-info/delete/<int:pk>/', views.AdoptationInfoDeleteView.as_view(), name="adoptation_info_delete"),
 
     # CompanyCulture
     path('company-culture', views.CompanyCultureCreateViewListView.as_view(), name="company_culture"),
@@ -132,6 +137,9 @@ urlpatterns = [
 
     # TrainingAnswerListView
     path('staff-training-answer', views.TrainingAnswerListView.as_view(), name="staff_training_answer"),
+
+    # AdoptationAnswerListView
+    path('staff-adoptation-answer', views.AdoptationAnswerListView.as_view(), name="staff_adoptation_answer"),
 
     # Super Staff
     path('super-staff', views.SuperStaffCreateView.as_view(), name='super_staff'),

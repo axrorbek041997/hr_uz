@@ -160,16 +160,12 @@ Login
 
                         </div>
                         <div class="row" id="files">
-                            
+
                         </div>
                         <form action="{% url 'staff_training' staff.training_url %}" method="post">
                             {% csrf_token %}
 
                             <div id="questions">
-                                <div>
-                                    <label>1. savol</label>
-                                    <input type="text" class="form-control" name="answer">
-                                </div>
                             </div>
 
                             <button type="submit" class="btn btn-success waves-effect btn-block">Submit</button>

@@ -1,61 +1,64 @@
 {% extends 'backoffice/base.html' %}
 
 {% block title %}
-    {{ item.name }} - Info
+{{ item.name }} - Info
 {% endblock %}
 
 {#zmdi-hc-spin#}
 {% block content %}
-    <section class="content">
-        <div class="container-fluid">
+<section class="content">
+    <div class="container-fluid">
 
-            <!-- Disabled Items -->
-            <div class="row clearfix">
-                <div class="col-lg-12 col-md-12 col-sm-12">
-                    <div class="card">
-                        <div class="header">
-                            <ul class="list-unstyled">
-                                <li>
-                                    <a href="">Info</a>
-                                </li>
-                            </ul>
+        <!-- Disabled Items -->
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="card">
+                    <div class="header">
+                        <ul class="list-unstyled">
+                            <li>
+                                <a href="">Info</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="body">
+                        <div class="list-group">
+                            <h1 class="text-center">{{ item.name }}</h1>
+                            {% if company.company.text %}
+                            {{ company.company.text|safe }}
+                            {% else %}
+                            Ma'lumot yo'q
+                            {% endif %}
                         </div>
-                        <div class="body">
-                            <div class="list-group">
-                                <h1 class="text-center">{{ item.name }}</h1>
-                               {% if company.company.text %}
-                                    {{ company.company.text|safe }}
-                               {% else %}
-                                   Ma'lumot yo'q
-                               {% endif %}
-                            </div>
 
-                        </div>
                     </div>
                 </div>
             </div>
-            <!-- #END# Disabled Items -->
-            <!-- Disabled Items -->
-            <div class="row clearfix">
-                <div class="col-lg-12 col-md-12">
+        </div>
+        <!-- #END# Disabled Items -->
+        <!-- Disabled Items -->
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12">
                 <div class="card">
                     <div class="header">
                     </div>
                     <div class="body">
-                       <ul class="list-group">
-                            <li class="list-group-item"><strong>Konpaniya nomi: </strong>{{ item.name }}</li>
-                            <li class="list-group-item"><strong>Konpaniya telefon raqami: </strong>{{ item.phone }}</li>
-                            <li class="list-group-item"><strong>Konpaniya turi: </strong>{{ item.type.name }}</li>
-                            <li class="list-group-item"><strong>Konpaniya manzili: </strong>{% if item.address %}{{ item.address }}{% else %}Manzil kiritilmagan{% endif %} </li>
-                            <li class="list-group-item"><strong>Konpaniya asoschisi: </strong>{% if item.creator %}{{ item.creator }}{% else %}Asoschi kiritilmagan{% endif %}</li>
-                            <li class="list-group-item"><strong>Konpaniya ishchilar soni: </strong>{{ item.amount_of_staff }}</li>
+                        <ul class="list-group">
+                            <li class="list-group-item"><strong>Nomi: </strong>{{ item.name }}</li>
+                            <li class="list-group-item"><strong>Telefon raqami: </strong>{{ item.phone }}</li>
+                            <li class="list-group-item"><strong>Turi: </strong>{{ item.type.name }}</li>
+                            <li class="list-group-item"><strong>Manzili: </strong>{% if item.address %}
+                                {{ item.address }}{% else %}Manzil kiritilmagan{% endif %} </li>
+                            <li class="list-group-item"><strong>Asoschisi: </strong>{% if item.creator %}
+                                {{ item.creator }}{% else %}Asoschi kiritilmagan{% endif %}</li>
+                            <li class="list-group-item"><strong>Ishchilar soni: </strong>
+                                {{ item.amount_of_staff }}</li>
                         </ul>
                     </div>
                 </div>
             </div>
-            </div>
-            <!-- #END# Disabled Items -->
-
         </div>
-    </section>
+        <!-- #END# Disabled Items -->
+
+    </div>
+</section>
 {% endblock %}
