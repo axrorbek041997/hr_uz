@@ -43,7 +43,10 @@ class Company(models.Model):
     logo = models.ImageField(upload_to='company/image/', null=True, blank=True, verbose_name="Kompaniya logotipi")
     amount_of_staff = models.IntegerField(verbose_name="Hodimlar soni", default=1)
     created_at = models.DateTimeField(auto_now_add=True)
-
+    payment_status = models.BooleanField(default=False, verbose_name="Bir martalik to'lov statusi")
+    payment_paid = models.DecimalField(max_digits=14, decimal_places=2, default=0, verbose_name="To'lagan summasi")
+    payment_expire_data = models.DateTimeField(null=True, blank=True, verbose_name="To'lov muddati", editable=False)
+    
     def __str__(self):
         return f'#{self.id}  {self.name}'
 

@@ -25,8 +25,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
     'app.apps.AppConfig',
     'backoffice.apps.BackofficeConfig',
+    'payments.apps.PaymentsConfig',
     'django_cleanup',
     'drf_yasg',
     # Rest
@@ -206,3 +208,8 @@ LOGOUT_REDIRECT_URL = reverse_lazy('login')
 LOGOUT_URL = reverse_lazy('login')
 
 SESSION_COOKIE_AGE = 7200
+
+try:
+    from .local_settings import *
+except:
+    pass

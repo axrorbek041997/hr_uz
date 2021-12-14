@@ -26,6 +26,7 @@ urlpatterns = [
     path('backoffice/', include('backoffice.urls')),
     path('graph', include('mptt_graph.urls')),
     path('page_404', page_404, name='page_404'),
+    path('__debug__/', include('debug_toolbar.urls')),
 ]
 
 

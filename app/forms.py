@@ -47,9 +47,11 @@ class StaffLoginForm(forms.Form):
         username = self.data.get('username')
         password = self.data.get('password')
         staff = models.Staff.objects.filter(username=username).first()
+        if not staff:
+            raise ValidationError('Staff not found!')
         if not staff.password == password:
             raise ValidationError('Password is incorrect')
-        return username
+        return password
 
 
 class StaffTrainingQuestionForm(forms.Form):
