@@ -1,14 +1,17 @@
 from django.http.response import HttpResponseBadRequest, JsonResponse
+from django.contrib import messages
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.urls.base import reverse_lazy
 from django.views import generic
 from app import forms
 from app import models
+from django.utils import timezone
 import uuid
 
-from .models import Company
 
+from .models import Company
+from payments.models import FreeTrial
 
 # Staff Login
 class StaffLoginTemplateView(generic.FormView):
@@ -20,6 +23,16 @@ class StaffLoginTemplateView(generic.FormView):
         print(form)
         staff = models.Staff.objects.filter(username=form.data.get('username')).first()
         staff.training_url = uuid.uuid4()
+        company = staff.company
+        free_trial_days = FreeTrial.objects.last().days
+        if not company.payment_expire_date:                
+                    if company.created_at + timezone.timedelta(days=free_trial_days) < timezone.localtime(timezone.now()):
+                        messages.error(self.request, 'Kompaniya aktiv holatda emas')
+                        return redirect('staff_login') 
+        else:
+            if company.created_at + timezone.timedelta(days=free_trial_days) < timezone.localtime(timezone.now()) and company.payment_expire_date  < timezone.localtime(timezone.now()):
+                messages.error(self.request, 'Kompaniya aktiv holatda emas')
+                return redirect('staff_login')
         self.success_url = reverse('staff_training', kwargs={'staff_uuid': staff.training_url})
         staff.save()
         return super().form_valid(form)

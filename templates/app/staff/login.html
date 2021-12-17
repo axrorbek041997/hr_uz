@@ -43,6 +43,13 @@
                             <div class="header">
                                 <h5>Log in</h5>
                             </div>
+                            {% if messages %}
+                                <ul>
+                                    {% for message in messages %}
+                                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                                    {% endfor %}
+                                </ul>
+                                {% endif %}
                             <form class="form" action="{% url 'staff_login' %}" method="POST">
                                 {% csrf_token %}
                                 <div class="input-group">
