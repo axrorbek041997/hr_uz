@@ -286,20 +286,22 @@ class Salary(models.Model):
         return self.type_of_work
 
 
-# class WorkPlan(models.Model):
-#     name = models.CharField(max_length=255)
-#
-#     created_at = models.DateTimeField(auto_now_add=True)
-#
-#     class Meta:
-#         verbose_name_plural = "Ish Rejasi"
-#
-#     def __str__(self):
-#         return self.name
+class RaceCountry(models.Model):
+    name = models.CharField(max_length=200)
 
+    def __str__(self) -> str:
+        return self.name
+
+class StaffRace(models.Model):
+    name = models.CharField(max_length=100)
+    country = models.ForeignKey(RaceCountry, related_name='race_country', on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return self.name
 
 class Staff(models.Model):
     GENDER = (
+        ('', 'Jinsi'),
         ('male', 'Erkak'),
         ('female', 'Ayol')
     )
@@ -323,6 +325,8 @@ class Staff(models.Model):
     mobile_phone = models.CharField(null=True, blank=True, max_length=15, verbose_name="Mobil telefon")
     home_phone = models.CharField(null=True, blank=True, max_length=15, verbose_name="Uy telefoni")
     work_phone = models.CharField(null=True, blank=True, max_length=15, verbose_name="Ish telefoni")
+
+    race = models.ForeignKey(StaffRace, related_name='staff_race', on_delete=models.SET_NULL, default=None, null=True, blank=True)
 
     address = models.CharField(null=True, blank=True, max_length=255, verbose_name="Uy manzili")
     image = models.ImageField(upload_to='company/staff/image/', null=True, blank=True, verbose_name="Xodimning rasmi")

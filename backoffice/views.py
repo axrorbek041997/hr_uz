@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 from io import BytesIO
 from django import http
 from django import urls
+from django.http.response import JsonResponse
 
 import pendulum
 import qrcode
@@ -115,6 +116,19 @@ class MainTemplate(LoginRequiredMixin, generic.ListView):
             ctx['width_male'] = int(ctx['male_count'] * 100 / all_stafs)
             ctx['width_female'] = 100 - ctx['width_male']
         
+
+        race = []
+        race_num = []
+        
+        for i in models.StaffRace.objects.all():
+            if self.request.user.company.staff_set.filter(race=i):
+                race.append(i.name)
+                race_num.append(self.request.user.company.staff_set.filter(race=i).count())
+
+        
+        ctx['races'] = race
+        ctx['race_num'] = race_num
+        
         return ctx
 
 
@@ -188,6 +202,8 @@ class StaffCreate(LoginRequiredMixin, generic.CreateView):
         company = self.request.user.company
         ctx['departments'] = models.Department.objects.filter(company=company).order_by('-created_at')
         ctx['positions'] = models.Position.objects.filter(company=company).order_by('-created_at')
+        ctx['race_countries'] = models.RaceCountry.objects.all()
+        ctx['racies'] = models.StaffRace.objects.all()
         return ctx
 
     def form_valid(self, form):
@@ -220,7 +236,17 @@ class StaffCreate(LoginRequiredMixin, generic.CreateView):
 
     def form_invalid(self, form):
         return super(StaffCreate, self).form_invalid(form)
+    
+def get_country_race(request):
+    if request.is_ajax and request.method == 'GET':
+        try:
+            r_c = models.RaceCountry.objects.get(id=request.GET.get('id'))
+            race = list(r_c.race_country.all().values())
+        except:
+            race = list(models.StaffRace.objects.all().values())
+        return JsonResponse({'race': race})
 
+    return redirect('backoffice-main')
 
 class StaffDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = models.Staff

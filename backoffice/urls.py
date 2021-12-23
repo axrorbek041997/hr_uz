@@ -17,6 +17,9 @@ urlpatterns = [
     path('staff/<int:pk>', views.StaffUpdate.as_view(), name="staff-detail"),
     path('staff/delete/<int:pk>', views.StaffDeleteView.as_view(), name="staff_delete"),
 
+    # ajax: get race of country
+    path('get-race/', views.get_country_race),
+
     # Position
     path('position/create', views.PositionCreateView.as_view(), name="position_create"),
     path('position', views.PositionListView.as_view(), name="position"),

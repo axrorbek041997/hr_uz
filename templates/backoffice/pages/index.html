@@ -106,6 +106,9 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="body m-b-20">
+                                <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+                            </div>
                         </div>
                         <div class="col-md-8">
                             <div class="body m-b-20 table-responsive">
@@ -355,5 +358,32 @@
 
 
 </script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+<script>
+    var xValues = {{races|safe}};
+    // var xValues = ["O'zbek", "Qirg'iz", "Tojik", "Arab", "Hindi", "Negroid", 'a', 'b', 'c', 'd'];
+    var yValues = {{race_num|safe}};
+    // var yValues = [75, 49, 44, 24, 15, 2, 3, 4];
+    // var barColors = ["red", "green","blue","orange","brown"];
+    
+    new Chart("myChart", {
+      type: "bar",
+      data: {
+        labels: xValues,
+        datasets: [{
+        //   backgroundColor: barColors,
+          data: yValues
+        }]
+      },
+      options: {
+        legend: {display: false},
+        title: {
+          display: true,
+          text: "Millatlar"
+        }
+      }
+    });
+    </script>
 
 {% endblock %}

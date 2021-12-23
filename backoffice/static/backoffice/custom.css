@@ -27,6 +27,7 @@ input.form-control {
 .staff-4-row {
     display: flex;
     align-items: center;
+    margin: 20px;
 }
 
 .is-outsource-checkbox[type=checkbox]:checked {

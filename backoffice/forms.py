@@ -1,6 +1,7 @@
 import datetime
 
 from django import forms
+from django.forms import widgets
 from app import models
 
 
@@ -62,9 +63,15 @@ class StaffORGSystemModelForm(forms.ModelForm):
 
 
 class StaffModelForm(forms.ModelForm):
+    race = forms.ModelChoiceField(queryset=models.StaffRace.objects.all(), empty_label='Millati')
+    group_name = forms.ModelChoiceField(queryset=models.CompanyScheduleName.objects.all(), empty_label='Ish rejimini')
+
     class Meta:
         model = models.Staff
         exclude = ('company',)
+        widgets = {
+            'race': forms.TextInput(attrs={'id': "staff-race"})
+        }
 
 
 class DepartmentsModelForm(forms.ModelForm):

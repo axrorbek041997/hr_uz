@@ -12,7 +12,8 @@ Xodim yaratish
                 <div class="col-lg-5 col-md-5 col-sm-12">
                     <h2>Bosh sahifa</h2>
                     <ul class="breadcrumb padding-0">
-                        <li class="breadcrumb-item"><a href="{% url 'backoffice-main' %}"><i class="zmdi zmdi-home"></i></a>
+                        <li class="breadcrumb-item"><a href="{% url 'backoffice-main' %}"><i
+                                    class="zmdi zmdi-home"></i></a>
                         </li>
                         <li class="breadcrumb-item active"><a href="{% url 'staff' %}">Xodim</a></li>
                         <li class="breadcrumb-item active">Xodim yaratish</li>
@@ -60,12 +61,12 @@ Xodim yaratish
                             <div class="row staff-4-row">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        Jinsi: {{ form.gender }}<br>
+                                        {{ form.gender }}<br>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        Ish rejimi: {{ form.group_name }}<br>
+                                        {{ form.group_name }}<br>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -74,6 +75,30 @@ Xodim yaratish
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="row staff-4-row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <select id="race-country">
+                                            <option>Tug'ulgan davlati</option>
+                                            {% for i in race_countries %}
+                                            <option value="{{ i.id }}">{{ i.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <select name="race" id="id_race">
+                                            <option>Millati</option>
+                                            {% for i in racies %}
+                                            <option value="{{ i.id }}">{{ i.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="col-sm-12">
                                 <div class="form-group">
                                     <label for="tabel_number">Tabel raqami:</label>
@@ -174,4 +199,43 @@ Xodim yaratish
         </div>
     </div>
 </section>
+{% endblock %}
+
+{% block js %}
+
+<script>
+
+    document.getElementById('race-country').addEventListener('change', e => {
+
+        $.ajax({
+            type: 'get',
+            url: '/backoffice/get-race/',
+            data: {
+                'id': e.target.value
+            },
+            contentType: "application/json",
+            success: function (response) {
+                select_race = document.getElementById('id_race');
+                select_race.remove(1);
+                select_race.remove(2);
+                select_race.remove(3);
+                select_race.remove(4);
+
+                $('#id_race').empty();
+                $('#id_race').hide();
+                console.log($('#id_race'));
+
+                $.each(response['rece'], (i, v) => {
+                    select_race.append('<option value="' + v['id'] + '">' + v["name"] + '</option>');
+                })
+            },
+            error: function (res) {
+                console.log(res);
+            }
+        })
+
+    });
+
+</script>
+
 {% endblock %}

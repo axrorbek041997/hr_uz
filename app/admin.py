@@ -140,21 +140,6 @@ class CompanyScheduleModelAdmin(admin.ModelAdmin):
     pass
 
 
-# @admin.register(models.TrainingInfo)
-# class TrainingInfoModelAdmin(admin.ModelAdmin):
-#     pass
-
-
-# @admin.register(models.TrainingAnswer)
-# class TrainingAnswerModelAdmin(admin.ModelAdmin):
-#     pass
-
-
-# @admin.register(models.TrainingQuestion)
-# class TrainingQuestionModelAdmin(admin.ModelAdmin):
-#     pass
-
-
 admin.site.register(models.AdoptationVideos)
 admin.site.register(models.AdoptationFiles)
 admin.site.register(models.AdoptationUrls)
@@ -176,3 +161,7 @@ class UserModelAdmin(admin.ModelAdmin):
 
 
 admin.site.register(models.Branch)
+
+admin.site.register(models.RaceCountry)
+admin.site.register(models.StaffRace)
+
