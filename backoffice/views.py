@@ -234,8 +234,8 @@ class StaffCreate(LoginRequiredMixin, generic.CreateView):
         messages.success(self.request, 'Xodim yaratildi !!!')
         return HttpResponseRedirect(reverse_lazy('staff'))
 
-    def form_invalid(self, form):
-        return super(StaffCreate, self).form_invalid(form)
+    # def form_invalid(self, form):
+    #     return super(StaffCreate, self).form_invalid(form)
     
 def get_country_race(request):
     if request.is_ajax and request.method == 'GET':

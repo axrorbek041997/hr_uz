@@ -73,6 +73,14 @@ class StaffModelForm(forms.ModelForm):
             'race': forms.TextInput(attrs={'id': "staff-race"})
         }
 
+    def clean_usernmae(self):
+        username = self.cleaned_data['username']
+
+        if models.Staff.objects.filter(username=username):
+            raise forms.ValidationError('Bu username oldin kiritilgan')
+        
+        return username
+
 
 class DepartmentsModelForm(forms.ModelForm):
     class Meta:
