@@ -25,8 +25,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_extensions',
     'app.apps.AppConfig',
     'backoffice.apps.BackofficeConfig',
+    'payments.apps.PaymentsConfig',
     'django_cleanup',
     'drf_yasg',
     # Rest
@@ -57,6 +59,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'project.middleware.MyRedirectMiddleware',
 ]
 
 ROOT_URLCONF = 'project.urls'
@@ -124,7 +127,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = False
+USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
@@ -206,3 +209,18 @@ LOGOUT_REDIRECT_URL = reverse_lazy('login')
 LOGOUT_URL = reverse_lazy('login')
 
 SESSION_COOKIE_AGE = 7200
+
+PAYME_SETTINGS = {
+    "PAYME_ENV": True,  # test host
+    "TOKEN": '6180d5f7b977919a7f65412a',  # token
+    "SECRET_KEY": '6hKOQSdsczEeoti1yqpREckyyNI&k3WpRjrO',  # password
+    "ACCOUNTS": {
+        "KEY_1": "user_id",
+        "KEY_2": None  # or "type"
+    }
+}
+
+try:
+    from .local_settings import *
+except:
+    pass

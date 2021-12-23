@@ -43,7 +43,8 @@ class Company(models.Model):
     logo = models.ImageField(upload_to='company/image/', null=True, blank=True, verbose_name="Kompaniya logotipi")
     amount_of_staff = models.IntegerField(verbose_name="Hodimlar soni", default=1)
     created_at = models.DateTimeField(auto_now_add=True)
-
+    payment_expire_date = models.DateTimeField(default=None, null=True, blank=True, verbose_name="To'lov tugash muddati")
+    
     def __str__(self):
         return f'#{self.id}  {self.name}'
 

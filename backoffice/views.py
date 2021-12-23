@@ -40,10 +40,13 @@ def find_birthdays(request) -> list:
     end_date = pendulum.now().add(days=7)
     birth_day = []
 
-    while start_date <= end_date:
-        birth_day.extend(request.user.company.staff_set.filter(birth_date__month=start_date.month,
-                                                               birth_date__day=start_date.day))
-        start_date += timedelta(days=1)
+    try:
+        while start_date <= end_date:
+            birth_day.extend(request.user.company.staff_set.filter(birth_date__month=start_date.month,
+                                                                birth_date__day=start_date.day))
+            start_date += timedelta(days=1)
+    except:
+        pass
 
     return birth_day
 
@@ -111,6 +114,7 @@ class MainTemplate(LoginRequiredMixin, generic.ListView):
         if all_stafs:
             ctx['width_male'] = int(ctx['male_count'] * 100 / all_stafs)
             ctx['width_female'] = 100 - ctx['width_male']
+        
         return ctx
 
 

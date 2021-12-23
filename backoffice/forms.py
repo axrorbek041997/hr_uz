@@ -178,7 +178,7 @@ class TrainingModelForm(forms.ModelForm):
 class CompanyModelForm(forms.ModelForm):
     class Meta:
         model = models.Company
-        exclude = ('company',)
+        exclude = ('company', 'payment_status', 'payment_paid')
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nomi'}),
             'phone': forms.TextInput(attrs={'class': 'form-control', "placeholder": "Telefon raqami"}),
