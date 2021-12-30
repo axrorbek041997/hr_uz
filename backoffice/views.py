@@ -1,9 +1,6 @@
-import json
-import os
+import os, re
 from datetime import datetime, timedelta
 from io import BytesIO
-from django import http
-from django import urls
 from django.http.response import JsonResponse
 
 import pendulum
@@ -16,12 +13,11 @@ from django.contrib.auth.views import LoginView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.files import File
 from django.db.models import Count
-from django.http import HttpResponseRedirect, HttpResponse, HttpRequest, QueryDict, request
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
-from django.template.defaulttags import csrf_token
 from django.urls import reverse_lazy, reverse
+from django.utils import translation
 from django.views import generic
-from django.db.models import Q
 from app import models
 from . import forms
 from django.conf import settings
@@ -44,7 +40,7 @@ def find_birthdays(request) -> list:
     try:
         while start_date <= end_date:
             birth_day.extend(request.user.company.staff_set.filter(birth_date__month=start_date.month,
-                                                                birth_date__day=start_date.day))
+                                                                   birth_date__day=start_date.day))
             start_date += timedelta(days=1)
     except:
         pass
@@ -115,20 +111,18 @@ class MainTemplate(LoginRequiredMixin, generic.ListView):
         if all_stafs:
             ctx['width_male'] = int(ctx['male_count'] * 100 / all_stafs)
             ctx['width_female'] = 100 - ctx['width_male']
-        
 
         race = []
         race_num = []
-        
+
         for i in models.StaffRace.objects.all():
             if self.request.user.company.staff_set.filter(race=i):
                 race.append(i.name)
                 race_num.append(self.request.user.company.staff_set.filter(race=i).count())
 
-        
         ctx['races'] = race
         ctx['race_num'] = race_num
-        
+
         return ctx
 
 
@@ -236,7 +230,8 @@ class StaffCreate(LoginRequiredMixin, generic.CreateView):
 
     # def form_invalid(self, form):
     #     return super(StaffCreate, self).form_invalid(form)
-    
+
+
 def get_country_race(request):
     if request.is_ajax and request.method == 'GET':
         try:
@@ -247,6 +242,7 @@ def get_country_race(request):
         return JsonResponse({'race': race})
 
     return redirect('backoffice-main')
+
 
 class StaffDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = models.Staff
@@ -1092,6 +1088,7 @@ class ControlFlowingStaffTemplateView(LoginRequiredMixin, generic.ListView):
         ctx['staff_flows'] = models.Staff.objects.filter(id__in=flows_list)
         return ctx
 
+
 # AdoptationInfo
 class AdoptationInfoTemplateView(LoginRequiredMixin, generic.TemplateView):
     template_name = 'backoffice/pages/trainig-info/adoptation/index.html'
@@ -1121,7 +1118,7 @@ def adoptation_create_view(request):
             for i in request.FILES.getlist('videos'):
                 v = models.AdoptationVideos.objects.create(video=i)
                 instance.videos.add(v)
-            
+
             for i in request.FILES.getlist('files'):
                 v = models.AdoptationFiles.objects.create(file=i)
                 instance.files.add(v)
@@ -1138,12 +1135,12 @@ def adoptation_create_view(request):
                 a = [models.AdoptationQuestions(question=i, adopt=instance) for i in request.POST.getlist('question')]
                 models.AdoptationQuestions.objects.bulk_create(a)
 
-
             return redirect('adoptation_info')
         else:
             form.fields['position'].queryset = request.user.company.position_set.all()
-    
+
     return render(request, 'backoffice/pages/trainig-info/adoptation/create.html', {'form': form})
+
 
 # Adoptation Delete
 class AdoptationInfoDeleteView(LoginRequiredMixin, generic.DeleteView):
@@ -1173,9 +1170,11 @@ class AdoptationAnswerListView(LoginRequiredMixin, generic.ListView):
         ctx['answers'] = models.StaffAnswers.objects.filter(staff__in=ctx['staffs'])
         return ctx
 
+
 # TrainingInfo
 class TrainingInfoTemplateView(LoginRequiredMixin, generic.TemplateView):
     template_name = 'backoffice/pages/trainig-info/index.html'
+
     # model = models.TrainingInfo
 
     def get_context_data(self, **kwargs):
@@ -1184,6 +1183,7 @@ class TrainingInfoTemplateView(LoginRequiredMixin, generic.TemplateView):
         ctx['items'] = company.trainingmodel_set.all()
         ctx['staffs'] = company.staff_set.all()
         return ctx
+
 
 # Training Create
 @login_required
@@ -1202,7 +1202,7 @@ def training_create_view(request):
             for i in request.FILES.getlist('videos'):
                 v = models.TrainingVideos.objects.create(video=i)
                 instance.videos.add(v)
-            
+
             for i in request.FILES.getlist('files'):
                 v = models.TrainingFiles.objects.create(file=i)
                 instance.files.add(v)
@@ -1218,11 +1218,10 @@ def training_create_view(request):
                 a = [models.TrainingQuestions(question=i, adopt=instance) for i in request.POST.getlist('question')]
                 models.TrainingQuestions.objects.bulk_create(a)
 
-
             return redirect('training_info')
         else:
             form.fields['position'].queryset = request.user.company.position_set.all()
-    
+
     return render(request, 'backoffice/pages/trainig-info/create.html', {'form': form})
 
 
@@ -1492,3 +1491,14 @@ class SuperStaffUpdateView(LoginRequiredMixin, generic.UpdateView):
         super(SuperStaffUpdateView, self).form_valid(form)
         messages.success(self.request, "Shuxrat burchagi o'zgartirildi !!!")
         return HttpResponseRedirect(reverse_lazy('super_staff'))
+
+
+def set_language_from_url(request, user_language):
+    if user_language == 'uz':
+        url = re.sub(r'/en/|/ru/', '/uz/', request.META.get('HTTP_REFERER'))
+    elif user_language == 'en':
+        url = re.sub(r'/uz/|/ru/', '/en/', request.META.get('HTTP_REFERER'))
+    else:
+        url = re.sub(r'/uz/|/en/', '/ru/', request.META.get('HTTP_REFERER'))
+
+    return HttpResponseRedirect(url)
