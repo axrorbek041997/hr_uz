@@ -1,4 +1,5 @@
 {% load static %}
+{% load i18n %}
 
 <div class="overlay"></div>
 <aside id="minileftbar" class="minileftbar">
@@ -26,18 +27,18 @@
             <div class="slim_scroll" style="overflow: hidden; width: auto; height: calc(100vh - 30px);">
                 <div class="card">
                     <div class="header">
-                        <h2><strong>App</strong> Menu</h2>
+                        <h2>{% trans "<strong>App</strong> Menu" %}</h2>
                     </div>
                     <div class="body">
                         <ul class="list-unstyled menu">
                             <li><a href="javascript:void(0)"><i
-                                        class="zmdi zmdi-calendar-note"></i><span>Calendar</span></a></li>
-                            <li><a href="javascript:void(0)"><i class="zmdi zmdi-file-text"></i><span>File
-                                        Manager</span></a></li>
-                            <li><a href="javascript:void(0)"><i class="zmdi zmdi-blogger"></i><span>Blog</span></a></li>
-                            <li><a href="javascript:void(0)"><i class="zmdi zmdi-arrows"></i><span>Notes</span></a></li>
+                                        class="zmdi zmdi-calendar-note"></i><span>{% trans "Calendar" %}</span></a></li>
+                            <li><a href="javascript:void(0)"><i class="zmdi zmdi-file-text"></i><span>
+                                {% trans "File Manager" %}</span></a></li>
+                            <li><a href="javascript:void(0)"><i class="zmdi zmdi-blogger"></i><span>{% trans "Blog" %}</span></a></li>
+                            <li><a href="javascript:void(0)"><i class="zmdi zmdi-arrows"></i><span>{% trans "Notes" %}</span></a></li>
                             <li><a href="javascript:void(0)"><i
-                                        class="zmdi zmdi-view-column"></i><span>Taskboard</span></a>
+                                        class="zmdi zmdi-view-column"></i><span>{% trans "Taskboard" %}</span></a>
                             </li>
                         </ul>
                     </div>
@@ -57,7 +58,7 @@
             <div class="slim_scroll" style="overflow: hidden; width: auto; height: calc(100vh - 30px);">
                 <div class="card">
                     <div class="header">
-                        <h2><strong>Messages</strong></h2>
+                        <h2><strong>{% trans "Messages" %}</strong></h2>
                     </div>
                     <div class="body">
                         <ul class="messages list-unstyled">
@@ -68,7 +69,7 @@
                                             src="{% static 'backoffice/assets/images/xs/avatar1.jpg' %}" alt="">
                                         <div class="media-body">
                                             <span class="name">Alexander <small class="time">35min ago</small></span>
-                                            <p class="message">New tasks needs to be done</p>
+                                            <p class="message">{% trans "New tasks needs to be done" %}</p>
                                         </div>
                                     </div>
                                 </a>
@@ -102,7 +103,7 @@
                 </div>
                 <div class="card">
                     <div class="header">
-                        <h2><strong>Notifications</strong></h2>
+                        <h2><strong>{% trans "Notifications" %}</strong></h2>
                     </div>
                     <div class="body">
                         <ul class="notification list-unstyled">
@@ -211,8 +212,8 @@
     </div>
     <div id="rightsidebar" class="right-sidebar">
         <ul class="nav nav-tabs">
-            <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#setting">Setting</a></li>
-            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#activity">Activity</a></li>
+            <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#setting">{% trans "Setting" %}</a></li>
+            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#activity">{% trans "Activity" %}</a></li>
         </ul>
         <div class="slimScrollDiv"
             style="position: relative; overflow: hidden; width: auto; height: calc(100vh - 30px);">
@@ -220,7 +221,7 @@
                 <div class="tab-pane slideRight active" id="setting">
                     <div class="card">
                         <div class="header">
-                            <h2><strong>Colors</strong> Skins</h2>
+                            <h2>{% trans "<strong>Colors</strong> Skins" %}</h2>
                         </div>
                         <div class="body">
                             <ul class="choose-skin list-unstyled m-b-0">
@@ -250,44 +251,44 @@
                     </div>
                     <div class="card">
                         <div class="header">
-                            <h2><strong>General</strong> Settings</h2>
+                            <h2>{% trans "<strong>General</strong> Settings" %}</h2>
                         </div>
                         <div class="body">
                             <ul class="setting-list list-unstyled m-b-0">
                                 <li>
                                     <div class="checkbox">
                                         <input id="checkbox1" type="checkbox">
-                                        <label for="checkbox1">Report Panel Usage</label>
+                                        <label for="checkbox1">{% trans "Report Panel Usage" %}</label>
                                     </div>
                                 </li>
                                 <li>
                                     <div class="checkbox">
                                         <input id="checkbox2" type="checkbox" checked="">
-                                        <label for="checkbox2">Email Redirect</label>
+                                        <label for="checkbox2">{% trans "Email Redirect" %}</label>
                                     </div>
                                 </li>
                                 <li>
                                     <div class="checkbox">
                                         <input id="checkbox3" type="checkbox">
-                                        <label for="checkbox3">Notifications</label>
+                                        <label for="checkbox3">{% trans "Notifications" %}</label>
                                     </div>
                                 </li>
                                 <li>
                                     <div class="checkbox">
                                         <input id="checkbox4" type="checkbox">
-                                        <label for="checkbox4">Auto Updates</label>
+                                        <label for="checkbox4">{% trans "Auto Updates" %}</label>
                                     </div>
                                 </li>
                                 <li>
                                     <div class="checkbox">
                                         <input id="checkbox5" type="checkbox" checked="">
-                                        <label for="checkbox5">Offline</label>
+                                        <label for="checkbox5">{% trans "Offline" %}</label>
                                     </div>
                                 </li>
                                 <li>
                                     <div class="checkbox m-b-0">
                                         <input id="checkbox6" type="checkbox">
-                                        <label for="checkbox6">Location Permission</label>
+                                        <label for="checkbox6">{% trans "Location Permission" %}</label>
                                     </div>
                                 </li>
                             </ul>
@@ -405,9 +406,7 @@
                                     src="{% if request.user.company.logo_url %}{{ request.user.company.logo_url }}{% else %}{% endif %}"
                                     alt="User" style="width: 100px;height: 100px;"></a>
                             {% else %}
-                            <a href="{% url 'company_update' request.user.company.id %}"
-                                class=" waves-effect waves-block"><img
-                                    src="{% static 'backoffice/assets/images/logo.svg' %}" alt="User"></a>
+                            <a href="{% url 'company_update' request.user.company.pk %}" class="waves-effect waves-block"><img src="{% static 'backoffice/assets/images/logo.svg' %}" alt="User"></a>
                             {% endif %}
                         </div>
                         <div class="detail">
@@ -445,7 +444,7 @@
                                         stroke-linecap="round" stroke-linejoin="round" />
                                 </svg>
 
-                                <span>Kompaniya info</span>
+                                <span>{% trans "Kompaniya info" %}</span>
                             </a>
                         </li>
                         <li>
@@ -457,7 +456,7 @@
                                         fill="#9FA2B4" />
                                 </svg>
 
-                                <span>Kompaniya madaniyati</span>
+                                <span>{% trans "Kompaniya madaniyati" %}</span>
                             </a>
                         </li>
                     </ul>
@@ -471,7 +470,7 @@
                                 fill="#DDE2FF" />
                         </svg>
 
-                        <span>Dashboard</span>
+                        <span>{% trans "Dashboard" %}</span>
                     </a>
                 </li>
 
@@ -498,7 +497,7 @@
                                 stroke="#9FA2B4" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
 
-                        <span>Ma'lumotlar bazasi</span></a>
+                        <span>{% trans "Ma'lumotlar bazasi" %}</span></a>
                     <ul class="ml-menu" style="display: block;">
                         <li>
                             <a href="{% url 'staff' %}" class="waves-effect waves-block">
@@ -529,7 +528,7 @@
                                         stroke="#9FA2B4" stroke-width="1.5" stroke-linecap="round"
                                         stroke-linejoin="round" />
                                 </svg>
-                                <span>Xodimlar</span>
+                                <span>{% trans "Xodimlar" %}</span>
                                 <span class="badge badge-success float-right">{{ amount_staff }}</span>
                             </a>
                         </li>
@@ -554,7 +553,7 @@
                                         stroke="#9FA2B4" stroke-width="1.5" stroke-linecap="round"
                                         stroke-linejoin="round" />
                                 </svg>
-                                <span>Lavozimlar</span>
+                                <span>{% trans "Lavozimlar" %}</span>
                                 <span class="badge badge-default float-right">{{ position_amounts }}</span>
                             </a>
                         </li>
@@ -587,7 +586,7 @@
                                         stroke="#9FA2B4" stroke-width="1.5" stroke-linecap="round"
                                         stroke-linejoin="round" />
                                 </svg>
-                                <span>Bo'limlar</span>
+                                <span>{% trans "Bo'limlar" %}</span>
                                 <span class="badge badge-default float-right">{{ department_amounts }}</span>
                             </a>
                         </li>
@@ -600,7 +599,7 @@
                                         fill="#9FA2B4" />
                                 </svg>
 
-                                <span>Org. sxema</span>
+                                <span>{% trans "Org. sxema" %}</span>
                             </a>
                         </li>
                         <li>
@@ -612,7 +611,7 @@
                                     <path d="M18.0183 18.4851L21.5423 22" stroke="#9FA2B4" stroke-width="1.5"
                                         stroke-linecap="round" stroke-linejoin="round" />
                                 </svg>
-                                Hodim qidirish
+                                {% trans "Hodim qidirish" %}
                             </a>
                         </li>
                     </ul>
@@ -634,7 +633,7 @@
                                 stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
 
-                        <span>Recruitment</span></a>
+                        <span>{% trans "Recruitment" %}</span></a>
                     <ul class="ml-menu" style="display: block;">
                         <li>
                             <a href="{% url 'new_telegram_staff' %}" class=" waves-effect waves-block">
@@ -668,7 +667,7 @@
                                         d="M5.90625 0C3.7868 0 2.0625 1.7243 2.0625 3.84375C2.0625 5.9632 3.7868 7.6875 5.90625 7.6875C8.0257 7.6875 9.75 5.9632 9.75 3.84375C9.75 1.7243 8.0257 0 5.90625 0ZM5.90625 6.75C4.30373 6.75 3 5.44627 3 3.84375C3 2.24123 4.30373 0.9375 5.90625 0.9375C7.50877 0.9375 8.8125 2.24123 8.8125 3.84375C8.8125 5.44627 7.50877 6.75 5.90625 6.75Z"
                                         fill="#9FA2B4" />
                                 </svg>
-                                <span>Kandidatlar</span>
+                                <span>{% trans "Kandidatlar" %}</span>
                                 <span class="badge badge-success float-right">{{ bot_user_list_counter }}</span>
                             </a>
                         </li>
@@ -693,7 +692,7 @@
                         </svg>
 
 
-                        <span>Adaptatsiya</span></a>
+                        <span>{% trans "Adaptatsiya" %}</span></a>
                     <ul class="ml-menu" style="display: block;">
                         <li>
                             <a href="{% url 'adoptation_info' %}" class=" waves-effect waves-block">
@@ -707,7 +706,7 @@
                                         fill="#9FA2B4" />
                                 </svg>
 
-                                <span>Adaptatsiyasi</span>
+                                <span>{% trans "Adaptatsiyasi" %}</span>
                             </a>
                         </li>
                         <li>
@@ -722,7 +721,7 @@
                                         fill="#9FA2B4" />
                                 </svg>
 
-                                <span>Natijalari</span>
+                                <span>{% trans "Natijalari" %}</span>
                             </a>
                         </li>
                     </ul>
@@ -754,7 +753,7 @@
                                 d="M16.2383 3.5791H7.77096C4.83427 3.5791 3 5.21504 3 8.22213V17.2718C3 20.3261 4.83427 21.9999 7.77096 21.9999H16.229C19.175 21.9999 21 20.3545 21 17.3474V8.22213C21.0092 5.21504 19.1842 3.5791 16.2383 3.5791Z"
                                 stroke="#9FA2B4" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
-                        <span>Davomat</span></a>
+                        <span>{% trans "Davomat" %}</span></a>
                     <ul class="ml-menu" style="display: block;">
                         <li>
                             <a href="{% url 'control_staff_flow' %}" class=" waves-effect waves-block">
@@ -769,7 +768,7 @@
                                 </svg>
 
 
-                                <span>Kelish ketish nazorati</span>
+                                <span>{% trans "Kelish ketish nazorati" %}</span>
                             </a>
                         </li>
                         <li>
@@ -784,7 +783,7 @@
                                         stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                                 </svg>
 
-                                <span>Kompaniya ish vaqti</span>
+                                <span>{% trans "Kompaniya ish vaqti" %}</span>
                             </a>
                         </li>
                     </ul>
@@ -802,7 +801,7 @@
                                 <path d="M0,0h24v24H0V0z" fill="none" />
                             </g>
                         </svg>
-                        <span>Jarima va Bonuslar</span></a>
+                        <span>{% trans "Jarima va Bonuslar" %}</span></a>
                     <ul class="ml-menu" style="display: block;">
                         <li>
                             <a href="{% url 'control_staff_flow' %}" class=" waves-effect waves-block">
@@ -817,7 +816,7 @@
                                 </svg>
 
 
-                                <span>Jarimalar</span>
+                                <span>{% trans "Jarimalar" %}</span>
                             </a>
                         </li>
                         <li>
@@ -832,7 +831,7 @@
                                         stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                                 </svg>
 
-                                <span>Bonuslar</span>
+                                <span>{% trans "Bonuslar" %}</span>
                             </a>
                         </li>
                     </ul>
@@ -857,7 +856,7 @@
 
 
 
-                        <span>Trening</span></a>
+                        <span>{% trans "Trening" %}</span></a>
                     <ul class="ml-menu" style="display: block;">
                         <li>
                             <a href="{% url 'training_info' %}" class=" waves-effect waves-block">
@@ -871,7 +870,7 @@
                                         fill="#9FA2B4" />
                                 </svg>
 
-                                <span>Trening</span>
+                                <span>{% trans "Trening" %}</span>
                             </a>
                         </li>
                         <li>
@@ -886,7 +885,7 @@
                                         fill="#9FA2B4" />
                                 </svg>
 
-                                <span>Natijalar</span>
+                                <span>{% trans "Natijalar" %}</span>
                             </a>
                         </li>
                     </ul>
@@ -901,7 +900,7 @@
                                 stroke="#9FA2B4" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
 
-                        <span>Shuxrat devori</span></a>
+                        <span>{% trans "Shuxrat devori" %}</span></a>
                 </li>
 
                 <!-- Payments -->
@@ -926,7 +925,7 @@
 
 
 
-                        <span>To'lov</span></a>
+                        <span>{% trans "To'lov" %}</span></a>
                     <ul class="ml-menu" style="display: block;">
                         <li>
                             <a href="{% url 'payme' %}" class=" waves-effect waves-block">
@@ -940,7 +939,7 @@
                                         fill="#9FA2B4" />
                                 </svg>
 
-                                <span>To'lash</span>
+                                <span>{% trans "To'lash" %}</span>
                             </a>
                         </li>
                         <li>
@@ -955,7 +954,7 @@
                                         fill="#9FA2B4" />
                                 </svg>
 
-                                <span>To'lovni tasdiqlash</span>
+                                <span>{% trans "To'lovni tasdiqlash" %}</span>
                             </a>
                         </li>
                     </ul>

@@ -3,6 +3,7 @@ from pathlib import Path
 from datetime import timedelta
 from django.urls import reverse
 from rest_framework.reverse import reverse_lazy
+from django.utils.translation import gettext_lazy as _
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,6 +26,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    "translation_manager",
     'django_extensions',
     'app.apps.AppConfig',
     'backoffice.apps.BackofficeConfig',
@@ -54,6 +56,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -81,10 +84,15 @@ TEMPLATES = [
                 'backoffice.context_processors.department_amount',
                 'backoffice.context_processors.bot_user_list_counter',
                 'backoffice.context_processors.staff_gender_statistic',
+                'django.template.context_processors.i18n',
             ],
         },
     },
 ]
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.core.context_processors.i18n',  # this one
+)
 
 WSGI_APPLICATION = 'project.wsgi.application'
 
@@ -120,6 +128,16 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
 LANGUAGE_CODE = 'uz'
+
+LANGUAGES = (
+    ('uz', _('Uzbek')),
+    ('en', _('English')),
+    ('ru', _('Russian')),
+)
+
+LOCALE_PATHS = (
+    os.path.join(BASE_DIR, 'locale/'),
+)
 
 TIME_ZONE = 'Asia/Tashkent'
 
