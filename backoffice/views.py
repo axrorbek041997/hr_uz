@@ -886,7 +886,7 @@ Description=uWSGI Emperor service
 [Service]
 WorkingDirectory=/var/www/hr_project/project
 #ExecStartPre=/bin/bash -c 'mkdir -p /run/uwsgi; chown ubuntu:www-data /run/uwsgi'
-ExecStart=/var/www/hr_project/venv/bin/python /var/www/hr_project/project/app/bot/bot_{company_id}.py --serve-in-foreground
+ExecStart=/var/www/hr_project/venv/bin/python /var/www/hr_uz/app/bot/bot_{company_id}.py --serve-in-foreground
 Restart=always
 KillSignal=SIGQUIT
 Type=idle
