@@ -2,7 +2,7 @@
 
 
 {% block title %}
-Xodimlar
+{% translate "Xodimlar" %}
 {% endblock %}
 
 {% block content %}
@@ -11,16 +11,16 @@ Xodimlar
         <div class="block-header">
             <div class="row clearfix">
                 <div class="col-lg-12 col-md-12 col-sm-12">
-                    <h2>Xodimlar</h2>
+                    <h2>{% translate "Xodimlar" %}</h2>
                     <ul class="breadcrumb padding-0">
                         <li class="breadcrumb-item"><a href="{% url 'backoffice-main' %}"><i class="zmdi zmdi-home"></i></a>
                         </li>
-                        <li class="breadcrumb-item">Xodimlar</li>
+                        <li class="breadcrumb-item">{% translate "Xodimlar" %} </li>
                     </ul>
                     {% if messages %}
                     {% for message in messages %}
                     <div class="text-center btn btn-success rounded-lg w-100 btn-{{ message.tags }} messages">
-                        <p class="text-center">{{ message|safe }}</p>
+                        <p class="text-center">{% translate "{{ message|safe }}" %}</p>
                     </div>
                     {% endfor %}
                     {% endif %}
@@ -32,7 +32,7 @@ Xodimlar
             <div class="col-lg-12">
                 <div class="card">
                     <div class="header">
-                        <a href="{% url 'staff_create' %}" class="btn btn-success">Hodim yaratish <i
+                        <a href="{% url 'staff_create' %}" class="btn btn-success">{% translate "Hodim yaratish" %} <i
                                 class="zmdi zmdi-plus"></i></a>
                     </div>
                     <div class="body">
@@ -41,19 +41,19 @@ Xodimlar
                                 <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>To'liq ismi</th>
-                                    <th>Ish boshlagan sana</th>
-                                    <th>Bo'lim</th>
-                                    <th>Lavozim</th>
-                                    <th>Outsource</th>
+                                    <th>{% translate "To'liq ismi" %}</th>
+                                    <th>{% translate "Ish boshlagan sana" %}</th>
+                                    <th>{% translate "Bo'lim" %}</th>
+                                    <th>{% translate "Lavozim" %}</th>
+                                    <th>{% translate "Outsource" %}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 {% for staff in staffs %}
                                 <tr>
                                     <td>{{ forloop.counter }}</td>
-                                    <td><a href="{% url 'staff-detail' staff.pk %}">{{ staff.first_name }}
-                                        {{ staff.second_name }} {{ staff.last_name }}</a></td>
+                                    <td><a href="{% url 'staff-detail' staff.pk %}">{% blocktranslate %}{{ staff.first_name }}
+                                        {{ staff.second_name }} {{ staff.last_name }}{% endblocktranslate %}</a></td>
                                     <td>{{ staff.birth_date }}</td>
                                     <td>{{ staff.department }}</td>
                                     <td>{{ staff.position}}</td>
@@ -96,15 +96,15 @@ Xodimlar
             <div class="modal-body">
                 <div class="card">
                     <div class="header">
-                        <h2>O'chirmoqchimisiz?</h2>
+                        <h2>{% translate "O'chirmoqchimisiz?" %}</h2>
                     </div>
                     <div class="body d-flex justify-content-around">
-                        <button type="button" class="btn btn-success rounded-lg waves-effect" data-dismiss="modal">Bekor
-                            qilish
+                        <button type="button" class="btn btn-success rounded-lg waves-effect" data-dismiss="modal">{% translate "Bekor
+                            qilish" %}
                         </button>
                         <form action="{% url 'staff_delete' pk=item.pk %}" method="POST">
                             {% csrf_token %}
-                            <button type="submit" class="btn btn-danger rounded-lg waves-effect">O'chirish</button>
+                            <button type="submit" class="btn btn-danger rounded-lg waves-effect">{% translate "O'chirish" %}</button>
                         </form>
                     </div>
                 </div>

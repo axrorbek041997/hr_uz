@@ -4,7 +4,7 @@
 {% load app_tags %}
 
 {% block title %}
-Hodim Adaptatsiyasi
+{% translate "Hodim Adaptatsiyasi" %}
 {% endblock %}
 
 {#zmdi-hc-spin#}
@@ -14,16 +14,16 @@ Hodim Adaptatsiyasi
         <div class="block-header">
             <div class="row clearfix">
                 <div class="col-lg-12 col-md-12 col-sm-12">
-                    <h2>Hodim Adaptatsiyasi</h2>
+                    <h2>{% translate "Hodim Adaptatsiyasi" %}</h2>
                     <ul class="breadcrumb padding-0">
                         <li class="breadcrumb-item"><a href="{% url 'backoffice-main' %}"><i
                                     class="zmdi zmdi-home"></i></a></li>
-                        <li class="breadcrumb-item active">Hodim Adaptatsiyasi</li>
+                        <li class="breadcrumb-item active">{% translate "Hodim Adaptatsiyasi" %}</li>
                     </ul>
                     {% if messages %}
                     {% for message in messages %}
                     <div class="text-center btn btn-success rounded-lg w-100 btn-{{ message.tags }} messages">
-                        <p class="text-center">{{ message|safe }}</p>
+                        <p class="text-center">{% blocktranslate %}{{ message|safe }}{% endblocktranslate %}</p>
                     </div>
                     {% endfor %}
                     {% endif %}
@@ -37,21 +37,21 @@ Hodim Adaptatsiyasi
                     <div class="header training-list-header">
 
                         <a href="{% url 'adoptation_info_create' %}" class="btn btn-success waves-effect"><i
-                                class="zmdi zmdi-collection-add"></i> Adaptatsiya yaratish
+                                class="zmdi zmdi-collection-add"></i> {% translate "Adaptatsiya yaratish" %}
                         </a>
 
-                        <button class="btn" id="copy-url">Ishchilar uchun
-                            manzil</button>
+                        <button class="btn" id="copy-url">{% translate "Ishchilar uchun
+                            manzil" %}</button>
                     </div>
                     <div class="body">
                         <table class="table table-borderless table-striped table-hover" id="training_info">
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Training</th>
-                                    <th>Lavozimi</th>
-                                    <th>O'chirish</th>
-                                    <th>Taxrirlash</th>
+                                    <th>{% translate "Training" %}</th>
+                                    <th>{% translate "Lavozimi" %}</th>
+                                    <th>{% translate "O'chirish" %}</th>
+                                    <th>{% translate "Taxrirlash" %}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -59,10 +59,10 @@ Hodim Adaptatsiyasi
                                 <tr>
                                     <th scope="row">{{ forloop.counter }}</th>
                                     <td>
-                                        {{ item.title }}
+                                        {% blocktranslate %}{{ item.title }}{% endblocktranslate %}
                                     </td>
                                     <td>
-                                        {{ item.position }}
+                                        {% blocktranslate %}{{ item.position }}{% endblocktranslate %}
                                     </td>
                                     <td>
                                         <!-- type="button" id="{{ item.id }}" onclick="onDelete(this.id)" -->
@@ -127,12 +127,12 @@ Hodim Adaptatsiyasi
                     </div>
                     <div class="body d-flex justify-content-around">
                         <button type="button" onclick="location.href='/backoffice/training-info/'"
-                            class="btn btn-success rounded-lg waves-effect" data-dismiss="modal">Bekor
-                            qilish
+                            class="btn btn-success rounded-lg waves-effect" data-dismiss="modal">{% translate "Bekor
+                            qilish" %}
                         </button>
                         <form method="POST">
                             {% csrf_token %}
-                            <button type="submit" class="btn btn-danger rounded-lg waves-effect">O'chirish</button>
+                            <button type="submit" class="btn btn-danger rounded-lg waves-effect">{% translate "O'chirish" %}</button>
                         </form>
                     </div>
                 </div>

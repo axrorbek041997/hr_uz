@@ -1,7 +1,7 @@
 {% extends 'backoffice/base.html' %}
 
 {% block title %}
-Kuzariladigan hujjatlar
+{% translate "Kuzariladigan hujjatlar" %}
 {% endblock %}
 
 
@@ -11,17 +11,17 @@ Kuzariladigan hujjatlar
         <div class="block-header">
             <div class="row clearfix">
                 <div class="col-lg-12 col-md-12 col-sm-12">
-                    <h2>Kuzariladigan hujjatlar</h2>
+                    <h2>{% translate "Kuzariladigan hujjatlar" %}</h2>
                     <ul class="breadcrumb padding-0">
                         <li class="breadcrumb-item"><a href="{% url 'backoffice-main' %}"><i class="zmdi zmdi-home"></i></a>
                         </li>
-                        <li class="breadcrumb-item"><a href="{% url 'staff' %}">Xodimlar</a></li>
-                        <li class="breadcrumb-item">Kuzariladigan hujjatlar</li>
+                        <li class="breadcrumb-item"><a href="{% url 'staff' %}">{% translate "Xodimlar" %}</a></li>
+                        <li class="breadcrumb-item">{% translate "Kuzariladigan hujjatlar" %}</li>
                     </ul>
                     {% if messages %}
                     {% for message in messages %}
                     <div class="text-center btn btn-success rounded-lg w-100 btn-{{ message.tags }} messages">
-                        <p class="text-center">{{ message|safe }}</p>
+                        <p class="text-center">{% blocktranslate %}{{ message|safe }}{% endblocktranslate %}</p>
                     </div>
                     {% endfor %}
                     {% endif %}
@@ -35,7 +35,7 @@ Kuzariladigan hujjatlar
                     <div class="header">
                         <div class="button-demo js-modal-buttons">
                             <button type="button" data-color="pink" data-toggle="modal" data-target="#colorModal"
-                                    class="btn btn-success waves-effect"><i class="zmdi zmdi-plus"></i> Biriktirish
+                                    class="btn btn-success waves-effect"><i class="zmdi zmdi-plus"></i>{% translate "Biriktirish" %}
                             </button>
                         </div>
                     </div>
@@ -44,21 +44,21 @@ Kuzariladigan hujjatlar
                             <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Nomlanishi</th>
-                                <th>Berilgn sana</th>
-                                <th>Tugash mudati</th>
-                                <th>Hujjat</th>
-                                <th>O'chirish</th>
-                                <th>Taxrirlash</th>
+                                <th>{% translate "Nomlanishi" %}</th>
+                                <th>{% translate "Berilgn sana" %}</th>
+                                <th>{% translate "Tugash mudati" %}</th>
+                                <th>{% translate "Hujjat" %}</th>
+                                <th>{% translate "O'chirish" %}</th>
+                                <th>{% translate "Taxrirlash" %}</th>
                             </tr>
                             </thead>
                             <tbody>
                             {% for document in documents %}
                             <tr>
                                 <th scope="row">{{ document.id }}</th>
-                                <td>{{ document.name }}</td>
-                                <td>{{ document.date_of_issue }}</td>
-                                <td>{{ document.validity_period }}</td>
+                                <td>{% blocktranslate %}{{ document.name }}{% endblocktranslate %}</td>
+                                <td>{% blocktranslate %}{{ document.date_of_issue }}{% endblocktranslate %}</td>
+                                <td>{% blocktranslate %}{{ document.validity_period }}{% endblocktranslate %}</td>
                                 <td><a href="{{ document.document.url }}" class="text-center"><i
                                         class="zmdi zmdi-file"></i>pdf/.doc</a></td>
                                 <td>
@@ -105,7 +105,7 @@ Kuzariladigan hujjatlar
                     <div class="header">
                         <div class="button-demo js-modal-buttons">
                             <button type="button" data-color="pink" data-toggle="modal" data-target="#colorModal"
-                                    class="btn btn-success waves-effect"><i class="zmdi zmdi-plus"></i> Biriktirish
+                                    class="btn btn-success waves-effect"><i class="zmdi zmdi-plus"></i> {% translate "Biriktirish" %}
                             </button>
                         </div>
                     </div>
@@ -120,7 +120,7 @@ Kuzariladigan hujjatlar
     <div class="modal-dialog" role="document">
         <div class="modal-content bg-white">
             <div class="modal-header">
-                <h4 class="title text-dark">Xujjat biriktirish</h4>
+                <h4 class="title text-dark">{% translate "Xujjat biriktirish" %}</h4>
             </div>
             <div class="modal-body">
                 <form action="{% url 'document' staff_id %}" method="post" enctype="multipart/form-data">
@@ -128,20 +128,20 @@ Kuzariladigan hujjatlar
                     <div class="col-sm-12">
                         <div class="form-group">
                             <div class="form-group">
-                                <label for="name" class="text-dark">Nomlanishi:</label>
+                                <label for="name" class="text-dark">{% translate "Nomlanishi:" %}</label>
                                 <input type="text" name="name" id="name" class="form-control" required>
                             </div>
                         </div>
                     </div>
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label for="date_of_issue" class="text-dark">Berilgan sana:</label>
+                            <label for="date_of_issue" class="text-dark">{% translate "Berilgan sana:" %}</label>
                             <input type="date" name="date_of_issue" id="date_of_issue" class="form-control" required>
                         </div>
                     </div>
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label for="validity_period" class="text-dark">Tugash mudati:</label>
+                            <label for="validity_period" class="text-dark">{% translate "Tugash mudati:" %}</label>
                             <input type="date" name="validity_period" id="validity_period" class="form-control"
                                    required>
                         </div>
@@ -150,16 +150,16 @@ Kuzariladigan hujjatlar
                         <div class="form-group">
                             <input type="file" class="form-control-file" name="document" id="exampleInputFile"
                                    aria-describedby="fileHelp">
-                            <small id="fileHelp" class="form-text text-muted">Hujjtni yuklang</small>
+                            <small id="fileHelp" class="form-text text-muted">{% translate "Hujjtni yuklang" %}</small>
                         </div>
                     </div>
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label for="note" class="text-dark">Ta'rifi:</label>
+                            <label for="note" class="text-dark">{% translate "Ta'rifi:" %}</label>
                             <input type="text" name="note" id="note" class="form-control" required>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-success">Biriktirish</button>
+                    <button type="submit" class="btn btn-success">{% translate "Biriktirish" %}</button>
                 </form>
             </div>
             <div class="modal-footer">
@@ -175,7 +175,7 @@ Kuzariladigan hujjatlar
     <div class="modal-dialog" role="document">
         <div class="modal-content bg-white">
             <div class="modal-header">
-                <h4 class="title text-dark">Ish haqqini biriktirish</h4>
+                <h4 class="title text-dark">{% translate "Ish haqqini biriktirish" %}</h4>
             </div>
             <div class="modal-body">
                 <form action="{% url 'document_update' item.id %}" method="post" enctype="multipart/form-data">
@@ -183,21 +183,21 @@ Kuzariladigan hujjatlar
                     <div class="col-sm-12">
                         <div class="form-group">
                             <div class="form-group">
-                                <label for="name" class="text-dark">Nomlanishi:</label>
+                                <label for="name" class="text-dark">{% translate "Nomlanishi:"</label>
                                 <input type="text" name="name" id="name" class="form-control" value="{{ item.name }}">
                             </div>
                         </div>
                     </div>
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label for="date_of_issue" class="text-dark">Berilgan sana:</label>
+                            <label for="date_of_issue" class="text-dark">{% translate "Berilgan sana:" %}</label>
                             <input type="date" name="date_of_issue" id="date_of_issue" class="form-control"
                                    value="{{ item.date_of_issue|date:" Y-m-d" }}">
                         </div>
                     </div>
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label for="validity_period" class="text-dark">Tugash mudati:</label>
+                            <label for="validity_period" class="text-dark">{% translate "Tugash mudati:" %}</label>
                             <input type="date" name="validity_period" id="validity_period" class="form-control"
                                    value="{{ item.validity_period|date:" Y-m-d" }}">
                         </div>
@@ -206,16 +206,16 @@ Kuzariladigan hujjatlar
                         <div class="form-group">
                             <input type="file" class="form-control-file" name="document" id="exampleInputFile"
                                    aria-describedby="fileHelp" value="{{ item.document.url }}">
-                            <small id="fileHelp" class="form-text text-muted">Hujjtni yuklang</small>
+                            <small id="fileHelp" class="form-text text-muted">{% translate "Hujjtni yuklang" %}</small>
                         </div>
                     </div>
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label for="note" class="text-dark">Ta'rifi:</label>
+                            <label for="note" class="text-dark">{% translate "Ta'rifi" %}:</label>
                             <input type="text" name="note" id="note" class="form-control" value="{{ item.note }}">
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-success">Saqlash</button>
+                    <button type="submit" class="btn btn-success">{% translate "Saqlash" %}</button>
                 </form>
             </div>
             <div class="modal-footer">
@@ -238,15 +238,15 @@ Kuzariladigan hujjatlar
             <div class="modal-body">
                 <div class="card">
                     <div class="header">
-                        <h2>O'chirmoqchimisiz?</h2>
+                        <h2>{% translate "O'chirmoqchimisiz?" %}</h2>
                     </div>
                     <div class="body d-flex justify-content-around">
-                        <button type="button" class="btn btn-success rounded-lg waves-effect" data-dismiss="modal">Bekor
-                            qilish
+                        <button type="button" class="btn btn-success rounded-lg waves-effect" data-dismiss="modal">{% translate "Bekor
+                            qilish" %}
                         </button>
                         <form action="{% url 'document_delete' pk=item.pk %}" method="POST">
                             {% csrf_token %}
-                            <button type="submit" class="btn btn-danger rounded-lg waves-effect">O'chirish</button>
+                            <button type="submit" class="btn btn-danger rounded-lg waves-effect">{% translate "O'chirish" %}</button>
                         </form>
                     </div>
                 </div>

@@ -2,7 +2,7 @@
 
 {% load app_tags %}
 {% block title %}
-    Shuxrat devori
+    {% translate "Shuxrat devori" %}
 {% endblock %}
 
 {#zmdi-hc-spin#}
@@ -16,7 +16,7 @@
                         <ul class="breadcrumb padding-0">
                             <li class="breadcrumb-item"><a href="{% url 'backoffice-main' %}"><i
                                     class="zmdi zmdi-home"></i></a></li>
-                            <li class="breadcrumb-item active">Shuxrat devori</li>
+                            <li class="breadcrumb-item active">{% translate "Shuxrat devori" %}</li>
                         </ul>
                     </div>
                 </div>
@@ -28,7 +28,7 @@
                         <div class="header">
 
                             <button type="button" data-color="pink" data-toggle="modal" data-target="#colorModal"
-                                    class="btn btn-success waves-effect"><i class="zmdi zmdi-plus"></i> Biriktirish
+                                    class="btn btn-success waves-effect"><i class="zmdi zmdi-plus"></i>{% translate " Biriktirish" %}
                             </button>
 
                         </div>
@@ -37,11 +37,11 @@
                                 <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Haftaing/Oyning</th>
-                                    <th>Sana</th>
-                                    <th>Eng zo'r hodimi</th>
-                                    <th>O'chirish</th>
-                                    <th>Taxrirlash</th>
+                                    <th>{% translate "Haftaing/Oyning" %}</th>
+                                    <th>{% translate "Sana" %}</th>
+                                    <th>{% translate "Eng zo'r hodimi" %}</th>
+                                    <th>{% translate "O'chirish" %}</th>
+                                    <th>{% translate "Taxrirlash" %}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -51,13 +51,13 @@
                                             <p>{{ forloop.counter }}</p>
                                         </td>
                                         <td>
-                                            <p>{{ item.type|capfirst }}</p>
+                                            <p>{{% blocktranslate %}{{ item.type|capfirst }}{% endblocktranslate %}</p>
                                         </td>
                                         <td>
-                                            <p>{{ item.created_at }}</p>
+                                            <p>{% blocktranslate %}{{ item.created_at }}{% endblocktranslate %}</p>
                                         </td>
                                         <td>
-                                            <p>{{ item.staff.first_name }} {{ item.staff.second_name }}</p>
+                                            <p>{% blocktranslate %}{{ item.staff.first_name }} {{ item.staff.second_name }}{% endblocktranslate %}</p>
                                         </td>
                                         <td>
                                             <form action="{% url 'super_staff_delete' pk=item.pk %}" method="POST">
@@ -88,14 +88,14 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Biriktirish</h5>
+                    <h5 class="modal-title">{% translate "Biriktirish" %}</h5>
                     <button type="button" class="btn btn-neutral" data-dismiss="modal"><i
                             class="zmdi zmdi-close" style="padding: 0 !important;"></i></button>
                 </div>
                 <div class="modal-body">
                     <div class="card">
                         <div class="header">
-                            <h2>Biriktirish</h2>
+                            <h2>{% translate "Biriktirish" %}</h2>
                         </div>
                         <div class="body">
                             <form action="{% url 'super_staff' %}" method="POST" enctype="multipart/form-data">
@@ -116,7 +116,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title text-dark">Taxrirlash</h5>
+                        <h5 class="modal-title text-dark">{% translate "Taxrirlash" %}</h5>
                         <button type="button" class="btn btn-neutral" data-dismiss="modal" style="padding: 0 !important;">
                             <i class="zmdi zmdi-close"></i>
                         </button>

@@ -1,7 +1,7 @@
 {% extends 'backoffice/base.html' %}
 
 {% block title %}
-Hodim Training
+{% translate "Hodim Training" %}
 {% endblock %}
 
 {#zmdi-hc-spin#}
@@ -11,11 +11,11 @@ Hodim Training
         <div class="block-header">
             <div class="row clearfix">
                 <div class="col-lg-5 col-md-5 col-sm-12">
-                    <h2>Hodim Training</h2>
+                    <h2>{% translate "Hodim Training" %}</h2>
                     <ul class="breadcrumb padding-0">
                         <li class="breadcrumb-item"><a href="{% url 'backoffice-main' %}"><i
                                     class="zmdi zmdi-home"></i></a></li>
-                        <li class="breadcrumb-item active">Hodim Training</li>
+                        <li class="breadcrumb-item active">{% translate "Hodim Training" %}</li>
                     </ul>
                 </div>
             </div>
@@ -39,7 +39,7 @@ Hodim Training
                                         <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th>To'liq ismi</th>
+                                                <th>{% translate "To'liq ismi" %}</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -48,8 +48,8 @@ Hodim Training
                                                 <td>{{ forloop.counter }}</td>
                                                 <td>
                                                     <a href="#" data-toggle="modal"
-                                                        data-target="#defaultModal{{ staff.id }}">{{ staff.first_name }}
-                                                        {{ staff.second_name }} {{ staff.last_name }}</a>
+                                                        data-target="#defaultModal{{ staff.id }}">{% blocktranslate %}{{ staff.first_name }}
+                                                        {{ staff.second_name }} {{ staff.last_name }}{% endblocktranslate %}</a>
                                                 </td>
                                             </tr>
                                             {% endfor %}
@@ -73,7 +73,7 @@ Hodim Training
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Javoblar</h5>
+                <h5 class="modal-title">{% translate "Javoblar" %}</h5>
                 <button type="button" class="btn btn-neutral" data-dismiss="modal" style="padding: 0 !important;"><i
                         class="zmdi zmdi-close"></i>
                 </button>
@@ -81,8 +81,8 @@ Hodim Training
             <div class="modal-body">
                 {% for answer in answers %}
                 {% if answer.staff == item %}
-                <p>{{ answer.question }}</p>
-                <p>{{ answer.answer }}</p>
+                <p>{% blocktranslate %}{{ answer.question }}{% endblocktranslate %}</p>
+                <p>{% blocktranslate %}{{ answer.answer }}{% endblocktranslate %}</p>
                 <hr>
                 {% endif %}
                 {% endfor %}

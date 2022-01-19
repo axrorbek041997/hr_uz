@@ -3,7 +3,7 @@
 {% load mptt_tags %}
 {% load app_tags %}
 {% block title %}
-    Company ORG System
+{% translate "Company ORG System" %}
 {% endblock %}
 {% block css %}
     <link rel="stylesheet" href="{% static 'backoffice/assets/plugins/nestable/jquery-nestable.css' %}">
@@ -15,10 +15,10 @@
             <div class="block-header">
             <div class="row clearfix">
                 <div class="col-lg-5 col-md-5 col-sm-12">
-                    <h2>ORG System</h2>
+                    <h2>{% translate "ORG System" %}</h2>
                     <ul class="breadcrumb padding-0">
                         <li class="breadcrumb-item"><a href="{% url 'backoffice-main' %}"><i class="zmdi zmdi-home"></i></a></li>
-                        <li class="breadcrumb-item active">ORG System</li>
+                        <li class="breadcrumb-item active">{% translate "ORG System" %}</li>
                     </ul>
                 </div>
             </div>
@@ -30,7 +30,7 @@
                         <div class="header">
 
                             <button type="button" data-color="pink" data-toggle="modal" data-target="#colorModal"
-                                    class="btn btn-success waves-effect"><i class="zmdi zmdi-plus"></i> Biriktirish
+                                    class="btn btn-success waves-effect"><i class="zmdi zmdi-plus"></i>{% translate "Biriktirish" %}
                             </button>
 
                         </div>
@@ -39,9 +39,9 @@
                                 <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Day</th>
-                                    <th>O'chirish</th>
-                                    <th>Taxrirlash</th>
+                                    <th>{% translate "Day" %}</th>
+                                    <th>{% translate "O'chirish" %}</th>
+                                    <th>{% translate "Taxrirlash" %}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -54,16 +54,16 @@
                 <div class="col-lg-6 col-md-6 col-sm-6">
                     <div class="card">
                         <div class="header">
-                            <h2>ORG System</h2>
+                            <h2>{% translate "ORG System" %}</h2>
                         </div>
                         <div class="body">
                             <ul>
                                 {% recursetree items %}
                                     <li>
-                                        {{ node.name }}
+                                        {% blocktranslate %}{{ node.name }}{% endblocktranslate %}
                                         {% if not node.is_leaf_node %}
                                             <ul class="children">
-                                                {{ children }}
+                                                {% blocktranslate %}{{ children }}{% endblocktranslate %}
                                             </ul>
                                         {% endif %}
                                     </li>
@@ -79,14 +79,14 @@
             <div class="col-lg-12 col-md-12 col-sm-12">
                 <div class="card">
                     <div class="header">
-                        <h2><strong>Draggable</strong> Handles</h2>
+                        <h2><strong>{% translate "Draggable" %}</strong> {% translate "Handles" %}</h2>
                         <ul class="header-dropdown">
                             <li class="dropdown"> <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="zmdi zmdi-more"></i> </a>
                                 <ul class="dropdown-menu dropdown-menu-right">
-                                    <li><a href="javascript:void(0);">Action</a></li>
-                                    <li><a href="javascript:void(0);">Another action</a></li>
-                                    <li><a href="javascript:void(0);">Something else</a></li>
-									<li><a href="javascript:void(0);" class="boxs-close">Delete</a></li>
+                                    <li><a href="javascript:void(0);">{% translate "Action" %}</a></li>
+                                    <li><a href="javascript:void(0);">{% translate "Another action" %}</a></li>
+                                    <li><a href="javascript:void(0);">{% translate "Something else" %}</a></li>
+									<li><a href="javascript:void(0);" class="boxs-close">{% translate "Delete" %}</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -124,7 +124,7 @@
                                 </ol>
                             </div>
                         </div>
-                        <b>Output JSON</b>
+                        <b>{% translate "Output JSON" %}</b>
                         <textarea cols="30" rows="3" class="form-control no-resize" readonly>[{"id":13},{"id":14},{"id":15,"children":[{"id":17},{"id":16},{"id":18}]}]</textarea>
                     </div>
                 </div>
@@ -142,7 +142,7 @@
                 <div class="modal-body">
                     <div class="card">
                         <div class="header">
-                            <h2>Biriktirish</h2>
+                            <h2>{% translate "Biriktirish" %}</h2>
                         </div>
                         <div class="body">
                             <form action="">
@@ -167,7 +167,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content bg-white">
                     <div class="modal-header">
-                        <h4 class="title text-dark">Taxrirlash</h4>
+                        <h4 class="title text-dark">{% translate "Taxrirlash" %}</h4>
                     </div>
                     <div class="modal-body">
 

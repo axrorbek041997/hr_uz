@@ -3,7 +3,7 @@
 
 {% load app_tags %}
 {% block title %}
-Kompaniya ish vaqti
+{% translate "Kompaniya ish vaqti" %}
 {% endblock %}
 
 {#zmdi-hc-spin#}
@@ -17,16 +17,16 @@ Kompaniya ish vaqti
         <div class="block-header">
             <div class="row clearfix">
                 <div class="col-lg-12 col-md-12 col-sm-12">
-                    <h2>Kompaniya <b>{{ object.name }}</b> ish vaqti</h2>
+                    <h2>{% translate "Kompaniya" %} <b>{% blocktranslate %}{{ object.name }}{% endblocktranslate %}</b>{% translate "ish vaqti" %}</h2>
                     <ul class="breadcrumb padding-0">
                         <li class="breadcrumb-item"><a href="{% url 'backoffice-main' %}"><i class="zmdi zmdi-home"></i></a>
                         </li>
-                        <li class="breadcrumb-item active">Kompaniya ish vaqti</li>
+                        <li class="breadcrumb-item active">{% translate "Kompaniya ish vaqti" %}</li>
                     </ul>
                     {% if messages %}
                     {% for message in messages %}
                     <div class="text-center btn btn-success rounded-lg w-100 btn-{{ message.tags }} messages">
-                        <p class="text-center">{{ message|safe }}</p>
+                        <p class="text-center">{% blocktranslate %}{{ message|safe }}{% endblocktranslate %}</p>
                     </div>
                     {% endfor %}
                     {% endif %}
@@ -46,37 +46,37 @@ Kompaniya ish vaqti
                             <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Kun</th>
-                                <th>Ish boshlanish vaqti</th>
-                                <th>Ish tugash vaqti</th>
-                                <th>Tushlik vaqti</th>
-                                <th>Tsuhlik vaqti tugashi</th>
-                                <th>O'chirish</th>
-                                <th>Taxrirlash</th>
+                                <th>{% translate "Kun" %}</th>
+                                <th>{% translate "Ish boshlanish vaqti" %}</th>
+                                <th>{% translate "Ish tugash vaqti" %}</th>
+                                <th>{% translate "Tushlik vaqti" %}</th>
+                                <th>{% translate "Tushlik vaqti tugashi" %}</th>
+                                <th>{% translate "O'chirish" %}</th>
+                                <th>{% translate "Taxrirlash" %}</th>
                             </tr>
                             </thead>
                             <tbody>
                             {% for item in time_list %}
                             <tr>
                                 <th scope="row">{{ forloop.counter }}</th>
-                                <td>{{ item.day|title }}</td>
+                                <td>{% blocktranslate %} {{ item.day|title }}{% endblocktranslate %}</td>
                                 {% if item.start_work %}
-                                <td>{{ item.start_work }}</td>
+                                <td>{% blocktranslate %}{{ item.start_work }}{% endblocktranslate %}</td>
                                 {% else %}
                                 <td>--:--</td>
                                 {% endif %}
                                 {% if item.end_work %}
-                                <td>{{ item.end_work }}</td>
+                                <td>{% blocktranslate %}{{ item.end_work }}{% endblocktranslate %}</td>
                                 {% else %}
                                 <td>--:--</td>
                                 {% endif %}
                                 {% if item.lunch_start %}
-                                <td>{{ item.lunch_start }}</td>
+                                <td>{% blocktranslate %}{{ item.lunch_start }}{% endblocktranslate %}</td>
                                 {% else %}
                                 <td>--:--</td>
                                 {% endif %}
                                 {% if item.lunch_end %}
-                                <td>{{ item.lunch_end }}</td>
+                                <td>{% blocktranslate %}{{ item.lunch_end }}{% endblocktranslate %}</td>
                                 {% else %}
                                 <td>--:--</td>
                                 {% endif %}
@@ -132,7 +132,7 @@ Kompaniya ish vaqti
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Yangilash</h5>
+                <h5 class="modal-title">{% translate "Yangilash" %}</h5>
                 <button type="button" class="btn btn-neutral" data-dismiss="modal"><i
                         class="zmdi zmdi-close"></i></button>
             </div>

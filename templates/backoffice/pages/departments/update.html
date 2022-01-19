@@ -1,7 +1,7 @@
 {% extends 'backoffice/base.html' %}
 {% load static %}
 {% block title %}
-    Bo'lim - Taxrirlash
+{% translate  "Bo'lim - Taxrirlash" %}
 {% endblock %}
 
 
@@ -11,11 +11,11 @@
         <div class="block-header">
             <div class="row clearfix">
                 <div class="col-lg-5 col-md-5 col-sm-12">
-                    <h2>Bo'limni taxrirlash</h2>
+                    <h2>{% translate "Bo'limni taxrirlash" %}</h2>
                     <ul class="breadcrumb padding-0">
                         <li class="breadcrumb-item"><a href="{% url 'backoffice-main' %}"><i class="zmdi zmdi-home"></i></a></li>
-                        <li class="breadcrumb-item active"><a href="{% url 'department' %}">Bo'lim</a></li>
-                        <li class="breadcrumb-item active">Bo'limni taxrirlash</li>
+                        <li class="breadcrumb-item active"><a href="{% url 'department' %}">{% translate "Bo'lim" %}</a></li>
+                        <li class="breadcrumb-item active">{% translate "Bo'limni taxrirlash" %}</li>
                     </ul>
                 </div>
             </div>
@@ -45,7 +45,7 @@
                                 </div>
                             </div>
 
-                            <button type="submit" class="btn btn-success waves-effect">Saqlash</button>
+                            <button type="submit" class="btn btn-success waves-effect">{% translate "Saqlash" %}</button>
                         </form>
                     </div>
                 </div>

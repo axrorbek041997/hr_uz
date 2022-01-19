@@ -1,7 +1,7 @@
 {% extends 'backoffice/base.html' %}
 
 {% block title %}
-Xodim yaratish
+{% translate "Xodim yaratish" %}
 {% endblock %}
 
 {% block content %}
@@ -10,13 +10,13 @@ Xodim yaratish
         <div class="block-header">
             <div class="row clearfix">
                 <div class="col-lg-5 col-md-5 col-sm-12">
-                    <h2>Bosh sahifa</h2>
+                    <h2>{% translate "Bosh sahifa" %}</h2>
                     <ul class="breadcrumb padding-0">
                         <li class="breadcrumb-item"><a href="{% url 'backoffice-main' %}"><i
                                     class="zmdi zmdi-home"></i></a>
                         </li>
-                        <li class="breadcrumb-item active"><a href="{% url 'staff' %}">Xodim</a></li>
-                        <li class="breadcrumb-item active">Xodim yaratish</li>
+                        <li class="breadcrumb-item active"><a href="{% url 'staff' %}">{% translate "Xodim" %}</a></li>
+                        <li class="breadcrumb-item active">{% translate "Xodim yaratish" %}</li>
                     </ul>
                 </div>
             </div>
@@ -36,25 +36,25 @@ Xodim yaratish
                             {% endfor %}
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label for="first_name">Ism:</label>
+                                    <label for="first_name">{% translate "Ism:" %}</label>
                                     <input type="text" name="first_name" id="first_name" class="form-control">
                                 </div>
                             </div>
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label for="second_name">Familya:</label>
+                                    <label for="second_name">{% translate "Familya:" %}</label>
                                     <input type="text" name="second_name" id="second_name" class="form-control">
                                 </div>
                             </div>
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label for="last_name">Otasining ismi:</label>
+                                    <label for="last_name">{% translate "Otasining ismi:" %}</label>
                                     <input type="text" name="last_name" id="last_name" class="form-control">
                                 </div>
                             </div>
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label for="birth_date">Tug'ilgan yili</label>
+                                    <label for="birth_date">{% translate "Tug'ilgan yili" %}</label>
                                     <input type="date" name="birth_date" id="birth_date" class="form-control">
                                 </div>
                             </div>
@@ -80,9 +80,9 @@ Xodim yaratish
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <select id="race-country">
-                                            <option>Tug'ulgan davlati</option>
+                                            <option>{% translate "Tug'ulgan davlati" %}</option>
                                             {% for i in race_countries %}
-                                            <option value="{{ i.id }}">{{ i.name }}</option>
+                                            <option value="{{ i.id }}">{% blocktranslate %}{{ i.name }}{% endblocktranslate %}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
@@ -90,9 +90,9 @@ Xodim yaratish
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <select name="race" id="id_race">
-                                            <option>Millati</option>
+                                            <option>{% translate "Millati" %}</option>
                                             {% for i in racies %}
-                                            <option value="{{ i.id }}">{{ i.name }}</option>
+                                            <option value="{{ i.id }}">{% blocktranslate %}{{ i.name }}{% endblocktranslate %}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
@@ -101,98 +101,98 @@ Xodim yaratish
 
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label for="tabel_number">Tabel raqami:</label>
+                                    <label for="tabel_number">{% translate "Tabel raqami:" %}</label>
                                     <input type="text" name="tabel_number" id="tabel_number" class="form-control">
                                 </div>
                             </div>
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label for="start_work_at">Ish boshlagan sanasi</label>
+                                    <label for="start_work_at">{% translate "Ish boshlagan sanasi" %}</label>
                                     <input type="date" name="start_work_at" id=start_work_at class="form-control">
                                 </div>
                             </div>
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label for="account_number">Hisob raqami:</label>
+                                    <label for="account_number">{% translate "Hisob raqami:" %}</label>
                                     <input type="text" name="account_number" id="account_number" class="form-control">
                                 </div>
                             </div>
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label for="email">Email:</label>
+                                    <label for="email">{% translate "Email:" %}</label>
                                     <input type="email" name="email" id="email" class="form-control">
                                 </div>
                             </div>
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label for="mobile_phone">Mobil telefon:</label>
+                                    <label for="mobile_phone">{% translate "Mobil telefon:" %}</label>
                                     <input type="tel" name="mobile_phone" id="mobile_phone" class="form-control">
                                 </div>
                             </div>
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label for="home_phone">Uy telefon raqami:</label>
+                                    <label for="home_phone">{% translate "Uy telefon raqami:" %}</label>
                                     <input type="tel" name="home_phone" id="home_phone" class="form-control">
                                 </div>
                             </div>
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label for="work_phone">Ish raqami:</label>
+                                    <label for="work_phone">{% translate "Ish raqami:" %}</label>
                                     <input type="tel" name="work_phone" id="work_phone" class="form-control">
                                 </div>
                             </div>
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label for="address">Uy manzili:</label>
+                                    <label for="address">{% translate "Uy manzili:" %}</label>
                                     <input type="text" name="address" id="address" class="form-control">
                                 </div>
                             </div>
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label for="image">Hodim rasmi:</label>
+                                    <label for="image">{% translate "Hodim rasmi:" %}</label>
                                     <input type="file" name="image" id="image" class="form-control">
                                 </div>
                             </div>
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label for="department">Bo'lim</label>
+                                    <label for="department">{% translate "Bo'lim" %}</label>
                                     <select name="department" id="department">
                                         {% for department in departments %}
-                                        <option value="{{ department.id }}">{{ department.name }}</option>
+                                        <option value="{{ department.id }}">{% blocktranslate %}{{ department.name }}{% endblocktranslate %}</option>
                                         {% endfor %}
                                     </select>
                                 </div>
                             </div>
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label for="position">Lavozim</label>
+                                    <label for="position">{% translate "Lavozim" %}</label>
                                     <select name="position" id="position">
                                         {% for position in positions %}
-                                        <option value="{{ position.id }}">{{ position.name }}</option>
+                                        <option value="{{ position.id }}">{% blocktranslate %}{{ position.name }}{% endblocktranslate %}</option>
                                         {% endfor %}
                                     </select>
                                 </div>
                             </div>
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label for="note">Xodim Tasnifi:</label>
+                                    <label for="note">{% translate "Xodim Tasnifi:" %}</label>
                                     <input type="text" name="note" id="note" class="form-control">
                                 </div>
                             </div>
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label for="username">Username:</label>
+                                    <label for="username">{% translate "Username:" %}</label>
                                     {{ form.username.errors }}
                                     <input type="text" name="username" id="username" class="form-control">
                                 </div>
                             </div>
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label for="password">Password:</label>
+                                    <label for="password">{% translate "Password:" %}</label>
                                     <input type="text" name="password" id="password" class="form-control">
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-success">Save</button>
+                            <button type="submit" class="btn btn-success">{% translate "Save" %}</button>
                         </form>
                     </div>
                 </div>

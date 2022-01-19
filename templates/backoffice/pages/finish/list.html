@@ -1,7 +1,7 @@
 {% extends 'backoffice/base.html' %}
 
 {% block title %}
-    Bot Chiqish qismi uchun text qo'shish
+{% translate "Bot Chiqish qismi uchun text qo'shish" %}
 {% endblock %}
 
 
@@ -11,11 +11,11 @@
         <div class="block-header">
             <div class="row clearfix">
                 <div class="col-lg-12 col-md-12 col-sm-12">
-                    <h2>Bot Chiqish qismi uchun text qo'shish</h2>
+                    <h2>{% translate "Bot Chiqish qismi uchun text qo'shish" %}</h2>
                     <ul class="breadcrumb padding-0">
                             <li class="breadcrumb-item"><a href="{% url 'backoffice-main' %}"><i class="zmdi zmdi-home"></i></a></li>
-                            <li class="breadcrumb-item"><a href="{% url 'search_staff' %}">Hodim qidirish</a></li>
-                            <li class="breadcrumb-item"><a href="javascript:void(0);">Bot Chiqish qismi uchun text qo'shish</a></li>
+                            <li class="breadcrumb-item"><a href="{% url 'search_staff' %}">{% translate "Hodim qidirish" %}</a></li>
+                            <li class="breadcrumb-item"><a href="javascript:void(0);">{% translate "Bot Chiqish qismi uchun text qo'shish" %}</a></li>
                     </ul>
                 </div>
             </div>
@@ -33,17 +33,17 @@
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th>Text</th>
-                                    <th>Qo'shilgan sana</th>
-                                    <th>O'chirish</th>
-                                    <th>Taxrirlash</th>
+                                    <th>{% translate "Text" %}</th>
+                                    <th>{% translate "Qo'shilgan sana" %}</th>
+                                    <th>{% translate "O'chirish" %}</th>
+                                    <th>{% translate "Taxrirlash" %}</th>
                                 </tr>
                             </thead>
                             <tbody>
 
                                     <tr>
-                                        <td>{{ item.name }}</td>
-                                        <td>{{ item.create_at }}</td>
+                                        <td>{% blocktranslate %}{{ item.name }}{% endblocktranslate %}</td>
+                                        <td>{% blocktranslate %}{{ item.create_at }}{% endblocktranslate %}</td>
                                         <td>
                                             {% if item %}
                                                 <form action="{% url 'finish_text_delete' pk=item.id %}" method="POST" enctype="multipart/form-data">
@@ -72,18 +72,18 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content bg-white">
                 <div class="modal-header">
-                    <h4 class="title text-dark">Bot qo'shish</h4>
+                    <h4 class="title text-dark">{% translate "Bot qo'shish" %}</h4>
                 </div>
                 <div class="modal-body">
                     <form action="" method="post">
                         {% csrf_token %}
                         <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label for="name" class="text-dark">Text</label>
+                                    <label for="name" class="text-dark">{% translate "Text" %}</label>
                                     <input type="text" name="name" id="name" class="form-control">
                                 </div>
                         </div>
-                        <button type="submit" class="btn btn-success">Saqalash</button>
+                        <button type="submit" class="btn btn-success">{% translate "Saqalash" %}</button>
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -99,7 +99,7 @@
     <div class="modal-dialog" role="document">
             <div class="modal-content bg-white">
                     <div class="modal-header">
-                        <h4 class="title text-dark">Bot qo'shish</h4>
+                        <h4 class="title text-dark">{% translate "Bot qo'shish" %}</h4>
                     </div>
                     <div class="modal-body">
                         {% if item %}
@@ -107,11 +107,11 @@
                                 {% csrf_token %}
                                 <div class="col-sm-12">
                                         <div class="form-group">
-                                            <label for="name" class="text-dark">Admin nomi</label>
+                                            <label for="name" class="text-dark">{% translate "Admin nomi" %}</label>
                                             <input type="text" name="name" id="name" class="form-control" value="{{ item.name }}">
                                         </div>
                                 </div>
-                                <button type="submit" class="btn btn-success">Saqalash</button>
+                                <button type="submit" class="btn btn-success">{% translate "Saqalash" %}</button>
                             </form>
                         {% endif %}
                     </div>

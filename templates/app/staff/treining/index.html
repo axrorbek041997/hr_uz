@@ -3,7 +3,7 @@
 {% load static %}
 {% load mptt_tags %}
 {% block title %}
-Login
+{% translate Login %}
 {% endblock %}
 {% block css %}
 <link rel="stylesheet" media="screen, projection" href="{% static 'mptt_graph/tree.css' %}" />
@@ -16,25 +16,25 @@ Login
                 <div class="col-lg-12 col-md-12 col-sm-12 ">
                     <div class="card">
                         <div class="header">
-                            <h2 class="text-center">{{ staff.company.name }}</h2>
+                            <h2 class="text-center">{% blocktranslate %}{{ staff.company.name }} {% endblocktranslate %}</h2>
                         </div>
                         <div class="body" style="background: url({% static 'defaults/1.png' %})">
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="d-flex justify-content-between">
-                                        <p style="color: white"><strong>Maosh:</strong> {{ salary.amount }} so'm</p>
+                                        <p style="color: white"><strong>{% translate "Maosh:" %}</strong>{% blocktranslate %} {{ salary.amount }}{% endblocktranslate %}{% translate so'm %}</p>
                                         <img src="{{ staff.qr_code.url }}" style="width: 100px;" alt="">
                                     </div>
                                 </div>
                                 <div class="col-md-12 align-center">
                                     <img class="media-object items-center" src="{{ staff.image.url }}"
                                         style="width: 210px;height: 210px; border-radius: 50%" alt="">
-                                    <h3 class="media-heading bolder" style="color: white">{{ staff.first_name }}
-                                        {{ staff.last_name }}</h3>
+                                    <h3 class="media-heading bolder" style="color: white">{% blocktranslate %} {{ staff.first_name }}
+                                        {{ staff.last_name }} {% endblocktranslate %}</h3>
                                     <p style="color: white">
-                                        <strong>Department:</strong> {{ staff.department.name }}
+                                        <strong>Department:</strong> {% blocktranslate %}{{ staff.department.name }}{% endblocktranslate %}
                                     </p>
-                                    <p style="color: white"><strong>Position:</strong> {{ staff.position.name }}</p>
+                                    <p style="color: white"><strong>{% translate Position: %}</strong>{% blocktranslate %} {{ staff.position.name }}{% endblocktranslate %}</p>
 
                                 </div>
                             </div>
@@ -53,7 +53,7 @@ Login
                                     data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i
                                         class="zmdi zmdi-more"></i> </a>
                                 <ul class="dropdown-menu dropdown-menu-right">
-                                    <li><a href="javascript:void(0);" class="boxs-close">Hide</a></li>
+                                    <li><a href="javascript:void(0);" class="boxs-close">{% translate "Hide" %}</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -62,24 +62,24 @@ Login
                         <!-- Nav tabs -->
                         <ul class="nav nav-tabs">
                             <li class="nav-item"><a class="nav-link" data-toggle="tab" id="training-btn"
-                                    href="#training_info">Training</a>
+                                    href="#training_info">{% translate "Training" %}</a>
                             </li>
-                            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#profile">Kompaniya
-                                    madaniyati</a></li>
+                            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#profile">{% translate "Kompaniya
+                                    madaniyati" %} </a></li>
                         </ul>
                         <!-- Tab panes -->
                         <div class="tab-content">
                             <div role="tabpanel" class="tab-pane in" id="training_info"><b></b>
-                                <h2 class="text-center">{{ training_info.title }}</h2>
-                                <h4 class="text-center">{{ training_info.company.name }}</h4>
+                                <h2 class="text-center">{% blocktranslate %} {{ training_info.title }} {% endblocktranslate %}</h2>
+                                <h4 class="text-center">{% blocktranslate %}{{ training_info.company.name }} {% endblocktranslate %}</h4>
                                 <div>
-                                    {{ training_info.info|safe }}
+                                    {% blocktranslate %} {{ training_info.info|safe }} {% endblocktranslate %}
                                 </div>
                             </div>
                             <div role="tabpanel" class="tab-pane" id="profile">
-                                <h2 class="text-center">{{ company_culture.title }}</h2>
+                                <h2 class="text-center">{% blocktranslate %}{{ company_culture.title }}{% endblocktranslate %}</h2>
                                 <div>
-                                    {{ company_culture.text|safe }}
+                                    {% blocktranslate %}{{ company_culture.text|safe }}{% endblocktranslate %}
                                 </div>
                             </div>
                         </div>
@@ -97,7 +97,7 @@ Login
                                     data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i
                                         class="zmdi zmdi-more"></i> </a>
                                 <ul class="dropdown-menu dropdown-menu-right">
-                                    <li><a href="javascript:void(0);" class="boxs-close">Hide</a></li>
+                                    <li><a href="javascript:void(0);" class="boxs-close">{% translate "Hide" %}</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -107,25 +107,25 @@ Login
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Training</th>
-                                    <th>Lavozimi</th>
-                                    <th>Qo'yilgan sana</th>
+                                    <th>{% translate "Training" %}</th>
+                                    <th>{% translate "Lavozimi" %}</th>
+                                    <th>{% translate "Qo'yilgan sana" %}</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {% for item in test %}
                                 <tr>
-                                    <th scope="row">{{ forloop.counter }}</th>
+                                    <th scope="row">{% blocktranslate %}{{ forloop.counter }}{% endblocktranslate %}</th>
                                     <td>
                                         <a href="#0" id="{{ item.id }}" onclick="select_test(this.id)">
-                                            {{ item.title}}
+                                           {% blocktranslate %} {{ item.title}}{% endblocktranslate %}
                                         </a>
                                     </td>
                                     <td>
-                                        {{ item.position }}
+                                        {% blocktranslate %}{{ item.position }}{% endblocktranslate %}
                                     </td>
                                     <td>
-                                        {{ item.create_at }}
+                                        {% blocktranslate %}{{ item.create_at }}{% endblocktranslate %}
                                     </td>
                                 </tr>
                                 {% endfor %}
@@ -146,7 +146,7 @@ Login
                                     data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i
                                         class="zmdi zmdi-more"></i> </a>
                                 <ul class="dropdown-menu dropdown-menu-right">
-                                    <li><a href="javascript:void(0);" class="boxs-close">Hide</a></li>
+                                    <li><a href="javascript:void(0);" class="boxs-close">{% translate "Hide" %}</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -168,7 +168,7 @@ Login
                             <div id="questions">
                             </div>
 
-                            <button type="submit" class="btn btn-success waves-effect btn-block">Submit</button>
+                            <button type="submit" class="btn btn-success waves-effect btn-block">{% translate "Submit" %}</button>
                         </form>
                     </div>
                 </div>

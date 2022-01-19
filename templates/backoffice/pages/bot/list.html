@@ -1,7 +1,7 @@
 {% extends 'backoffice/base.html' %}
 
 {% block title %}
-    Bot
+{% translate "Bot" %}
 {% endblock %}
 
 
@@ -11,12 +11,12 @@
             <div class="block-header">
                 <div class="row clearfix">
                     <div class="col-lg-12 col-md-12 col-sm-12">
-                        <h2>Bot</h2>
+                        <h2>{% translate "Bot" %}</h2>
                         <ul class="breadcrumb padding-0">
                             <li class="breadcrumb-item"><a href="{% url 'backoffice-main' %}"><i
                                     class="zmdi zmdi-home"></i></a></li>
-                            <li class="breadcrumb-item"><a href="{% url 'search_staff' %}">Hodim qidirish</a></li>
-                            <li class="breadcrumb-item"><a href="javascript:void(0);">Bot integratsiyasi</a></li>
+                            <li class="breadcrumb-item"><a href="{% url 'search_staff' %}">{% translate "Hodim qidirish" %}</a></li>
+                            <li class="breadcrumb-item"><a href="javascript:void(0);">{% translate "Bot integratsiyasi" %}</a></li>
                         </ul>
                     </div>
                 </div>
@@ -28,8 +28,8 @@
                         <div class="header">
                             <div class="button-demo js-modal-buttons">
                                 <button type="button" data-color="pink" data-toggle="modal" data-target="#colorModal"
-                                        class="btn btn-success waves-effect"><i class="zmdi zmdi-plus"></i> Bot
-                                    integratsiyasi
+                                        class="btn btn-success waves-effect"><i class="zmdi zmdi-plus"></i>{% translate "Bot
+                                    integratsiyasi" %}
                                 </button>
                             </div>
                         </div>
@@ -37,15 +37,15 @@
                             <table class="table table-hover">
                                 <thead>
                                 <tr>
-                                    <th>Bot nomi</th>
-                                    <th>Yaratilgan sana</th>
-                                    <th>Botni o'zgartirish</th>
+                                    <th>{% translate "Bot nomi" %}</th>
+                                    <th>{% translate "Yaratilgan sana" %}</th>
+                                    <th>{% translate "Botni o'zgartirish" %}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td>{{ bot_list.name }}</td>
-                                    <td>{{ bot_list.created_at }}</td>
+                                    <td>{% blocktranslate %}{{ bot_list.name }}{% endblocktranslate %}</td>
+                                    <td>{% blocktranslate %}{{ bot_list.created_at }}{% endblocktranslate %}</td>
                                     <td>
                                         <button type="button" data-color="pink" data-toggle="modal"
                                                 data-target="#colorModal{{ bot_list.id }}"
@@ -67,7 +67,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content bg-white">
                 <div class="modal-header">
-                    <h5 class="modal-title">Bot integratsiyasi qoshish</h5>
+                    <h5 class="modal-title">{% translate "Bot integratsiyasi qoshish" %}</h5>
                     <button type="button" class="btn btn-neutral" style="padding: 0 !important;" data-dismiss="modal"><i
                             class="zmdi zmdi-close"></i></button>
                 </div>
@@ -77,17 +77,17 @@
                         {% csrf_token %}
                         <div class="col-sm-12">
                             <div class="form-group">
-                                <label for="name" class="text-dark">Bot nomi</label>
+                                <label for="name" class="text-dark">{% translate "Bot nomi" %}</label>
                                 <input type="text" name="name" id="name" class="form-control">
                             </div>
                         </div>
                         <div class="col-sm-12">
                             <div class="form-group">
-                                <label for="token" class="text-dark">Bot tokeni</label>
+                                <label for="token" class="text-dark">{% translate "Bot tokeni" %}</label>
                                 <input type="text" name="token" id="token" class="form-control">
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-success">Saqlash</button>
+                        <button type="submit" class="btn btn-success">{% translate "Saqlash" %}</button>
                     </form>
                 </div>
             </div>
@@ -101,7 +101,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content bg-white">
                 <div class="modal-header">
-                    <h4 class="title text-dark">Bot integratsiyasini taxrirlash</h4>
+                    <h4 class="title text-dark">{% translate "Bot integratsiyasini taxrirlash" %}</h4>
                 </div>
                 <div class="modal-body">
                     {% if bot_list %}
@@ -109,19 +109,19 @@
                             {% csrf_token %}
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label for="name" class="text-dark">Bot nomi</label>
+                                    <label for="name" class="text-dark">{% translate "Bot nomi" %}</label>
                                     <input type="text" name="name" id="name" class="form-control"
                                            value="{{ bot_list.name }}">
                                 </div>
                             </div>
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label for="token" class="text-dark">Bot tokeni</label>
+                                    <label for="token" class="text-dark">{% translate "Bot tokeni" %}</label>
                                     <input type="text" name="token" id="token" class="form-control"
                                            value="{{ bot_list.token }}">
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-success">Taxrirlashni saqlash</button>
+                            <button type="submit" class="btn btn-success">{% translate "Taxrirlashni saqlash" %}</button>
                         </form>
                     {% endif %}
                 </div>

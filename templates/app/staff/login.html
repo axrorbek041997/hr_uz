@@ -13,10 +13,10 @@
                     <div class="col-lg-6 col-md-12">
                         <div class="company_detail">
                             <h4 class="logo"><img src="assets/images/logo.svg" alt=""> CRM</h4>
-                            <h3>Customer <strong>relationship</strong> management</h3>
-                            <p>Customer relationship management (CRM) is a process in which a business or other
+                            <h3>{% translate Customer %}<strong>{% translate relationship %}</strong>{% translate management %}</h3>
+                            <p>{% translate Customer relationship management (CRM) is a process in which a business or other
                                 organization administers its interactions with customers, typically using data analysis
-                                to study large amounts of information.</p>
+                                to study large amounts of information. %}</p>
                             <div class="footer">
                                 <ul class="social_link list-unstyled">
                                     <li><a href="https://thememakker.com" title="ThemeMakker"><i
@@ -41,12 +41,12 @@
                     <div class="col-lg-5 col-md-12 offset-lg-1">
                         <div class="card-plain">
                             <div class="header">
-                                <h5>Log in</h5>
+                                <h5>{% translate Log in %}</h5>
                             </div>
                             {% if messages %}
                                 <ul>
                                     {% for message in messages %}
-                                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}> {% blocktranslate %}{{ message }}{% endblocktranslate %}</li>
                                     {% endfor %}
                                 </ul>
                                 {% endif %}
@@ -62,7 +62,7 @@
                                            required/>
                                     <span class="input-group-addon"><i class="zmdi zmdi-lock"></i></span>
                                 </div>
-                                <button type="submit" class="btn btn-primary btn-round btn-block">Login</button>
+                                <button type="submit" class="btn btn-primary btn-round btn-block">{% translate Login %}</button>
                             </form>
                         </div>
                     </div>

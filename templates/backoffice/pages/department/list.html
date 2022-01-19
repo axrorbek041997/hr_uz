@@ -2,7 +2,7 @@
 {% load static %}
 {% load mptt_tags %}
 {% block title %}
-    Lavozim
+    {% translate "Lavozim" %}
 {% endblock %}
 
 {% block css %}
@@ -15,15 +15,15 @@
             <div class="block-header">
                 <div class="row clearfix">
                     <div class="col-lg-12 col-md-12 col-sm-12">
-                        <h2>Lavozim</h2>
+                        <h2>{% translate "Lavozim" %}</h2>
                         <ul class="breadcrumb padding-0">
                             <li class="breadcrumb-item"><a href="create.html"><i class="zmdi zmdi-home"></i></a></li>
-                            <li class="breadcrumb-item active">Lavozim</li>
+                            <li class="breadcrumb-item active">{% translate "Lavozim" %}</li>
                         </ul>
                         {% if messages %}
                             {% for message in messages %}
                                 <div class="text-center btn btn-success rounded-lg w-100 btn-{{ message.tags }} messages">
-                                    <p class="text-center">{{ message|safe }}</p>
+                                    <p class="text-center">{% blocktranslate %}{{ message|safe }}{% endblocktranslate %}</p>
                                 </div>
                             {% endfor %}
                         {% endif %}
@@ -35,7 +35,7 @@
                 <div class="col-lg-12 col-md-12 col-sm-12">
                     <div class="card">
                         <div class="header">
-                            <a href="{% url 'position_create' %}" class="btn btn-success">Lavozim qo'shish <i
+                            <a href="{% url 'position_create' %}" class="btn btn-success">{% translate "Lavozim qo'shish" %} <i
                                     class="zmdi zmdi-plus"></i></a>
                         </div>
                         <div class="body table-responsive">
@@ -43,9 +43,9 @@
                                 <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Lavozim</th>
-                                    <th>O'shirish</th>
-                                    <th>Taxrirlash</th>
+                                    <th>{% translate "Lavozim" %}</th>
+                                    <th>{% translate "O'shirish" %}</th>
+                                    <th>{% translate "Taxrirlash" %}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -55,7 +55,7 @@
                                         <td>
                                             <a href="#" data-toggle="modal"
                                                data-target="#defaultModal{{ position.id }}">
-                                                {{ position.name }}
+                                                {% blocktranslate %}{{ position.name }}{% endblocktranslate %}
                                             </a>
                                         </td>
                                         <td>
@@ -109,13 +109,13 @@
                 <div class="col-lg-12 col-md-12 col-sm-12">
                     <div class="card">
                         <div class="header">
-                            <h2><strong>Position</strong> Tree</h2>
+                            <h2><strong>{% translate "Position" %}</strong>{% translate "Tree" %}</h2>
                             <ul class="header-dropdown">
                                 <li class="dropdown"><a href="javascript:void(0);" class="dropdown-toggle"
                                                         data-toggle="dropdown" role="button" aria-haspopup="true"
                                                         aria-expanded="false"> <i class="zmdi zmdi-more"></i> </a>
                                     <ul class="dropdown-menu dropdown-menu-right">
-                                        <li><a href="javascript:void(0);" class="boxs-close">Hide</a></li>
+                                        <li><a href="javascript:void(0);" class="boxs-close">{% translate "Hide" %}</a></li>
                                     </ul>
                                 </li>
                             </ul>
@@ -133,12 +133,12 @@
                                                         <a href="
                                                                 {% if node.url %}{{ node.url }}{% else %}{{ node.get_absolute_url }}{% endif %}"
                                                            id="{{ id }}">
-                                                            {{ node.title }}{{ node.name }}
+                                                            {% blocktranslate %}{{ node.title }}{{ node.name }}{% endblocktranslate %}
                                                             <div id="displayzone_{{ id }}" class="displayzone"></div>
                                                         </a>
                                                         {% if not node.is_leaf_node %}
                                                             <ul>
-                                                                {{ children }}
+                                                               {% blocktranslate %} {{ children }} {% endblocktranslate %}
                                                             </ul>
                                                         {% endif %}
                                                     </li>
@@ -161,7 +161,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="title" id="defaultModalLabel">{{ position.name }}</h4>
+                        <h4 class="title" id="defaultModalLabel">{% blocktranslate %}{{ position.name }}{% endblocktranslate %}</h4>
                         <button type="button" class="btn btn-neutral"
                                 data-dismiss="modal" style="padding: 0 !important;">
                             <i class="zmdi zmdi-close"></i>
@@ -169,9 +169,9 @@
                     </div>
                     <div class="modal-body">
                         {% if position.info %}
-                            {{ position.info }}
+                            {% blocktranslate %}{{ position.info }}{% endblocktranslate %}
                         {% else %}
-                            Ma'lumot yo'q
+                            {% translate "Ma'lumot yo'q" %}
                         {% endif %}
                     </div>
                 </div>
@@ -189,15 +189,15 @@
                     <div class="modal-body">
                         <div class="card">
                             <div class="header">
-                                <h2>O'chirmoqchimisiz?</h2>
+                                <h2>{% translate "O'chirmoqchimisiz?" %}</h2>
                             </div>
                             <div class="body d-flex justify-content-around">
                                 <button type="button" class="btn btn-success rounded-lg waves-effect"
-                                        data-dismiss="modal">Bekor qilish
+                                        data-dismiss="modal">{% translate "Bekor qilish" %}
                                 </button>
                                 <form action="{% url 'position_delete' pk=position.pk %}" method="POST">
                                     {% csrf_token %}
-                                    <button type="submit" class="btn btn-danger rounded-lg waves-effect">O'chirish
+                                    <button type="submit" class="btn btn-danger rounded-lg waves-effect">{% translate "O'chirish" %}
                                     </button>
                                 </form>
                             </div>

@@ -1,7 +1,7 @@
 {% extends 'backoffice/base.html' %}
 
 {% block title %}
-    Bot Detail View
+{% translate "Bot Detail View" %}
 {% endblock %}
 
 {% block content %}
@@ -18,24 +18,24 @@
                         <table class="table table-striped table-hover">
                             <thead>
                                 <tr>
-                                    <th>To'lliq ismi</th>
-                                    <th>Tug'olgan sana</th>
-                                    <th>Rasm</th>
-                                    <th>Telefon raqami</th>
-                                    <th>Manzil</th>
-                                    <th>Bo'lim</th>
+                                    <th>{% translate "To'lliq ismi" %}</th>
+                                    <th>{% translate "Tug'olgan sana" %}</th>
+                                    <th>{% translate "Rasm" %}</th>
+                                    <th>{% translate "Telefon raqami" %}</th>
+                                    <th>{% translate "Manzil" %}</th>
+                                    <th>{% translate "Bo'lim" %}</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>{{ new_staff.full_name }}</td>
-                                    <td>{{ new_staff.birth_date }}</td>
+                                    <td>{% blocktranslate %}{{ new_staff.full_name }}{%  endblocktranslate %}</td>
+                                    <td>{% blocktranslate %}{{ new_staff.birth_date }}{% endblocktranslate %}</td>
                                     <td><a href="{{ new_staff.image.url }}">
                                         <img src="{{ new_staff.image.url }}" style="width: 40px;height: 50px;" alt="">
                                     </a></td>
                                     <td>{{ new_staff.phone_number }}</td>
-                                    <td>{{ new_staff.address }}</td>
-                                    <td>{{ new_staff.department }}</td>
+                                    <td>{% blocktranslate %}{{ new_staff.address }}{% endblocktranslate %}</td>
+                                    <td>{% blocktranslate %}{{ new_staff.department }}{% endblocktranslate %}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -52,8 +52,8 @@
                     <div class="body table-responsive">
                        {% for answer in answers %}
                             {% if answer.staff == item %}
-                                <p>{{ answer.question }}</p>
-                                <p>{{ answer.answer }}</p>
+                                <p>{% blocktranslate %}{{ answer.question }}{% endblocktranslate %}</p>
+                                <p>{% blocktranslate %}{{ answer.answer }}{% endblocktranslate %}</p>
                                 <hr>
                             {% endif %}
                         {% endfor %}

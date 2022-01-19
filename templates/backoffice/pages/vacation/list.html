@@ -1,7 +1,7 @@
 {% extends 'backoffice/base.html' %}
 
 {% block title %}
-Qo'shimcha dam olish
+{% translate "Qo'shimcha dam olish" %}
 {% endblock %}
 
 
@@ -11,19 +11,19 @@ Qo'shimcha dam olish
         <div class="block-header">
             <div class="row clearfix">
                 <div class="col-lg-12 col-md-12 col-sm-12">
-                    <h2>Qo'shimcha dam olish</h2>
+                    <h2>{% translate "Qo'shimcha dam olish" %}</h2>
                     <ul class="breadcrumb padding-0">
                         <li class="breadcrumb-item"><a href="{% url 'backoffice-main' %}"><i class="zmdi zmdi-home"></i></a>
                         </li>
-                        <li class="breadcrumb-item"><a href="{% url 'staff' %}">Xodimlar</a></li>
-                        <li class="breadcrumb-item"><a href="{% url 'staff-detail' staff.id %}">{{ staff.first_name}} {{
-                            staff.second_name}} {{ staff.last_name}}</a></li>
-                        <li class="breadcrumb-item">Qo'shimcha dam olish</li>
+                        <li class="breadcrumb-item"><a href="{% url 'staff' %}">{% translate "Xodimlar" %}</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'staff-detail' staff.id %}">{% blocktranslate %}{{ staff.first_name}} {{
+                            staff.second_name}} {{ staff.last_name}}{% endblocktranslate %}</a></li>
+                        <li class="breadcrumb-item">{% translate "Qo'shimcha dam olish" %}</li>
                     </ul>
                     {% if messages %}
                     {% for message in messages %}
                     <div class="text-center btn btn-success rounded-lg w-100 btn-{{ message.tags }} messages">
-                        <p class="text-center">{{ message|safe }}</p>
+                        <p class="text-center">{% blocktranslate %}{{ message|safe }}{% endblocktranslate %}</p>
                     </div>
                     {% endfor %}
                     {% endif %}
@@ -37,10 +37,10 @@ Qo'shimcha dam olish
                     <div class="header">
                         <div class="button-demo js-modal-buttons d-flex justify-content-between">
                             <button type="button" data-color="pink" data-toggle="modal" data-target="#colorModal"
-                                    class="btn btn-success waves-effect"><i class="zmdi zmdi-plus"></i> Biriktirish
+                                    class="btn btn-success waves-effect"><i class="zmdi zmdi-plus"></i> {% translate "Biriktirish" %}
                             </button>
-                            <a href="{% url 'vacation_type' %}" class="btn btn-info waves-effect">Dam olish turi
-                                qo'shish</a>
+                            <a href="{% url 'vacation_type' %}" class="btn btn-info waves-effect">{% translate "Dam olish turi
+                                qo'shish" %}</a>
                         </div>
                     </div>
                     <div class="body table-responsive">
@@ -48,27 +48,27 @@ Qo'shimcha dam olish
                             <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Qo'shimcha dam olish turi</th>
-                                <th>Boshlash vaqti</th>
-                                <th>Tugash vaqti</th>
-                                <th>Izoh</th>
-                                <th>Soatbay/Kunbay</th>
-                                <th>O'chirish</th>
-                                <th>Taxrirlash</th>
+                                <th>{% translate "Qo'shimcha dam olish turi" %}</th>
+                                <th>{% translate "Boshlash vaqti" %}</th>
+                                <th>{% translate "Tugash vaqti" %}</th>
+                                <th>{% translate "Izoh" %}</th>
+                                <th>{% translate "Soatbay/Kunbay" %}</th>
+                                <th>{% translate "O'chirish" %}</th>
+                                <th>{% translate "Taxrirlash" %}</th>
                             </tr>
                             </thead>
                             <tbody>
                             {% for vacantion in vacations %}
                             <tr>
                                 <th scope="row">{{ vacantion.id }}</th>
-                                <td>{{ vacantion.vacation_type.name }}</td>
-                                <td>{{ vacantion.start_at }}</td>
-                                <td>{{ vacantion.end_at }}</td>
-                                <td>{{ vacantion.note }}</td>
+                                <td>{% blocktranslate %}{{ vacantion.vacation_type.name }}{% endblocktranslate %}</td>
+                                <td>{% blocktranslate %}{{ vacantion.start_at }}{% endblocktranslate %}</td>
+                                <td>{% blocktranslate %}{{ vacantion.end_at }}{% endblocktranslate %}</td>
+                                <td>{% blocktranslate %}{{ vacantion.note }}{% endblocktranslate %}</td>
                                 <td>
                                     {% for x,y in form.fields.vocation_period_types.choices %}
                                     {% if vacantion.vocation_period_types == x %}
-                                    {{ y }}
+                                    {% blocktranslate %}{{ y }}{% endblocktranslate %}
                                     {% endif %}
                                     {% endfor %}
                                 </td>
@@ -116,10 +116,10 @@ Qo'shimcha dam olish
                     <div class="header">
                         <div class="button-demo js-modal-buttons d-flex justify-content-between">
                             <button type="button" data-color="pink" data-toggle="modal" data-target="#colorModal"
-                                    class="btn btn-success waves-effect"><i class="zmdi zmdi-plus"></i> Biriktirish
+                                    class="btn btn-success waves-effect"><i class="zmdi zmdi-plus"></i>{% translate "Biriktirish" %}
                             </button>
-                            <a href="{% url 'vacation_type' %}" class="btn btn-info waves-effect">Dam olish turi
-                                qo'shish</a>
+                            <a href="{% url 'vacation_type' %}" class="btn btn-info waves-effect">{% translate "Dam olish turi
+                                qo'shish" %}</a>
                         </div>
                     </div>
                 </div>
@@ -133,18 +133,18 @@ Qo'shimcha dam olish
     <div class="modal-dialog" role="document">
         <div class="modal-content bg-white">
             <div class="modal-header">
-                <h4 class="title text-dark">Qo'shimcha dam olish hosil qilish</h4>
+                <h4 class="title text-dark">{% translate "Qo'shimcha dam olish hosil qilish" %}</h4>
             </div>
             <div class="modal-body">
                 <form action="{% url 'vacation' staff_id %}" method="post">
                     {% csrf_token %}
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label for="vacation_type" class="text-dark">Qo'shimcha dam olish turi: </label>
+                            <label for="vacation_type" class="text-dark">{% translate "Qo'shimcha dam olish turi:" %} </label>
                             <select name="vacation_type" id="vacation_type">
                                 {% for vacation_type in vacation_types %}
                                 <option value="{{ vacation_type.id }}">
-                                    {{ vacation_type.name }}
+                                    {% blocktranslate %}{{ vacation_type.name }}{% endblocktranslate %}
                                 </option>
                                 {% endfor %}
                             </select>
@@ -155,30 +155,30 @@ Qo'shimcha dam olish
                             <label for="vocation_period_types" class="text-dark">Turi:</label>
                             <select name="vocation_period_types" id="vocation_period_types">
                                 {% for x,y in form.fields.vocation_period_types.choices %}
-                                <option value="{{ x }}">{{ y }}</option>
+                                <option value="{{ x }}">{% blocktranslate %}{{ y }}{% endblocktranslate %}</option>
                                 {% endfor %}
                             </select>
                         </div>
                     </div>
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label for="start_at" class="text-dark">Boshlanish:</label>
+                            <label for="start_at" class="text-dark">{% translate "Boshlanish:"%}</label>
                             <input type="date" name="start_at" id="start_at" class="form-control" required>
                         </div>
                     </div>
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label for="end_at" class="text-dark">Tugash:</label>
+                            <label for="end_at" class="text-dark">{% translate "Tugash:" %}</label>
                             <input type="date" name="end_at" id="end_at" class="form-control" required>
                         </div>
                     </div>
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label for="note" class="text-dark">Izoh:</label>
+                            <label for="note" class="text-dark">{% translate "Izoh:" %}</label>
                             <input type="text" name="note" id="note" class="form-control" required>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-success">Biriktirish</button>
+                    <button type="submit" class="btn btn-success">{% translate "Biriktirish" %}</button>
                 </form>
             </div>
             <div class="modal-footer">
@@ -194,18 +194,18 @@ Qo'shimcha dam olish
     <div class="modal-dialog" role="document">
         <div class="modal-content bg-white">
             <div class="modal-header">
-                <h4 class="title text-dark">Qo'shimcha dam olish hosil qilish</h4>
+                <h4 class="title text-dark">{% translate "Qo'shimcha dam olish hosil qilish" %}</h4>
             </div>
             <div class="modal-body">
                 <form action="{% url 'vacation_update' vacation.id %}" method="post">
                     {% csrf_token %}
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label for="vacation_type" class="text-dark">Qo'shimcha dam olish turi: </label>
+                            <label for="vacation_type" class="text-dark">{% translate "Qo'shimcha dam olish turi:" %}" </label>
                             <select name="vacation_type" id="vacation_type">
                                 {% for vacation_type in vacation_types %}
                                 <option value="{{ vacation_type.id }}">
-                                    {{ vacation_type.name }}
+                                    {% blocktranslate %}{{ vacation_type.name }}{% endblocktranslate %}
                                 </option>
                                 {% endfor %}
                             </select>
@@ -217,33 +217,33 @@ Qo'shimcha dam olish
                             <label for="vocation_period_types" class="text-dark">Turi:</label>
                             <select name="vocation_period_types" id="vocation_period_types">
                                 {% for x,y in form.fields.vocation_period_types.choices %}
-                                <option value="{{ x }}">{{ y }}</option>
+                                <option value="{{ x }}">{% blocktranslate %}{{ y }}{% endblocktranslate %}</option>
                                 {% endfor %}
                             </select>
                         </div>
                     </div>
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label for="start_at" class="text-dark">Boshlanish:</label>
+                            <label for="start_at" class="text-dark">{% translate "Boshlanish:" %}</label>
                             <input type="date" name="start_at" id="start_at" class="form-control"
                                    value="{{ vacation.start_at|date:" Y-m-d" }}" required>
                         </div>
                     </div>
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label for="end_at" class="text-dark">Tugash:</label>
+                            <label for="end_at" class="text-dark">{% translate "Tugash:" %}</label>
                             <input type="date" name="end_at" id="end_at" class="form-control" required
                                    value="{{ vacation.end_at|date:" Y-m-d" }}">
                         </div>
                     </div>
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label for="note" class="text-dark">Izoh:</label>
+                            <label for="note" class="text-dark">{% translate "Izoh:" %}</label>
                             <input type="text" name="note" id="note" class="form-control" required
                                    value="{{ vacation.note }}">
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-success">Saqlash</button>
+                    <button type="submit" class="btn btn-success">{% translate "Saqlash" %}</button>
                 </form>
             </div>
             <div class="modal-footer">
@@ -265,15 +265,15 @@ Qo'shimcha dam olish
             <div class="modal-body">
                 <div class="card">
                     <div class="header">
-                        <h2>O'chirmoqchimisiz?</h2>
+                        <h2>{% translate "O'chirmoqchimisiz?" %}</h2>
                     </div>
                     <div class="body d-flex justify-content-around">
-                        <button type="button" class="btn btn-success rounded-lg waves-effect" data-dismiss="modal">Bekor
-                            qilish
+                        <button type="button" class="btn btn-success rounded-lg waves-effect" data-dismiss="modal">{% translate "Bekor
+                            qilish" %}
                         </button>
                         <form action="{% url 'vacation_delete' pk=item.pk %}" method="POST">
                             {% csrf_token %}
-                            <button type="submit" class="btn btn-danger rounded-lg waves-effect">O'chirish</button>
+                            <button type="submit" class="btn btn-danger rounded-lg waves-effect">{% translate "O'chirish" %}</button>
                         </form>
                     </div>
                 </div>

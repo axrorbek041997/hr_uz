@@ -1,7 +1,7 @@
 {% extends 'backoffice/base.html' %}
 {% load static %}
 {% block title %}
-Xodimlar - {{ staff.first_name }} {{ staff.second_name }} {{ staff.last_name }}
+{% blocktranslate %}Xodimlar - {{ staff.first_name }} {{ staff.second_name }} {{ staff.last_name }}{% endblocktranslate %}
 {% endblock %}
 
 {% block content %}
@@ -10,11 +10,11 @@ Xodimlar - {{ staff.first_name }} {{ staff.second_name }} {{ staff.last_name }}
         <div class="block-header">
             <div class="row clearfix">
                 <div class="col-lg-5 col-md-5 col-sm-12">
-                    <h2>Profile</h2>
+                    <h2>{% translate "Profile" %}</h2>
                     <ul class="breadcrumb padding-0">
                         <li class="breadcrumb-item"><a href="index.html"><i class="zmdi zmdi-home"></i></a></li>
-                        <li class="breadcrumb-item"><a href="{% url 'staff' %}">Xodimlar</a></li>
-                        <li class="breadcrumb-item active">{{ staff.first_name }} {{ staff.second_name }}</li>
+                        <li class="breadcrumb-item"><a href="{% url 'staff' %}">{% translate "Xodimlar" %}</a></li>
+                        <li class="breadcrumb-item active">{% blocktranslate %}{{ staff.first_name }} {{ staff.second_name }}{% endblocktranslate %}</li>
                     </ul>
                 </div>
 
@@ -31,27 +31,26 @@ Xodimlar - {{ staff.first_name }} {{ staff.second_name }} {{ staff.last_name }}
                                      alt="User">
                                 <div class="detail">
                                     <div class="u_name">
-                                        <h4><strong>{{ staff.second_name }}</strong> {{ staff.first_name }}</h4>
-                                        <span>Lavozim: {{ staff.position }}</span> /
-                                        <span>Bo'lim: {{ staff.department }}</span>
+                                        <h4><strong>{% blocktranslate %}{{ staff.second_name }}{% endblocktranslate %}</strong> {% blocktranslate %}{{ staff.first_name }}{% endblocktranslate %}</h4>
+                                        <span>{% blocktranslate %}Lavozim: {{ staff.position }}{% endblocktranslate %}</span> /
+                                        <span>{% blocktranslate %}Bo'lim: {{ staff.department }}{% endblocktranslate %}</span>
 
                                     </div>
 
                                 </div>
                             </div>
                             <div class="col-lg-2 col-md-12 user_earnings">
-                                <h6>Ish haqqi(so'm)</h6>
-                                <h4><small>{{ salary.amount }}</small></h4>
-                                <h5><small>{{ salary.type_of_work }}</small></h5>
+                                <h6>{% translate "Ish haqqi(so'm)" %}</h6>
+                                <h4><small>{% blocktranslate %}{{ salary.amount }}{% endblocktranslate %}</small></h4>
+                                <h5><small>{% blocktranslate %}{{ salary.type_of_work }}{% endblocktranslate %}</small></h5>
                             </div>
                         </div>
                     </div>
                     <ul class="nav nav-tabs profile_tab">
-                        <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#overview">Xodim
-                            haqida
-                            ma'umot</a></li>
-                        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#usersettings">Xodim
-                            Sozlamalari</a>
+                        <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#overview">{% translate "Xodim
+                            haqida ma'lumot" %}</a></li>
+                        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#usersettings">{% translate "Xodim
+                            Sozlamalari" %}</a>
                         </li>
                     </ul>
                 </div>
@@ -66,20 +65,20 @@ Xodimlar - {{ staff.first_name }} {{ staff.second_name }} {{ staff.last_name }}
                                     </div>
                                     <div class="body">
                                         <img src="{{ staff.image.url }}" alt="" class="img-fluid mb-3">
-                                        <small class="text-muted">Manzil: </small>
-                                        <p>{{ staff.address }}</p>
+                                        <small class="text-muted">{% translate "Manzil:" %} </small>
+                                        <p>{% blocktranslate %}{{ staff.address }}{% endblocktranslate %}</p>
                                         <hr>
-                                        <small class="text-muted">Email address: </small>
-                                        <p>{{ staff.email }}</p>
+                                        <small class="text-muted">{% translate "Email address:" %}" </small>
+                                        <p>{% blocktranslate %}{{ staff.email }}{% endblocktranslate %}</p>
                                         <hr>
-                                        <small class="text-muted">Phone: </small>
-                                        <p>{{ staff.mobile_phone }}</p>
+                                        <small class="text-muted">{% translate "Phone:" %}" </small>
+                                        <p>{% blocktranslate %}{{ staff.mobile_phone }}{% endblocktranslate %}</p>
                                         <hr>
-                                        <small class="text-muted">Mobile: </small>
-                                        <p>{{ staff.home_phone }}</p>
+                                        <small class="text-muted">{% translate "Mobile:" %}" </small>
+                                        <p>{% blocktranslate %}{{ staff.home_phone }}{% endblocktranslate %}</p>
                                         <hr>
-                                        <small class="text-muted">Birth Date: </small>
-                                        <p class="m-b-0">{{ staff.birth_date }}</p>
+                                        <small class="text-muted">{% translate "Birth Date:" %}" </small>
+                                        <p class="m-b-0">{% blocktranslate %}{{ staff.birth_date }}{% endblocktranslate %}</p>
                                     </div>
                                 </div>
                             </div>
@@ -106,7 +105,7 @@ Xodimlar - {{ staff.first_name }} {{ staff.second_name }} {{ staff.last_name }}
                                                           fill="#374C72"/>
                                                 </svg>
 
-                                                Ish haqqi
+                                                {% translate "Ish haqqi" %}
                                             </a>
                                             <a href="{% url 'additional_payment' staff.id %}"
                                                class="list-group-item">
@@ -116,8 +115,8 @@ Xodimlar - {{ staff.first_name }} {{ staff.second_name }} {{ staff.last_name }}
                                                           fill="#374C72"/>
                                                 </svg>
 
-                                                Ushlab qolish yoki qo’shimcha
-                                                to’lovlar
+                                                {% translate "Ushlab qolish yoki qo’shimcha
+                                                to’lovlar" %}
                                             </a>
                                             <a href="{% url 'vacation' staff.id %}" class="list-group-item">
                                                 <svg width="28" height="28" viewBox="0 0 28 28" fill="none"
@@ -127,7 +126,7 @@ Xodimlar - {{ staff.first_name }} {{ staff.second_name }} {{ staff.last_name }}
                                                           fill="#374C72"/>
                                                 </svg>
 
-                                                Qo’shimcha dam olish
+                                                {% translate "Qo’shimcha dam olish" %}
                                             </a>
                                             <a href="{% url 'document' staff.id %}" class="list-group-item">
                                                 <svg width="26" height="26" viewBox="0 0 26 26" fill="none"
@@ -136,7 +135,7 @@ Xodimlar - {{ staff.first_name }} {{ staff.second_name }} {{ staff.last_name }}
                                                           fill="#374C72"/>
                                                 </svg>
 
-                                                Hujjatlar
+                                                {% translate "Hujjatlar" %}
                                             </a>
                                         </div>
                                     </div>
@@ -149,7 +148,7 @@ Xodimlar - {{ staff.first_name }} {{ staff.second_name }} {{ staff.last_name }}
                     <div role="tabpanel" class="tab-pane" id="usersettings">
                         <div class="card">
                             <div class="header">
-                                <h2><strong>Xodim</strong> Sozlamalari</h2>
+                                <h2><strong>{% translate "Xodim" %}</strong>{% translate " Sozlamalari" %}</h2>
                             </div>
                             <div class="body">
                                 <div class="row clearfix">
@@ -178,7 +177,7 @@ Xodimlar - {{ staff.first_name }} {{ staff.second_name }} {{ staff.last_name }}
                                         <div class="col-md-12">
 
                                             <div class="form-group">
-                                                <label for="birth-date">Tugligan sanasi</label>
+                                                <label for="birth-date">{% translate "Tugligan sanasi" %}</label>
                                                 <input type="date" name="birth_date" id="birth-date"
                                                        class="form-control"
                                                        placeholder="Tugligan sanasi"
@@ -187,7 +186,7 @@ Xodimlar - {{ staff.first_name }} {{ staff.second_name }} {{ staff.last_name }}
                                         </div>
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <label for="pin-code">Tabel raqami</label>
+                                                <label for="pin-code">{% translate "Tabel raqami" %}</label>
                                                 <input type="text" name="tabel_number" id="pin-code"
                                                        class="form-control"
                                                        placeholder="Tabel raqami" value="{{ staff.tabel_number }}">
@@ -195,7 +194,7 @@ Xodimlar - {{ staff.first_name }} {{ staff.second_name }} {{ staff.last_name }}
                                         </div>
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <label for="tab-num">Hisob raqami</label>
+                                                <label for="tab-num">{% translate "Hisob raqami" %}</label>
                                                 <input type="text" id="tab-num" name="account_number"
                                                        class="form-control"
                                                        placeholder="Hisob raqami"
@@ -232,12 +231,12 @@ Xodimlar - {{ staff.first_name }} {{ staff.second_name }} {{ staff.last_name }}
                                         <div class="row staff-4-row" style="padding: 0 20px;">
                                             <div class="col-md-4">
                                                 <div class="form-group">
-                                                    Jinsi: {{ form.gender }}
+                                                    {% translate "Jinsi:" %} {{ form.gender }}
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-group">
-                                                    Ish rejimi: {{ form.group_name }}
+                                                    {% translate "Ish rejimi:" %}" {{ form.group_name }}
                                                 </div>
                                             </div>
 
@@ -249,15 +248,15 @@ Xodimlar - {{ staff.first_name }} {{ staff.second_name }} {{ staff.last_name }}
 
                                             <div class="col-md-4">
                                                 <div class="form-group">
-                                                    Is outsource: {{ form.is_outsource }}
+                                                    {% translate "Is outsource:" %}" {{ form.is_outsource }}
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-group">
-                                                    Bo'lim:
+                                                    {% translate "Bo'lim:" %}"
                                                     <select name="department">
                                                         {% for department in departments %}
-                                                        <option value="{{ department.id }}">{{ department.name }}
+                                                        <option value="{{ department.id }}">{% blocktranslate %}{{ department.name }}{% endblocktranslate %}
                                                         </option>
                                                         {% endfor %}
                                                     </select>
@@ -265,10 +264,10 @@ Xodimlar - {{ staff.first_name }} {{ staff.second_name }} {{ staff.last_name }}
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-group">
-                                                    Lavozim:
+                                                    {% translate "Lavozim:" %}"
                                                     <select name="position" id="">
                                                         {% for position in positions %}
-                                                        <option value="{{ position.id }}">{{ position.name }}</option>
+                                                        <option value="{{ position.id }}">{% blocktranslate %}{{ position.name }}{% endblocktranslate %}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
@@ -277,14 +276,14 @@ Xodimlar - {{ staff.first_name }} {{ staff.second_name }} {{ staff.last_name }}
 
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                Ish jadvali:
+                                                {% translate "Ish jadvali:" %}"
                                                 {{ form.work_graph }}
                                             </div>
                                         </div>
                                         <div class="col-md-12">
 
                                             <div class="form-group">
-                                                <label for="started-work-date">Ish boshlangan sana</label>
+                                                <label for="started-work-date">{% translate "Ish boshlangan sana" %}</label>
                                                 <input type="date" name="start_work_at" id="started-work-date"
                                                        class="form-control"
                                                        placeholder=""
@@ -301,14 +300,14 @@ Xodimlar - {{ staff.first_name }} {{ staff.second_name }} {{ staff.last_name }}
                                         </div>
                                         <div class="col-sm-12">
                                             <div class="form-group">
-                                                <label for="username">Username:</label>
+                                                <label for="username">{% translate "Username:" %}</label>
                                                 <input type="text" name="username" id="username"
                                                        value="{{ staff.username }}" class="form-control">
                                             </div>
                                         </div>
                                         <div class="col-sm-12">
                                             <div class="form-group">
-                                                <label for="password">Password:</label>
+                                                <label for="password">{% translate "Password:" %}</label>
                                                 <input type="text" name="password" id="password"
                                                        value="{{ staff.password }}" class="form-control">
                                             </div>
@@ -319,7 +318,7 @@ Xodimlar - {{ staff.first_name }} {{ staff.second_name }} {{ staff.last_name }}
                                             </div>
                                         </div>
                                         <div class="col-md-12">
-                                            <button class="btn btn-success waves-effect" type="submit">Save Changes
+                                            <button class="btn btn-success waves-effect" type="submit">{% translate "Save Changes" %}
                                             </button>
                                         </div>
                                     </form>
@@ -338,7 +337,7 @@ Xodimlar - {{ staff.first_name }} {{ staff.second_name }} {{ staff.last_name }}
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="title" id="defaultModalLabel">Add Event</h4>
+                <h4 class="title" id="defaultModalLabel">{% translate "Add Event" %}</h4>
             </div>
             <div class="modal-body">
                 <div class="form-group">
@@ -358,8 +357,8 @@ Xodimlar - {{ staff.first_name }} {{ staff.second_name }} {{ staff.last_name }}
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary btn-round waves-effect">Add</button>
-                <button type="button" class="btn btn-simple btn-round waves-effect" data-dismiss="modal">CLOSE
+                <button type="button" class="btn btn-primary btn-round waves-effect">{% translate "Add" %}</button>
+                <button type="button" class="btn btn-simple btn-round waves-effect" data-dismiss="modal">{% translate "CLOSE" %}
                 </button>
             </div>
         </div>

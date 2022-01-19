@@ -1,7 +1,7 @@
 {% extends 'backoffice/base.html' %}
 {% load static %}
 
-{% block title %}Hodim Qidirish{% endblock %}
+{% block title %}{% translate "Hodim Qidirish" %}{% endblock %}
 
 {% block content %}
     <!-- Main Content -->
@@ -10,7 +10,7 @@
             <div class="block-header">
                 <div class="row clearfix">
                     <div class="col-lg-5 col-md-5 col-sm-12">
-                        <h2>Hodim Qidirish</h2>
+                        <h2>{% translate "Hodim Qidirish" %}</h2>
                     </div>
                 </div>
             </div>
@@ -21,19 +21,19 @@
                             <table class="table table-borderless table-striped table-hover table-responsive" id="searching_staff">
                                 <thead>
                                     <tr>
-                                        <th>Xodim</th>
-                                        <th>Ish boshlagan sana</th>
-                                        <th>Bo'lim</th>
-                                        <th>Lavozim</th>
+                                        <th>{% translate "Xodim" %}</th>
+                                        <th>{% translate "Ish boshlagan sana" %}</th>
+                                        <th>{% translate "Bo'lim" %}</th>
+                                        <th>{% translate "Lavozim" %}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {% for searching_staff in searching_staffs %}
                                         <tr>
-                                            <td><a href="{% url 'staff-detail' searching_staff.id %}">{{ searching_staff.first_name }} {{ searching_staff.second_name }} {{ searching_staff.last_name }}</a></td>
-                                            <td>{{ searching_staff.start_work_at }}</td>
-                                            <td>{{ searching_staff.department.name }}</td>
-                                            <td>{{ searching_staff.position.name }}</td>
+                                            <td><a href="{% url 'staff-detail' searching_staff.id %}">{% blocktranslate %}{{ searching_staff.first_name }} {{ searching_staff.second_name }} {{ searching_staff.last_name }}{% endblocktranslate %}</a></td>
+                                            <td>{% blocktranslate %}{{ searching_staff.start_work_at }}{% endblocktranslate %}</td>
+                                            <td>{% blocktranslate %}{{ searching_staff.department.name }}{% endblocktranslate %}</td>
+                                            <td>{% blocktranslate %}{{ searching_staff.position.name }}{% endblocktranslate %}</td>
                                         </tr>
                                     {% endfor %}
                                 </tbody>
@@ -46,14 +46,14 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="header">
-                            <h2><i class="zmdi zmdi-settings zmdi-hc-spin"></i> Bot integratsiyalari va sozlamalari</h2>
+                            <h2><i class="zmdi zmdi-settings zmdi-hc-spin"></i>{% translate "Bot integratsiyalari va sozlamalari" %}</h2>
                         </div>
                         <div class="body">
                             <div class="list-group">
-                                <a href="{% url 'bot_c_l' %}" class="list-group-item">Bot integratsiya</a>
-                                <a href="{% url 'admin_bot' %}" class="list-group-item">Bot Admin</a>
-                                <a href="{% url 'entry_text' %}" class="list-group-item">Bot kirish qismi texti</a>
-                                <a href="{% url 'finish_text' %}" class="list-group-item">Bot so'ngi qismi texti</a>
+                                <a href="{% url 'bot_c_l' %}" class="list-group-item">{% translate "Bot integratsiya" %}</a>
+                                <a href="{% url 'admin_bot' %}" class="list-group-item">{% translate "Bot Admin" %}</a>
+                                <a href="{% url 'entry_text' %}" class="list-group-item">{% translate "Bot kirish qismi texti" %}</a>
+                                <a href="{% url 'finish_text' %}" class="list-group-item">{% translate "Bot so'ngi qismi texti" %}</a>
                             </div>
                         </div>
                     </div>

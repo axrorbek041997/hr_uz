@@ -1,7 +1,7 @@
 {% extends 'backoffice/base.html' %}
 
 {% block title %}
-Ushlab qolish yoki qo’shimcha to’lovlar
+{% translate "Ushlab qolish yoki qo’shimcha to’lovlar" %}
 {% endblock %}
 
 
@@ -11,14 +11,14 @@ Ushlab qolish yoki qo’shimcha to’lovlar
         <div class="block-header">
             <div class="row clearfix">
                 <div class="col-lg-12 col-md-12 col-sm-12">
-                    <h2>Ushlab qolish yoki qo’shimcha to’lovlar</h2>
+                    <h2>{% translate "Ushlab qolish yoki qo’shimcha to’lovlar" %}</h2>
                     <ul class="breadcrumb padding-0">
                         <li class="breadcrumb-item"><a href="{% url 'backoffice-main' %}"><i class="zmdi zmdi-home"></i></a>
                         </li>
-                        <li class="breadcrumb-item"><a href="{% url 'staff' %}">Xodimlar</a></li>
-                        <li class="breadcrumb-item"><a href="{% url 'staff-detail' staff.id %}">{{ staff.first_name }}
-                            {{ staff.second_name }} {{ staff.last_name }}</a></li>
-                        <li class="breadcrumb-item">Ushlab qolish yoki qo’shimcha to’lovlar</li>
+                        <li class="breadcrumb-item"><a href="{% url 'staff' %}">{% translate "Xodimlar" %}</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'staff-detail' staff.id %}"> {% blocktranslate %} {{ staff.first_name }} 
+                            {{ staff.second_name }} {{ staff.last_name }}{% endblocktranslate %}</a></li>
+                        <li class="breadcrumb-item">{% translate "Ushlab qolish yoki qo’shimcha to’lovlar" %}</li>
                     </ul>
                 </div>
             </div>
@@ -30,10 +30,10 @@ Ushlab qolish yoki qo’shimcha to’lovlar
                     <div class="header">
                         <div class="button-demo js-modal-buttons d-flex justify-content-between">
                             <button type="button" data-color="pink" data-toggle="modal" data-target="#colorModal"
-                                    class="btn btn-success waves-effect"><i class="zmdi zmdi-plus"></i> Biriktirish
+                                    class="btn btn-success waves-effect"><i class="zmdi zmdi-plus"></i>{% translate "Biriktirish" %}
                             </button>
-                            <a href="{% url 'additional_payment_type' %}" class="btn btn-info waves-effect">Qo’shimcha
-                                to’lovlar nomini yaratish</a>
+                            <a href="{% url 'additional_payment_type' %}" class="btn btn-info waves-effect">{% translate "Qo’shimcha
+                                to’lovlar nomini yaratish" %}</a>
                         </div>
                     </div>
                     <div class="body table-responsive">
@@ -41,28 +41,28 @@ Ushlab qolish yoki qo’shimcha to’lovlar
                             <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Nomi</th>
-                                <th>Turi</th>
-                                <th>Biriktirilgan sana</th>
-                                <th>Summasi</th>
-                                <th>O'chirish</th>
-                                <th>Taxrirlash</th>
+                                <th>{% translate "Nomi" %}</th>
+                                <th>{% translate "Turi" %}</th>
+                                <th>{% translate "Biriktirilgan sana" %}</th>
+                                <th>{% translate "Summasi" %}</th>
+                                <th>{% translate "O'chirish" %}</th>
+                                <th>{% translate "Taxrirlash" %}</th>
                             </tr>
                             </thead>
                             <tbody>
                             {% for additional_payment in additional_payments %}
                             <tr>
                                 <th scope="row">{{ additional_payment.id }}</th>
-                                <td>{{ additional_payment.apt.name }}</td>
+                                <td>{% blocktranslate %}{{ additional_payment.apt.name }}{% endblocktranslate %}</td>
                                 <td>
                                     {% for x,y in form.fields.type_of_additional_payment.choices %}
                                     {% if additional_payment.type_of_additional_payment == x %}
-                                    {{ y }}
+                                    {% blocktranslate %}{{ y }}{% endblocktranslate %}
                                     {% endif %}
                                     {% endfor %}
                                 </td>
-                                <td>{{ additional_payment.create_at }}</td>
-                                <td>{{ additional_payment.amount }}</td>
+                                <td>{% blocktranslate %}{{ additional_payment.create_at }}{% endblocktranslate %}</td>
+                                <td>{% blocktranslate %}{{ additional_payment.amount }}{% endblocktranslate %}</td>
                                 <td>
                                     <form action="{% url 'additional_payment_delete' pk=additional_payment.id %}"
                                           method="POST">
@@ -109,10 +109,10 @@ Ushlab qolish yoki qo’shimcha to’lovlar
                     <div class="header">
                         <div class="button-demo js-modal-buttons d-flex justify-content-between">
                             <button type="button" data-color="pink" data-toggle="modal" data-target="#colorModal"
-                                    class="btn btn-success waves-effect"><i class="zmdi zmdi-plus"></i> Biriktirish
+                                    class="btn btn-success waves-effect"><i class="zmdi zmdi-plus"></i>{% translate "Biriktirish" %}
                             </button>
-                            <a href="{% url 'additional_payment_type' %}" class="btn btn-info waves-effect">Qo’shimcha
-                                to’lovlar nomini yaratish</a>
+                            <a href="{% url 'additional_payment_type' %}" class="btn btn-info waves-effect">{% translate "Qo’shimcha
+                                to’lovlar nomini yaratish" %}</a>
                         </div>
                     </div>
                 </div>
@@ -126,18 +126,18 @@ Ushlab qolish yoki qo’shimcha to’lovlar
     <div class="modal-dialog" role="document">
         <div class="modal-content bg-white">
             <div class="modal-header">
-                <h4 class="title text-dark">Biriktirish</h4>
+                <h4 class="title text-dark">{% translate "Biriktirish" %}</h4>
             </div>
             <div class="modal-body">
                 <form action="{% url 'additional_payment' staff_id %}" method="post">
                     {% csrf_token %}
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label for="apt" class="text-dark">Nomi:</label>
+                            <label for="apt" class="text-dark">{% translate "Nomi:" %}</label>
                             <select name="apt" id="apt">
                                 {% for item in additional_payments_type %}
                                 <option value="{{ item.id }}">
-                                    {{ item.name }}
+                                    {% blocktranslate %}{{ item.name }}{% endblocktranslate %}
                                 </option>
                                 {% endfor %}
                             </select>
@@ -145,7 +145,7 @@ Ushlab qolish yoki qo’shimcha to’lovlar
                     </div>
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label for="amount" class="text-dark">Biriktirilgan sana:</label>
+                            <label for="amount" class="text-dark">{% translate "Biriktirilgan sana:" %}</label>
                             <input type="date" name="attached_date" id="attached_date" class="form-control" required>
                         </div>
                     </div>
@@ -154,24 +154,24 @@ Ushlab qolish yoki qo’shimcha to’lovlar
                             <label for="type_of_additional_payment" class="text-dark">Turi:</label>
                             <select name="type_of_additional_payment" id="type_of_additional_payment">
                                 {% for x,y in form.fields.type_of_additional_payment.choices %}
-                                <option value="{{ x }}">{{ y }}</option>
+                                <option value="{{ x }}">{% blocktranslate %}{{ y }}{% endblocktranslate %}</option>
                                 {% endfor %}
                             </select>
                         </div>
                     </div>
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label for="amount" class="text-dark">Summasi:</label>
+                            <label for="amount" class="text-dark">{% translate "Summasi:" %}</label>
                             <input type="number" name="amount" id="amount" class="form-control" required>
                         </div>
                     </div>
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label for="amount" class="text-dark">Ta'rifi:</label>
+                            <label for="amount" class="text-dark">{% translate "Ta'rifi:" %}</label>
                             <input type="text" name="note" id="note" class="form-control" required>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-success">Biriktirish</button>
+                    <button type="submit" class="btn btn-success">{% translate "Biriktirish" %}</button>
                 </form>
             </div>
             <div class="modal-footer">
@@ -187,18 +187,18 @@ Ushlab qolish yoki qo’shimcha to’lovlar
     <div class="modal-dialog" role="document">
         <div class="modal-content bg-white">
             <div class="modal-header">
-                <h4 class="title text-dark">Biriktirish</h4>
+                <h4 class="title text-dark">{% translate "Biriktirish" %}</h4>
             </div>
             <div class="modal-body">
                 <form action="{% url 'additional_payment_update' item.id %}" method="post">
                     {% csrf_token %}
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label for="apt" class="text-dark">Nomi:</label>
+                            <label for="apt" class="text-dark">{% translate "Nomi:" %}</label>
                             <select name="apt" id="apt">
                                 {% for item in additional_payments_type %}
                                 <option value="{{ item.id }}">
-                                    {{ item.name }}
+                                    {% blocktranslate %}{{ item.name }}{% endblocktranslate %}
                                 </option>
                                 {% endfor %}
                             </select>
@@ -206,7 +206,7 @@ Ushlab qolish yoki qo’shimcha to’lovlar
                     </div>
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label for="amount" class="text-dark">Biriktirilgan sana:</label>
+                            <label for="amount" class="text-dark">{% translate "Biriktirilgan sana:" %}</label>
                             <input type="date" name="attached_date" id="attached_date" class="form-control"
                                    value="{{ item.attached_date|date:" Y-m-d" }}">
                         </div>
@@ -216,25 +216,25 @@ Ushlab qolish yoki qo’shimcha to’lovlar
                             <label for="type_of_additional_payment" class="text-dark">Turi:</label>
                             <select name="type_of_additional_payment" id="type_of_additional_payment">
                                 {% for x,y in form.fields.type_of_additional_payment.choices %}
-                                <option value="{{ x }}">{{ y }}</option>
+                                <option value="{{ x }}">{% blocktranslate %}{{ y }}{% endblocktranslate %}</option>
                                 {% endfor %}
                             </select>
                         </div>
                     </div>
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label for="amount" class="text-dark">Summasi:</label>
+                            <label for="amount" class="text-dark">{% translate "Summasi:" %}</label>
                             <input type="number" name="amount" id="amount" class="form-control"
                                    value="{{ item.amount|stringformat:" .2f" }}">
                         </div>
                     </div>
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label for="amount" class="text-dark">Ta'rifi:</label>
+                            <label for="amount" class="text-dark">{% translate "Ta'rifi:" %}</label>
                             <input type="text" name="note" id="note" class="form-control" value="{{ item.note }}">
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-success">Biriktirish</button>
+                    <button type="submit" class="btn btn-success">{% translate "Biriktirish" %}</button>
                 </form>
             </div>
             <div class="modal-footer">

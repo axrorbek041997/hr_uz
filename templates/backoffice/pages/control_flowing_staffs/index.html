@@ -1,7 +1,7 @@
 {% extends 'backoffice/base.html' %}
 {% load static %}
 {% load app_tags %}
-{% block title %}Kelish ketish nazorati{% endblock %}
+{% block title %}{% translate "Kelish ketish nazorati" %}{% endblock %}
 
 {% block content %}
     <!-- Main Content -->
@@ -10,10 +10,10 @@
         <div class="block-header">
             <div class="row clearfix">
                 <div class="col-lg-5 col-md-5 col-sm-12">
-                    <h2>Bosh sahifa</h2>
+                    <h2>{% translate "Bosh sahifa" %}</h2>
                     <ul class="breadcrumb padding-0">
                         <li class="breadcrumb-item"><a href="{% url 'backoffice-main' %}"><i class="zmdi zmdi-home"></i></a></li>
-                        <li class="breadcrumb-item active">Kelish ketish nazorati</li>
+                        <li class="breadcrumb-item active">{% translate "Kelish ketish nazorati" %}</li>
                     </ul>
                 </div>
             </div>
@@ -23,7 +23,7 @@
             <div class="col-12 col-md-12 col-sm-12">
                 <div class="card">
                     <div class="header">
-                        <h2>Kelish ketish nazorati</h2>
+                        <h2>{% translate "Kelish ketish nazorati" %}</h2>
                         <ul class="header-dropdown">
                             <li class="dropdown"> <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="zmdi zmdi-watch"></i> {% now "jS F Y H:i" %} </a>
                             </li>
@@ -33,18 +33,18 @@
                         <table class="table table-borderless table-striped table-hover" id="flow-list">
                             <thead>
                                 <tr>
-                                    <th>Xodim</th>
-                                    <th>Kirish vaqti</th>
-                                    <th>Chiqish vaqti</th>
-                                    <th>Ovqatga chiqish</th>
-                                    <th>Ovqatdan qaytish</th>
+                                    <th>{% translate "Xodim" %}</th>
+                                    <th>{% translate "Kirish vaqti" %}</th>
+                                    <th>{% translate "Chiqish vaqti" %}</th>
+                                    <th>{% translate "Ovqatga chiqish" %}</th>
+                                    <th>{% translate "Ovqatdan qaytish" %}</th>
                                 </tr>
                             </thead>
                             <tbody>
                             {% for staff in staff_flows %}
                                 <div>
                                     <tr>
-                                        <td rowspan="{{ staff.get_today_flow_count }}">{{ staff.first_name }} {{ staff.last_name }}</td>
+                                        <td rowspan="{{ staff.get_today_flow_count }}">{% blocktranslate %}{{ staff.first_name }} {{ staff.last_name }}{% endblocktranslate %}</td>
                                     </tr>
                                     {% for flow in staff.get_today_flow %}
                                         <tr>

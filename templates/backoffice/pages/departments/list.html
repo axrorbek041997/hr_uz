@@ -1,7 +1,7 @@
 {% extends 'backoffice/base.html' %}
 
 {% block title %}
-    Bo'lim
+   {% translate "Bo'lim" %}
 {% endblock %}
 
 {% block content %}
@@ -10,15 +10,15 @@
             <div class="block-header">
                 <div class="row clearfix">
                     <div class="col-lg-12 col-md-12 col-sm-12">
-                        <h2>Bo'lim</h2>
+                        <h2>{% translate "Bo'lim" %}</h2>
                         <ul class="breadcrumb padding-0">
                             <li class="breadcrumb-item"><a href="#"><i class="zmdi zmdi-home"></i></a></li>
-                            <li class="breadcrumb-item active">Bo'lim</li>
+                            <li class="breadcrumb-item active">{% translate "Bo'lim" %}</li>
                         </ul>
                         {% if messages %}
                             {% for message in messages %}
                                 <div class="text-center btn btn-success rounded-lg w-100 btn-{{ message.tags }} messages">
-                                    <p class="text-center">{{ message|safe }}</p>
+                                    <p class="text-center"> {% blocktranslate %} {{ message|safe }}{% endblocktranslate %}</p>
                                 </div>
                             {% endfor %}
                         {% endif %}
@@ -30,7 +30,7 @@
                 <div class="col-lg-12 col-md-12 col-sm-12">
                     <div class="card">
                         <div class="header">
-                            <a href="{% url 'department_create' %}" class="btn btn-success">Bo'lim qo'shish <i
+                            <a href="{% url 'department_create' %}" class="btn btn-success">{% translate "Bo'lim qo'shish" %} <i
                                     class="zmdi zmdi-plus"></i></a>
                         </div>
                         <div class="body">
@@ -38,9 +38,9 @@
                                 <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Bo'lim</th>
-                                    <th>O'chirish</th>
-                                    <th>Taxrirlash</th>
+                                    <th>{% translate "Bo'lim" %}</th>
+                                    <th>{% translate "O'chirish" %}</th>
+                                    <th>{% translate "Taxrirlash" %}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -49,7 +49,7 @@
                                         <th scope="row">{{ forloop.counter }}</th>
                                         <td><a href="#" data-toggle="modal"
                                                data-target="#defaultModal{{ department.id }}">
-                                            {{ department.name }}
+                                            {% blocktranslate %}{{ department.name }}{% endblocktranslate %}
                                         </a></td>
                                         <td>
                                             <a href="javascript:void(0);" data-color="pink"
@@ -103,13 +103,13 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="model-title" id="defaultModalLabel">{{ item.name }}</h5>
+                        <h5 class="model-title" id="defaultModalLabel">{% blocktranslate %} {{ item.name }} {% endblocktranslate %}</h5>
                         <button type="button" style="padding: 0 !important;" class="btn btn-neutral"
                                 data-dismiss="modal"><i class="zmdi zmdi-close"></i>
                         </button>
                     </div>
                     <div class="modal-body">
-                        {{ item.info }}
+                        {% blocktranslate %}{{ item.info }}{% endblocktranslate %}
                     </div>
                 </div>
             </div>
@@ -127,15 +127,15 @@
                     <div class="modal-body">
                         <div class="card">
                             <div class="header">
-                                <h2>O'chirmoqchimisiz?</h2>
+                                <h2>{% translate "O'chirmoqchimisiz?" %}</h2>
                             </div>
                             <div class="body d-flex justify-content-around">
                                 <button type="button" class="btn btn-success rounded-lg waves-effect"
-                                        data-dismiss="modal">Bekor qilish
+                                        data-dismiss="modal">{% translate "Bekor qilish" %}
                                 </button>
                                 <form action="{% url 'department_delete' pk=item.pk %}" method="POST">
                                     {% csrf_token %}
-                                    <button type="submit" class="btn btn-danger rounded-lg waves-effect">O'chirish
+                                    <button type="submit" class="btn btn-danger rounded-lg waves-effect">{% translate "O'chirish" %}
                                     </button>
                                 </form>
                             </div>

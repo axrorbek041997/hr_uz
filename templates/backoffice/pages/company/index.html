@@ -1,7 +1,7 @@
 {% extends 'backoffice/base.html' %}
 
 {% block title %}
-{{ item.name }} - Info
+{% blocktranslate %}{{ item.name }} - Info {% endblocktranslate %}
 {% endblock %}
 
 {#zmdi-hc-spin#}
@@ -16,17 +16,17 @@
                     <div class="header">
                         <ul class="list-unstyled">
                             <li>
-                                <a href="">Info</a>
+                                <a href="">{% translate "Info" %}</a>
                             </li>
                         </ul>
                     </div>
                     <div class="body">
                         <div class="list-group">
-                            <h1 class="text-center">{{ item.name }}</h1>
+                            <h1 class="text-center"> {% blocktranslate %} {{ item.name }} {% endblocktranslate %}</h1>
                             {% if company.company.text %}
-                            {{ company.company.text|safe }}
+                            {% blocktranslate %}{{ company.company.text|safe }}{% endblocktranslate %}
                             {% else %}
-                            Ma'lumot yo'q
+                           {% translate "Ma'lumot yo'q" %}
                             {% endif %}
                         </div>
 
@@ -43,15 +43,15 @@
                     </div>
                     <div class="body">
                         <ul class="list-group">
-                            <li class="list-group-item"><strong>Nomi: </strong>{{ item.name }}</li>
-                            <li class="list-group-item"><strong>Telefon raqami: </strong>{{ item.phone }}</li>
-                            <li class="list-group-item"><strong>Turi: </strong>{{ item.type.name }}</li>
-                            <li class="list-group-item"><strong>Manzili: </strong>{% if item.address %}
-                                {{ item.address }}{% else %}Manzil kiritilmagan{% endif %} </li>
-                            <li class="list-group-item"><strong>Asoschisi: </strong>{% if item.creator %}
-                                {{ item.creator }}{% else %}Asoschi kiritilmagan{% endif %}</li>
-                            <li class="list-group-item"><strong>Ishchilar soni: </strong>
-                                {{ item.amount_of_staff }}</li>
+                            <li class="list-group-item"><strong>{% translate "Nomi:" %} </strong>{% blocktranslate %}{{ item.name }}{% endblocktranslate %}</li>
+                            <li class="list-group-item"><strong>{% translate "Telefon raqami:" %} </strong>{% blocktranslate %}{{ item.phone }}{% endblocktranslate %}</li>
+                            <li class="list-group-item"><strong>{% translate "Turi:" %} </strong>{% blocktranslate %}{{ item.type.name }}{% endblocktranslate %}</li>
+                            <li class="list-group-item"><strong>{% translate "Manzili:" %} </strong>{% if item.address %}
+                                {% blocktranslate %}{{ item.address }} {% endblocktranslate %} {% else %}{% translate "Manzil kiritilmagan" %}{% endif %} </li>
+                            <li class="list-group-item"><strong>{% translate "Asoschisi:" %} </strong>{% if item.creator %}
+                                {% blocktranslate %}{{ item.creator }}{% endblocktranslate %}{% else %}{% translate "Asoschi kiritilmagan" %}{% endif %}</li>
+                            <li class="list-group-item"><strong>{% translate "Ishchilar soni:" %} </strong>
+                                {% blocktranslate %}{{ item.amount_of_staff }} {% endblocktranslate %} </li>
                         </ul>
                     </div>
                 </div>

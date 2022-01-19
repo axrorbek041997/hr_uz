@@ -4,7 +4,7 @@
 {% load app_tags %}
 
 {% block title %}
-Hodim Adaptatsiyasi
+{% translate "Hodim Adaptatsiyasi" %}
 {% endblock %}
 
 {% block content %}
@@ -13,19 +13,19 @@ Hodim Adaptatsiyasi
         <div class="block-header">
             <div class="row clearfix">
                 <div class="col-lg-12 col-md-12 col-sm-12">
-                    <h2>Hodim Adaptatsiyasi</h2>
+                    <h2>{% translate "Hodim Adaptatsiyasi" %}</h2>
                     <ul class="breadcrumb padding-0">
                         <li class="breadcrumb-item"><a href="{% url 'backoffice-main' %}"><i
                                     class="zmdi zmdi-home"></i></a></li>
                         <li class="breadcrumb-item active">
-                            <a href="{% url 'adoptation_info' %}">Hodim Adaptatsiyasi</a>
+                            <a href="{% url 'adoptation_info' %}">{% translate "Hodim Adaptatsiyasi" %}</a>
                         </li>
-                        <li class="breadcrumb-item active">Adaptatsiyasi yaratish</li>
+                        <li class="breadcrumb-item active">{% translate "Adaptatsiyasi yaratish" %}</li>
                     </ul>
                     {% if messages %}
                     {% for message in messages %}
                     <div class="text-center btn btn-success rounded-lg w-100 btn-{{ message.tags }} messages">
-                        <p class="text-center">{{ message|safe }}</p>
+                        <p class="text-center">{% blocktranslate %}{{ message|safe }}{% endblocktranslate %}</p>
                     </div>
                     {% endfor %}
                     {% endif %}
@@ -36,7 +36,7 @@ Hodim Adaptatsiyasi
             <div class="card">
                 <div class="header">
                     <h3>
-                        Trening yaratish
+                        {% translate "Trening yaratish" %}
                     </h3>
                 </div>
                 <div class="body">
@@ -44,34 +44,34 @@ Hodim Adaptatsiyasi
                         {% csrf_token %}
                         <div class="training-list">
                             <div class="training-item">
-                                <label>Lavozim</label>
+                                <label>{% translate "Lavozim" %}</label>
                                 {{ form.position }}
                             </div>
                             <div class="training-item">
-                                <label>Title</label>
+                                <label>{% translate "Title" %}</label>
                                 {{ form.title }}
                             </div>
                             <div class="training-item">
-                                <label>Fayl yuklash</label>
+                                <label>{% translate "Fayl yuklash" %}</label>
                                 <div class="row file-upload-row">
                                     <div class="col">
                                         <label class="custom-file-upload">
                                             <input type="file" name="videos" accept="video/mp4,video/x-m4v,video/*"
                                                 multiple id="video-files" />
-                                            Video
+                                                {% translate "Video" %}
                                         </label>
                                     </div>
                                     <div class="col">
                                         <label class="custom-file-upload" id="add-url-button" data-bs-toggle="modal"
                                             data-bs-target="#exampleModal">
-                                            URL
+                                            {% translate "URL" %}
                                         </label>
                                     </div>
                                     <div class="col">
                                         <label class="custom-file-upload">
                                             <input type="file" name="files" id="pdf-files"
                                                 accept=".xlsx,.xls,.doc, .docx,.ppt, .pptx,.txt,.pdf" multiple />
-                                            PDF
+                                                {% translate "PDF" %}
                                         </label>
                                     </div>
                                 </div>
@@ -98,16 +98,16 @@ Hodim Adaptatsiyasi
 
                             <div id="add-questions">
                                 <div class="training-item">
-                                    <label>1 - savol:</label>
+                                    <label>{% translate "1 - savol:" %}</label>
                                     <input type="text" class="form-control" name="question"
                                         placeholder="Savol kiriting...">
                                 </div>
                             </div>
                         </div>
                         <div class="row" style="padding: 0 20px;">
-                            <button type="button" id="add-question" class="btn btn-success col-md-2">Savol
-                                qo'shish</button>
-                            <button type="button" id="delete-question" class="btn col-md-2" hidden>O'chirish</button>
+                            <button type="button" id="add-question" class="btn btn-success col-md-2">{% translate "Savol
+                                qo'shish" %}</button>
+                            <button type="button" id="delete-question" class="btn col-md-2" hidden>{% translate "O'chirish" %}</button>
                         </div>
 
                         <div class="save-btn">
@@ -125,16 +125,16 @@ Hodim Adaptatsiyasi
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">URL qo'shish</h5>
+                <h5 class="modal-title" id="exampleModalLabel">{% translate "URL qo'shish" %}</h5>
                 <a href="#" class="btn-close" data-bs-dismiss="modal"><i class="zmdi zmdi-close"></i></a>
             </div>
             <div class="modal-body">
-                <label for="url-name">Youtube URL</label>
+                <label for="url-name">{% translate "Youtube URL" %}</label>
                 <input type="url" class="form-control" id="url-name" name="url" placeholder="Video manzilini kiriting">
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" id="url-save-changes" class="btn btn-success" disabled>Save changes</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% translate "Close" %}</button>
+                <button type="button" id="url-save-changes" class="btn btn-success" disabled>{% translate "Save changes" %}</button>
             </div>
         </div>
     </div>

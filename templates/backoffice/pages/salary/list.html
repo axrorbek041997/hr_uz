@@ -1,7 +1,7 @@
 {% extends 'backoffice/base.html' %}
 
 {% block title %}
-Hodimning ish haqqi
+{% translate "Hodimning ish haqqi" %}
 {% endblock %}
 
 
@@ -11,21 +11,21 @@ Hodimning ish haqqi
         <div class="block-header">
             <div class="row clearfix">
                 <div class="col-lg-12 col-md-12  col-sm-12">
-                    <h2>Hodimning ish haqqi</h2>
+                    <h2>{% translate "Hodimning ish haqqi" %}</h2>
                     <ul class="breadcrumb padding-0">
                         <li class="breadcrumb-item"><a href="{% url 'backoffice-main' %}"><i
                                 class="zmdi zmdi-home"></i></a></li>
-                        <li class="breadcrumb-item"><a href="{% url 'staff' %}">Xodimlar</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'staff' %}">{% translate "Xodimlar" %}</a></li>
                         <li class="breadcrumb-item"><a
-                                href="{% url 'staff-detail' staff.id %}">{{ staff.first_name }} {{ staff.second_name }}
-                            {{ staff.last_name }}</a>
+                                href="{% url 'staff-detail' staff.id %}">{% blocktranslate %}{{ staff.first_name }} {{ staff.second_name }}
+                            {{ staff.last_name }}{% endblocktranslate %}</a>
                         </li>
-                        <li class="breadcrumb-item">Hodimning ish haqqi</li>
+                        <li class="breadcrumb-item">{% translate "Hodimning ish haqqi" %}</li>
                     </ul>
                     {% if messages %}
                     {% for message in messages %}
                     <div class="text-center btn btn-success rounded-lg w-100 btn-{{ message.tags }} messages">
-                        <p class="text-center">{{ message|safe }}</p>
+                        <p class="text-center">{% blocktranslate %}{{ message|safe }}{% endblocktranslate %}</p>
                     </div>
                     {% endfor %}
                     {% endif %}
@@ -40,7 +40,7 @@ Hodimning ish haqqi
                     <div class="header d-flex justify-content-between">
                         <div class="button-demo js-modal-buttons">
                             <button type="button" data-color="pink" data-toggle="modal" data-target="#colorModal"
-                                    class="btn btn-success waves-effect"><i class="zmdi zmdi-plus"></i> Biriktirish
+                                    class="btn btn-success waves-effect"><i class="zmdi zmdi-plus"></i>{% translate "Biriktirish" %}
                             </button>
                         </div>
                     </div>
@@ -50,24 +50,24 @@ Hodimning ish haqqi
                         <thead>
                         <tr>
                             <th>#</th>
-                            <th>Stavka</th>
-                            <th>Turi</th>
-                            <th>Ish turi</th>
-                            <th>Boshlanish sanasi</th>
-                            <th>Yakunlangan sana</th>
-                            <th>O'chirish</th>
-                            <th>Taxrirlash</th>
+                            <th>{% translate "Stavka" %}</th>
+                            <th>{% translate "Turi" %}</th>
+                            <th>{% translate "Ish turi" %}</th>
+                            <th>{% translate "Boshlanish sanasi" %}</th>
+                            <th>{% translate "Yakunlangan sana" %}</th>
+                            <th>{% translate "O'chirish" %}</th>
+                            <th>{% translate "Taxrirlash" %}</th>
                         </tr>
                         </thead>
                         <tbody>
                         {% for salary in salaries %}
                         <tr>
                             <th scope="row">{{ forloop.counter }}</th>
-                            <td>{{ salary.amount }}</td>
-                            <td>{{ salary.type_of_work }}</td>
-                            <td>{{ salary.work_type|title }}</td>
-                            <td>{{ salary.attached_date }}</td>
-                            <td>{{ salary.completion_date }}</td>
+                            <td>{% blocktranslate %}{{ salary.amount }}{% endblocktranslate %}</td>
+                            <td>{% blocktranslate %}{{ salary.type_of_work }}{% endblocktranslate %}</td>
+                            <td>{% blocktranslate %}{{ salary.work_type|title }}{% endblocktranslate %}</td>
+                            <td>{% blocktranslate %}{{ salary.attached_date }}{% endblocktranslate %}</td>
+                            <td>{% blocktranslate %}{{ salary.completion_date }}{% endblocktranslate %}</td>
                             <td>
                                 <a href="javascript:void(0);" data-color="pink"
                                    data-toggle="modal" data-target="#staff-{{ salary.id }}"
@@ -111,7 +111,7 @@ Hodimning ish haqqi
                 <div class="header">
                     <div class="button-demo js-modal-buttons">
                         <button type="button" data-color="pink" data-toggle="modal" data-target="#colorModal"
-                                class="btn btn-success waves-effect"><i class="zmdi zmdi-plus"></i> Biriktirish
+                                class="btn btn-success waves-effect"><i class="zmdi zmdi-plus"></i>{% translate "Biriktirish" %}
                         </button>
                     </div>
                 </div>
@@ -127,43 +127,43 @@ Hodimning ish haqqi
                 <a href="#0" data-dismiss="modal"><i class="zmdi zmdi-close"></i></a>
             </div>
             <div class="modal-header">
-                <h4 class="title text-dark">Ish haqqini biriktirish</h4>
+                <h4 class="title text-dark">{% translate "Ish haqqini biriktirish" %}</h4>
             </div>
             <div class="modal-body">
                 <form action="{% url 'salary' staff.id %}" method="post">
                     {% csrf_token %}
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label class="text-dark">Ishlash turi(soatbay, kunbay,
-                                ishbay...):</label>
+                            <label class="text-dark">{% translate "Ishlash turi(soatbay, kunbay,
+                                ishbay...):" %}</label>
                             {{ form.type_of_work }}
                         </div>
                     </div>
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label class="text-dark">Ish turi:</label>
+                            <label class="text-dark">{% translate "Ish turi:" %}</label>
                             {{ form.work_type }}
                         </div>
                     </div>
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label class="text-dark">Stavka:</label>
+                            <label class="text-dark">{% translate "Stavka:" %}</label>
                             {{ form.amount }}
                         </div>
                     </div>
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label class="text-dark">Biriktirilgan sana:</label>
+                            <label class="text-dark">{% translate "Biriktirilgan sana:" %}</label>
                             {{ form.attached_date }}
                         </div>
                     </div>
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label class="text-dark">Yakunlangan sana:</label>
+                            <label class="text-dark">{% translate "Yakunlangan sana:" %}</label>
                             {{ form.completion_date }}
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-success">Biriktirish</button>
+                    <button type="submit" class="btn btn-success">{% translate "Biriktirish" %}</button>
                 </form>
             </div>
         </div>
@@ -179,43 +179,43 @@ Hodimning ish haqqi
                         class="zmdi zmdi-close"></i></a>
             </div>
             <div class="modal-header">
-                <h4 class="title text-dark">Ish haqqini biriktirish</h4>
+                <h4 class="title text-dark">{% translate "Ish haqqini biriktirish" %}</h4>
             </div>
             <div class="modal-body">
                 <form method="post">
                     {% csrf_token %}
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label class="text-dark">Ishlash turi(soatbay, kunbay, ishbay
-                                ...):</label>
+                            <label class="text-dark">{% translate "Ishlash turi(soatbay, kunbay, ishbay
+                                ...):" %}</label>
                             {{ form.type_of_work }}
                         </div>
                     </div>
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label class="text-dark">Ish turi:</label>
+                            <label class="text-dark">{% translate "Ish turi:" %}</label>
                             {{ form.work_type }}
                         </div>
                     </div>
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label class="text-dark">Stavka:</label>
+                            <label class="text-dark">{% translate "Stavka:" %}</label>
                             {{ form.amount }}
                         </div>
                     </div>
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label class="text-dark">Biriktirilgan sana:</label>
+                            <label class="text-dark">{% translate "Biriktirilgan sana:" %}</label>
                             <input type="date" class="form-control" value="{{ form.attached_date.value|date:'Y-m-d' }}" name="attached_date">
                         </div>
                     </div>
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label class="text-dark">Yakunlangan sana:</label>
+                            <label class="text-dark">{% translate "Yakunlangan sana:" %}</label>
                             <input type="date" class="form-control" value="{{ form.completion_date.value|date:'Y-m-d' }}" name="completion_date">
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-success">O'zgartirishni saqlash</button>
+                    <button type="submit" class="btn btn-success">{% translate "O'zgartirishni saqlash" %}</button>
                 </form>
             </div>
         </div>
@@ -232,15 +232,15 @@ Hodimning ish haqqi
             <div class="modal-body">
                 <div class="card">
                     <div class="header">
-                        <h2>O'chirmoqchimisiz?</h2>
+                        <h2>{% translate "O'chirmoqchimisiz?" %}</h2>
                     </div>
                     <div class="body d-flex justify-content-around">
-                        <button type="button" class="btn btn-success rounded-lg waves-effect" data-dismiss="modal">Bekor
-                            qilish
+                        <button type="button" class="btn btn-success rounded-lg waves-effect" data-dismiss="modal">{% translate "Bekor
+                            qilish" %}
                         </button>
                         <form action="{% url 'salary_delete' pk=item.pk %}" method="POST">
                             {% csrf_token %}
-                            <button type="submit" class="btn btn-danger rounded-lg waves-effect">O'chirish</button>
+                            <button type="submit" class="btn btn-danger rounded-lg waves-effect">{% translate "O'chirish" %}</button>
                         </form>
                     </div>
                 </div>

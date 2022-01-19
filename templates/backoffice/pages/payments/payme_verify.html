@@ -2,7 +2,7 @@
 {% load crispy_forms_tags %}
 {% load app_tags %}
 {% block title %}
-    To'lov bo'limi
+{% translate " To'lov bo'limi" %}
 {% endblock %}
 
 {#zmdi-hc-spin#}
@@ -14,11 +14,11 @@
         <div class="block-header">
             <div class="row clearfix">
                 <div class="col-lg-5 col-md-5 col-sm-12">
-                    <h2>Bosh sahifa</h2>
+                    <h2>{% translate "Bosh sahifa" %}</h2>
                     <ul class="breadcrumb padding-0">
                         <li class="breadcrumb-item"><a href="{% url 'backoffice-main' %}"><i class="zmdi zmdi-home"></i></a>
                         </li>
-                        <li class="breadcrumb-item active">To'lovni tasdiqlash</li>
+                        <li class="breadcrumb-item active">{% translate "To'lovni tasdiqlash" %}</li>
                     </ul>
                 </div>
             </div>
@@ -34,7 +34,7 @@
                         {% if messages %}
                         <ul>
                             {% for message in messages %}
-                            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{% blocktranslate %}{{ message }}{% endblocktranslate %}</li>
                             {% endfor %}
                         </ul>
                         {% endif %}
@@ -48,7 +48,7 @@
                                 <button type="submit" class="btn btn-success">To'lash</button>
                             </form>
                         {% else %}
-                            <h4>Siz hozirda to'lovni amalga oshirgansiz, keyingi to'lov muddati {{request.user.company.payment_expire_data|date:"d.m.Y"}}</h4>
+                            <h4>{% blocktranslate %} Siz hozirda to'lovni amalga oshirgansiz, keyingi to'lov muddati {{request.user.company.payment_expire_data|date:"d.m.Y"}}{% endblocktranslate %}</h4>
                         {% endif %}
                     </div>
                 </div>

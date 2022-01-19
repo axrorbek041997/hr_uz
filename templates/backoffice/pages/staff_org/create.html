@@ -1,7 +1,7 @@
 {% extends 'backoffice/base.html' %}
 
 {% block title %}
-    Staff's ORG System - Yaratish
+{% translate "Staff's ORG System - Yaratish" %}
 {% endblock %}
 
 {% block content %}
@@ -10,11 +10,11 @@
         <div class="block-header">
             <div class="row clearfix">
                 <div class="col-lg-5 col-md-5 col-sm-12">
-                    <h2>Staff's ORG System - Yaratish</h2>
+                    <h2>{% translate "Staff's ORG System - Yaratish" %}</h2>
                     <ul class="breadcrumb padding-0">
                         <li class="breadcrumb-item"><a href="create.html"><i class="zmdi zmdi-home"></i></a></li>
-                        <li class="breadcrumb-item active"><a href="{% url 'staff_org_system' %}">Staff's ORG System</a></li>
-                        <li class="breadcrumb-item active">Staff's ORG System - Yaratish</li>
+                        <li class="breadcrumb-item active"><a href="{% url 'staff_org_system' %}">{% translate "Staff's ORG System" %}</a></li>
+                        <li class="breadcrumb-item active">{% translate "Staff's ORG System - Yaratish" %}</li>
                     </ul>
                 </div>
             </div>
@@ -29,7 +29,7 @@
                         <form action="{% url 'staff_org_system_create' %}" method="post">
                             {% csrf_token %}
                             {{ form.as_p }}
-                            <button type="submit" class="btn btn-success waves-effect">Saqlash</button>
+                            <button type="submit" class="btn btn-success waves-effect">{% translate "Saqlash" %}</button>
                         </form>
                     </div>
                 </div>

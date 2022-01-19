@@ -1,7 +1,7 @@
 {% extends 'backoffice/base.html' %}
 
 {% block title %}
-{{ request.user.company }}
+{% blocktranslate %}{{ request.user.company }}{% endblocktranslate %}
 {% endblock %}
 
 {% block content %}
@@ -10,7 +10,7 @@
         <div class="block-header">
             <div class="row">
                 <div class="col-lg-5 col-md-5 col-sm-12">
-                    <h2>{{ request.user.company }}</h2>
+                    <h2>{% blocktranslate %}{{ request.user.company }}{% endblocktranslate %}</h2>
 
                 </div>
                 <div class="col-lg-7 col-md-7 col-sm-12">
@@ -24,7 +24,7 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="header">
-                        <h2><strong>Kompaniya</strong></h2>
+                        <h2><strong>{% translate "Kompaniya" %}</strong></h2>
                     </div>
                     <div class="body">
                         <div class="row">
