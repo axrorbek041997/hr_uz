@@ -52,8 +52,8 @@
                                 {% for staff in staffs %}
                                 <tr>
                                     <td>{{ forloop.counter }}</td>
-                                    <td><a href="{% url 'staff-detail' staff.pk %}">{% blocktranslate %}{{ staff.first_name }}
-                                        {{ staff.second_name }} {{ staff.last_name }}{% endblocktranslate %}</a></td>
+                                    <td><a href="{% url 'staff-detail' staff.pk %}">{{ staff.first_name }}
+                                        {{ staff.second_name }} {{ staff.last_name }}</a></td>
                                     <td>{{ staff.birth_date }}</td>
                                     <td>{{ staff.department }}</td>
                                     <td>{{ staff.position}}</td>
